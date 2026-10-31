@@ -8,3 +8,4 @@
 - Single-generator comprehensions with pure results use `.map`.
 - Resource acquisition, use and release use the ecosystem's resource-safe primitive.
 - Use readable named TypeScript imports, preserving compiler/reactivity-required bindings.
+- Apply the [Typelevel local quality contracts](../references/local-contracts.md#typelevel) for operation results, formatter limits, composition logging and UI precedents; project-specific obligations take precedence over shared mechanical-result allowances.

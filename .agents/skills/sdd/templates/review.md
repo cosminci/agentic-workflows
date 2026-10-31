@@ -20,7 +20,7 @@ Use the relevant section. Record findings and unresolved questions with source e
 2. Trace changed responsibilities through existing data and consumers. Investigate more deeply for a new responsibility, changed contract or unresolved question.
 3. For changed domain states, derivations, ordering or projections, check the existing lifecycle and the responsibility that owns each rule.
 4. Check each changed API's callers, suppliers, inputs, valid outcomes and effects. Verify dependency lifetimes and resource/concurrency guarantees where affected.
-5. Check applicable conventions. Explain the design concern behind any threshold violation and its repair or approved exception.
+5. Fill every applicable [quality gate](../references/quality-gates.md), including selected stack/local contracts and concrete examples, from source evidence. Conventions and architecture are mandatory; explain the concern behind threshold signals and the cohesive reason, repair or authorized exception.
 6. Check relevant behavior and edges at their owning tests, real boundary evidence, required automated checks and any required demonstration.
 
 ## Archive/context steps

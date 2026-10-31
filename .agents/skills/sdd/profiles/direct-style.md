@@ -16,7 +16,7 @@
 - Current-state counts are gauges re-derived from reads, not accumulators.
 - Record metrics after successful work and compensation; never replay historical metrics on edit/delete.
 - HTTP RED and process/JVM USE metrics share a transport-owned registry.
-- Follow existing TypeScript import style; preserve framework-required named bindings. Import counts alone do not justify a style change.
+- Follow the [direct-style local quality contract](../references/local-contracts.md#direct-style) for business result ADTs, TypeScript imports, generated contracts and strict gates; preserve framework-required named bindings.
 - Component suites own real runtime types; structural suites use plain names.
 - Vitest uses componentTest, seamIntegrationTest and systemIntegrationTest suffixes by proved boundary.
 - Use existing stable ID builders instead of ad hoc literals.

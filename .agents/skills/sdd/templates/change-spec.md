@@ -17,7 +17,7 @@ Short observable criteria, including relevant failure/boundary/accessibility cas
 
 ## Doc Sync
 
-Owning document/section and the change to enduring system understanding. Link authoritative details; omit when unchanged.
+Owning document/section and the change to enduring system understanding. Link authoritative details; say `None` when unchanged.
 
 Add existing invariants, actual tradeoffs or unresolved scope only when they add useful information. Implementation signatures and layout belong in the design decision, not this proposal.
 - A tradeoff names the actual cost and who bears it.

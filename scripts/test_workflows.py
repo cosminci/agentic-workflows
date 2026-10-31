@@ -51,8 +51,8 @@ class WorkflowTest(unittest.TestCase):
         return output.getvalue()
 
     def test_should_validate_shared_and_effective_guidance(self):
-        self.assertLessEqual(workflows.validate(None), 480)
-        self.assertLessEqual(workflows.validate(self.project), 480)
+        self.assertLessEqual(workflows.validate(None), workflows.LIMIT)
+        self.assertLessEqual(workflows.validate(self.project), workflows.LIMIT)
 
     def test_should_reject_missing_shared_owner(self):
         (self.reference / workflows.SKILL / "principles.md").unlink()
@@ -62,7 +62,7 @@ class WorkflowTest(unittest.TestCase):
     def test_should_reject_local_instruction_overflow(self):
         directory = self.project / ".github/instructions"
         directory.mkdir(parents=True)
-        (directory / "policy.md").write_text("\n" * 481)
+        (directory / "policy.md").write_text("\n" * (workflows.LIMIT + 1))
         with self.assertRaisesRegex(ValueError, "physical lines"):
             workflows.validate(self.project)
 

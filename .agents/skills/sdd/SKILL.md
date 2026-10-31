@@ -13,9 +13,9 @@ description: Use for product changes, investigations, change specs and living-do
 | --- | --- |
 | Starting work | Project AGENTS and project `.agents/skills/sdd/local.md` |
 | Changing domain, use cases or ports | [Principles](principles.md); use the [design decision](templates/design-map.md) when execution requires approval |
-| Implementing | [Principles](principles.md), [conventions](conventions.md) and selected profile; its explicit stack exceptions take precedence |
-| Writing a proposal | [Change template](templates/change-spec.md) |
-| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile; [review protocol](reviewer.md) and [review template](templates/review.md) for independent review |
+| Implementing | [Principles](principles.md), [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); load its examples and local contracts for each changed surface |
+| Writing a proposal | [Change template](templates/change-spec.md) and [spec gates](references/quality-gates.md#spec-and-completion) |
+| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); [review protocol](reviewer.md) and [review template](templates/review.md) for independent review |
 | Planning Doc Sync or changing living docs | [Context policy and templates](context.md) |
 
 ## Approvals and delivery
@@ -27,4 +27,4 @@ description: Use for product changes, investigations, change specs and living-do
 - Preserve other agents' edits; use a separate worktree when another agent owns the checkout.
 - Production-state changes, destructive operations and rule exceptions require explicit scoped authorization.
 - Publication requires execution/local checks and review; merge requires maintainer authorization.
-- Shared guidance and project-local instructions fit 480 physical lines; the resolver's `check` enforces that limit. This limits instruction size, not complexity or reading cost.
+- Shared guidance and project-local instructions fit 800 physical lines; the resolver's `check` enforces that limit. This limits instruction size, not complexity or reading cost.

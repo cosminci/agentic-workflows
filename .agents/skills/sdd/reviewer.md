@@ -2,6 +2,7 @@
 
 - Execution and local policy decide whether independent review is required. When required, use one review phase per PR and [the review template](templates/review.md).
 - Start a fresh, messageable reviewer with scope, baseline/candidate, sources and report path; save its ID. It reads source before assessing conclusions; present disputed questions without a predetermined verdict.
+- Apply [quality gates](references/quality-gates.md), selected stack/local contracts and their concrete examples independently of executor statuses. Architecture and conventions block a pass even when tests pass; assess every applicable gate, not only high-severity runtime bugs.
 - Account for every candidate file. Check precedent fit for adaptations; trace states, owners, consumers and failures more deeply when they changed.
 - Reuse applicable preparatory evidence; independently verify conclusions, not every preparatory command.
 - Report the candidate, files inspected, findings and unresolved questions. Each finding names the rule, source location and concrete consequence; a design signal needs analysis under [guardrails](principles.md#guardrails), not a threshold-only verdict.
