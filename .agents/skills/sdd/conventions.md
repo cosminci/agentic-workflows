@@ -29,7 +29,7 @@
 - Describe observable guarantees positively.
 
 ## Scala
-- Business modules use caller-defined trait, companion `make`, private final Live, then companion-owned results. Pure domain values need no artificial module machinery.
+- Business modules use caller-defined trait, companion `make`, private final class `Live<CompanionObjectName>` (e.g. `LiveUserRepository` for `UserRepository`), then companion-owned results. Pure domain values need no artificial module machinery.
 - Use operation-owned result enums for distinct business outcomes. Preserve an existing result contract when it expresses the operation completely; mechanical success or absence alone does not require a new enum.
 - Generic capability and mechanical library APIs are outside this result-enum rule.
 - Companion failure enums are named `Failure`.
