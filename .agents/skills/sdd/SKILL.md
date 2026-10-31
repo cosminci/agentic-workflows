@@ -4,27 +4,27 @@ description: Use for product changes, investigations, change specs and living-do
 ---
 # SDD
 
-- Use [execution](executor.md) for the current phase only. Established patterns discharge design choices: inspect their applicability, approve the delta, then adapt.
-- Use the resolver's `project` for Git/evidence paths and `owner` for product documentation/commands.
+- Follow [execution](executor.md); adapt existing patterns within authorized scope.
+- Resolver fields: `project` is the Git root; `owner` contains product documentation and commands.
 
 ## Context routing
 
 | When | Read |
 | --- | --- |
 | Starting work | Project AGENTS and project `.agents/skills/sdd/local.md` |
-| Changing domain, use cases or ports | [Principles](principles.md) and [design delta](templates/design-map.md) |
+| Changing domain, use cases or ports | [Principles](principles.md); use the [design decision](templates/design-map.md) when execution requires approval |
 | Implementing | [Principles](principles.md), [conventions](conventions.md) and selected profile; its explicit stack exceptions take precedence |
 | Writing a proposal | [Change template](templates/change-spec.md) |
-| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile, [review protocol](reviewer.md) and [review template](templates/review.md) |
+| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile; [review protocol](reviewer.md) and [review template](templates/review.md) for independent review |
 | Planning Doc Sync or changing living docs | [Context policy and templates](context.md) |
 
 ## Approvals and delivery
 
-- Spec applicability, design approval, demonstration and merge are separate decisions; completion of one does not authorize another.
-- For spec-backed work, merge the Spec PR first; deliver core domain/use cases/ports, dependency-ordered focused adapters, then frontend, then integrated verification and Archive + Living Docs.
-- Each candidate builds with later slices absent. Mechanical existing-call-site migrations are explicit; sequencing conflicts require maintainer resolution, not placeholders.
-- Use one feature branch across slices; after each authorized merge, fetch main and reconcile/rebase without replaying squash-merged work.
+- Approval covers only the stated scope. Spec approval, design approval and merge permission are distinct.
+- When a spec is required, merge its PR before implementation. Prefer one cohesive implementation PR; split only for independently useful delivery or a maintainer request.
+- Each implementation PR works without later PRs. Include call-site migrations; resolve sequencing conflicts with the maintainer.
+- When delivery is split, keep one feature branch. After each authorized merge, fetch main and reconcile without replaying squash-merged work.
 - Preserve other agents' edits; use a separate worktree when another agent owns the checkout.
-- Production state, destructive operations and exceptions to governing rules require explicit scoped authorization.
-- The publication gate is final-candidate review, repaired findings, applicable automated checks and maintainer confirmation of the delivered slice.
-- Shared guidance plus each project's local wrappers fit 480 physical lines; the resolver's `check` enforces the effective budget. Product docs and executable tools are not instruction overflow.
+- Production-state changes, destructive operations and rule exceptions require explicit scoped authorization.
+- Publication requires execution/local checks and review; merge requires maintainer authorization.
+- Shared guidance and project-local instructions fit 480 physical lines; the resolver's `check` enforces that limit. This limits instruction size, not complexity or reading cost.

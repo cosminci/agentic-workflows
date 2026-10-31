@@ -1,30 +1,28 @@
-# Living context
+# Living documentation
 
-| Owner | Durable knowledge |
+| Document | What it owns |
 | --- | --- |
 | README | Orientation and entrypoints |
 | Principles/conventions | Engineering rules and contribution practice |
-| Design | Central concepts, ownership, significant lifecycle/sequence diagrams and cross-cutting guarantees |
-| Contracts | Authoritative executable boundary pointers and essential interpretation |
-| Testing | Risk-to-boundary confidence strategy and enduring suite nomenclature |
-| Operations | Current startup, topology, durable state, recovery and available observability |
+| Design | Domain concepts, responsibilities, lifecycles, interactions and shared guarantees |
+| Contracts | Links to authoritative boundary definitions and their necessary interpretation |
+| Testing | Risks, the tests that address them and suite naming |
+| Operations | Startup, deployment layout, stored state, recovery and available monitoring |
 | Pipeline context | Pipeline design/testing/operations in `ci/specs/` |
-| Proposal / ignored evidence | Feature criteria/rationale / test mappings, command results and review dispositions |
+| Proposal / ignored work state | Feature criteria and reasons / test mappings, command results and review decisions |
 | Schemas/configuration/reference data | Exact representations, inventories and values |
 
-- Doc Sync is a knowledge delta, not copy-ready prose. Promote only changes to enduring system understanding; integrate them into the owning section and prune obsolete explanation.
-- Read the whole affected document and authoritative current source before writing. One concept has one current explanation; useful pointers disclose details rather than copying them.
-- Accuracy and brevity do not justify misplaced content. Feature walkthroughs, individual test scenarios and copied configuration inventories stay with their owners.
-- Specialist references earn a document only for durable cross-feature knowledge absent from existing sources, with a conditional pointer; engineering instructions remain within the guidance budget.
-- Publication checks the whole resulting document: a new reader understands major behavior without feature history; current capabilities are distinguished from unavailable/recommended facilities.
-- Describe package responsibility rather than listing its members; a class rename must not require a context edit.
-- For available alerts, operations records severity, meaning and runbook location.
+- Doc Sync lists changes to enduring system understanding. Integrate them into the owning section and remove obsolete explanation.
+- Before writing, read the whole affected document and the source that establishes its current facts. Explain each concept once; link exact details instead of copying them.
+- Keep feature walkthroughs in proposals, individual test results in work state and configuration values in configuration.
+- Add a specialist document only for shared knowledge that has no existing owner. Link it from the document where a reader would need it; keep engineering instructions within the guidance budget.
+- Check that the resulting document explains the current system without requiring feature history. Distinguish available behavior from recommendations.
+- Describe package responsibilities, not class inventories. Operations records each available alert's severity, meaning and runbook location.
+
 ## Authoring templates
 
-- Design: purpose/boundary, compact central model, significant lifecycles/interactions, unique constraints/tradeoffs. Omit code inventories and per-control walkthroughs.
-- Contracts: account for every exposed/consumed boundary and its authority, grouping without omission. Include only semantics not owned by design/schema.
-- Testing: risk-to-boundary strategy, suite categories, integrated/manual confidence and why. Gate configuration owns thresholds; evidence owns cases/results.
-- Operations: supported local/runtime entrypoints, isolation, storage/topology, available logs/health/monitoring, safe recovery. Link configuration; describe important gaps honestly.
-- Operations includes startup and shutdown, network exposure and state ownership.
-- Describe load drivers and supported capacity limits when they affect operation.
-- Use relevant sections only. Diagrams resolve meaningful lifecycle/ordering decisions; prose supplies remaining guarantees rather than narrating every branch.
+- Design: purpose, boundary, domain model, important lifecycles and interactions, constraints and tradeoffs.
+- Contracts: every exposed or consumed boundary and its authoritative definition. Explain only semantics not already owned by design or schemas.
+- Testing: which risks each test boundary addresses, suite categories and any integrated or manual checks needed. Configuration owns thresholds; work state owns individual results.
+- Operations: startup and shutdown, isolation, network exposure, stored-state ownership, deployment layout, logs, health, monitoring and recovery. Link configuration and explain important gaps or capacity limits.
+- Include only relevant sections. Diagrams explain important transitions or ordering; prose adds guarantees the diagram does not show.

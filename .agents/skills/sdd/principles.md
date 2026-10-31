@@ -2,16 +2,16 @@
 
 ## Ownership
 
-- Domain values own strong types, refinements and intrinsic pure facts.
+- Domain values own strong types, value constraints and rules that hold wherever the value is used.
 - Domain values carry no capabilities.
 - Use types that exclude invalid states.
-- Application operations own business decisions, aggregate construction, normalization and lifecycle.
+- Application operations own business decisions, aggregate construction and lifecycle transitions.
 - Application services own orchestration.
 - Companions own factories and operation results.
 - Ports name the work their caller needs, in domain terms.
 - Adapters implement real external boundaries.
 - Only composition binds concrete interpreters.
-- The supplying adapter parses and validates external data and assembles source inventories.
+- The supplying adapter fetches and assembles source data, then parses, normalizes and validates it into domain values.
 - Consumers trust their port's domain-valid guarantees instead of validating them again.
 - Persistence owns representation validity, relational constraints and atomic writes of supplied decisions.
 - Application decisions need coordination across the full read/decision/write sequence.
@@ -21,54 +21,51 @@
 - Code, contracts and UI share domain vocabulary.
 - New terms require a real distinction and maintainer agreement.
 
-## Policy placement
+## Where rules belong
 
-- Inventory changed ordering instances, sorting, precedence, deduplication winners, retained spelling, grouping and display projections as behavior.
+- Treat changed sorting, precedence, duplicate selection, retained spelling, grouping and display projections as behavior.
 - Ask whether the rule remains true when its screen, endpoint or consuming use case changes.
 - Purity alone does not establish domain ownership.
-- Domain ordering requires an intrinsic invariant, such as chronology or book structure.
-- Use-case selection and normalization belong to the operation supplying them.
+- Domain ordering needs a rule that holds independently of its consumer, such as chronology or book structure.
+- Business selection and reconciliation belong to the deciding operation; source-format normalization belongs to its adapter.
 - Source contract order belongs to its adapter.
 - Visual order, labels and formatting belong to presentation.
-- Global ordering instances that choose winners must name their intrinsic invariant.
+- Global ordering instances that select among duplicates must identify the domain rule that justifies that selection.
 
-## Continuity and seams
+## Evolve existing responsibilities
 
-- Account for existing reads, transformations, retained results and consumers before adding another acquisition path.
+- Trace existing reads, transformations, cached results and consumers before adding another data-fetching path.
 - Check the validity, failure behavior and lifetime of retained results.
 - Reuse sufficient contracts; evolve insufficient contracts at their existing owner.
 - Separate a responsibility only when its decisions change independently.
-- A newly invented caller proves consumption, not necessity.
+- A new caller alone does not justify a new abstraction.
 - Share knowledge whose divergence would be a bug.
 - Keep independently changing resource rules local, even when their code looks similar.
 - An extraction must own a required decision, invariant or external boundary.
 - For each new method or argument, identify the required decision or guarantee lost if it is removed.
 - Thin wrappers and several remote calls alone do not justify another layer.
-- Acquisition, decoding and snapshot assembly stay with the adapter owning that port.
 - A module coordinating our ports is a use case, not an external adapter.
-- A seam test crosses the adapter's real external system or representation.
-- Driving HTTP seam tests send real requests and substitute the application service.
-- Driven HTTP seam tests use the real remote service with isolated test state.
+- An adapter test crosses its real external system or representation.
+- Incoming HTTP tests send real requests and substitute the application service.
+- Outgoing HTTP tests use the real remote service with isolated test state.
 - Keep mutable authoritative records separate from cached projections.
 - Projections preserve identity and required evidence.
 - Failed reads and identity mismatches remain explicit failures.
 
 ## Contracts and effects
 
-- Signatures accept only facts consumed by their operation.
+- Parameters contain only inputs the operation uses.
 - Justify batch size and scope separately from entity identity.
 - Accept needed facts, not another operation's result envelope.
 - Grouped inputs represent cohesive facts; sum types represent distinct valid states.
 - Groups must not hide unrelated parameters or dependencies.
-- APIs exceeding five fields or parameters require a cohesion/state-model check before hoisting calls.
 - Inject fixed collaborators and settings once at construction.
 - Invocation APIs accept only data that can change for that call.
 - Composition parses static configuration into the types its consumers need.
-- A class has at most five injected business dependencies, excluding generic capabilities.
-- Split responsibilities instead of hiding excess dependencies in bundles.
+- Split independently changing responsibilities; grouped dependencies must represent a real shared responsibility.
 - Pure computation returns plain values.
 - Effects require I/O, resource, concurrency or capability work.
-- Lifting one workflow branch does not justify an otherwise pure API.
+- Keep pure APIs plain even when a caller wraps their result in an effect.
 - Adapters use application contracts, not peer adapters or bypassed infrastructure.
 - Collections preserve typed identity, required cardinality and associations.
 - Preserve duplicate handling and meaningful precedence through projections.
@@ -77,19 +74,18 @@
 - Constants or relocated resource files do not establish configurability.
 - Repository-backed business data uses its caller-owned repository contract; static settings do not replace that lifecycle.
 - State-dependent writes check and commit against the same current state.
-- Prove concurrency, cancellation and resource guarantees at their owning boundaries.
+- Test concurrency, cancellation and resource guarantees where they are enforced.
 - Canonical encodings preserve semantics used outside the core, including stored ordering across retained data.
 
 ## Complexity and expression
 
 - Each unit owns one responsibility.
-- Sibling statements use one abstraction level.
+- Statements in one method stay at the same abstraction level.
 - Keep orchestration visible and linear.
 - Independently changing algorithms retain their own owners.
-- Keep a single owner's pure mapping private.
+- Keep a pure mapping private when only one component needs it.
 - Order declarations and parameters most important first.
 - Inspect methods beyond roughly 7-10 lines, units beyond a screenful, and suites beyond roughly three times production size.
-- Size prompts inspection; split only distinct responsibilities.
 - Extract a newly exposed responsibility in the change that exposes it.
 - Never trim tests to hide the size ratio.
 - Prefer the simplest design that satisfies the agreed behavior.
@@ -107,6 +103,15 @@
 - Add and document a gate alongside the code or dependency it governs.
 - Compiler gates reject unsafe constructs, unused code and accidental widening.
 - Include new dependencies in the repository's existing update automation.
-- Coverage proves behavior; duplicated tests do not improve that proof.
+- Coverage shows which code ran; scenarios and assertions establish behavior. Extend tests for missing guarantees, not merely to execute lines.
 - UI controls own their accessible state and focus continuity.
 - Layout handles content constraints and narrow widths, not just one viewport.
+
+## Guardrails
+
+- Keep configured compiler, formatter, lint, architecture and coverage gates enabled. Gate changes and rule exceptions require scoped maintainer approval.
+- Aim for at most five API inputs and five injected business dependencies, excluding generic capabilities. Comprehension statements normally occupy one physical line.
+- Crossing these expectations starts a discussion: identify unrelated inputs, contradictory states, mixed abstraction levels, multiple responsibilities or missing test seams. Compare model refinement, separation and retaining the cohesive design; obtain approval for a retained exception.
+- Approximate size signals prompt inspection, not permission. Keep larger cohesive units with a reason; split distinct responsibilities.
+- At a coverage gate, including 100%, identify the missing observable guarantee. For composition or unreachable code, prove a repository-permitted exclusion and obtain required authorization.
+- Numeric compliance alone does not establish design quality.

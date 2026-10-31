@@ -16,7 +16,7 @@
 - Current-state counts are gauges re-derived from reads, not accumulators.
 - Record metrics after successful work and compensation; never replay historical metrics on edit/delete.
 - HTTP RED and process/JVM USE metrics share a transport-owned registry.
-- Use named TypeScript imports when at most three names fit one line; otherwise use a namespace, except framework-required named bindings.
+- Follow existing TypeScript import style; preserve framework-required named bindings. Import counts alone do not justify a style change.
 - Component suites own real runtime types; structural suites use plain names.
 - Vitest uses componentTest, seamIntegrationTest and systemIntegrationTest suffixes by proved boundary.
 - Use existing stable ID builders instead of ad hoc literals.

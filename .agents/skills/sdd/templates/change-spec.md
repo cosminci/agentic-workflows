@@ -1,7 +1,7 @@
 # <Change>
 
 - **Classification:** feature | investigation
-- **Grounding:** current source/demo or approved experiment findings; investigations include proven root cause.
+- **Evidence:** current behavior or approved experiment findings; investigations include the established cause. Use pointers for implementation evidence.
 
 ## What and why
 
@@ -9,7 +9,7 @@ Current to intended observable behavior and reason.
 
 ## Contracts
 
-Only changed domain/boundary guarantees, state/failure order and enforcing owners; distinguish database mechanisms from application rules. Omit when unnecessary.
+Only changed domain or boundary guarantees, transition/failure order and the responsibility enforcing them. Distinguish storage constraints from business decisions. Omit when unnecessary.
 
 ## Acceptance
 
@@ -17,8 +17,8 @@ Short observable criteria, including relevant failure/boundary/accessibility cas
 
 ## Doc Sync
 
-Owning document/section and durable knowledge delta with detail-authority pointers; None when unchanged.
+Owning document/section and the change to enduring system understanding. Link authoritative details; omit when unchanged.
 
-Add pre-existing invariants, actual alternatives/tradeoffs or likely scope questions only when uniquely useful. Implementation signatures/layout belong in the design map.
+Add existing invariants, actual tradeoffs or unresolved scope only when they add useful information. Implementation signatures and layout belong in the design decision, not this proposal.
 - A tradeoff names the actual cost and who bears it.
 - Inspect the rendered proposal; each criterion states one observable behavior and each section adds unique information.

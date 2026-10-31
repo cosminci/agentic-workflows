@@ -30,7 +30,7 @@
 
 ## Scala
 - Business modules use caller-defined trait, companion `make`, private final Live, then companion-owned results. Pure domain values need no artificial module machinery.
-- Business trait operations return operation-owned result enums, not Either, Option, Unit or bare successes.
+- Use operation-owned result enums for distinct business outcomes. Preserve an existing result contract when it expresses the operation completely; mechanical success or absence alone does not require a new enum.
 - Generic capability and mechanical library APIs are outside this result-enum rule.
 - Companion failure enums are named `Failure`.
 - Top-level types are shared domain/config values, not orphan operation results.
@@ -39,9 +39,9 @@
 - Runtime code has no default arguments.
 - Multiple dependent steps use comprehensions.
 - Keep comprehension generators contiguous.
-- One physical line per comprehension statement is a design signal: inspect hierarchy/cohesion before hoisting an expression; parameter bags/pass-through helpers are not repairs.
+- Aim for one physical line per comprehension statement. If it needs more, use the principles' guardrail discussion to check abstraction level and cohesion.
 - Mixed effect generators and pure bindings need a same-abstraction-level reason.
-- Runtime constructor/factory calls fit one line by naming nested dependencies.
+- Name constructed dependencies when their responsibility merits a name. A long constructor/factory call prompts the guardrail discussion; extracting incidental values solely to shorten it does not resolve the concern.
 - Keep assignments and chains on one line when they fit.
 - Multiline lambdas use braces or colon syntax.
 - Follow configured line limits.
@@ -51,10 +51,10 @@
 - Shared codecs require multiple consumers and one shared representation invariant.
 - Shared codecs contain pure bidirectional mappings only.
 - Use a DTO only when a direct codec cannot express the format cleanly; keep it inside its adapter.
-- Inventory changed refinement declarations and explicit/implicit construction sites, including autoRefine.
+- Check changed refinement declarations and construction sites, including autoRefine.
 - Production domain/usecases retain their required refinements.
 - Non-core code, including tests in mirrored packages, retains a proof only for a required guarantee.
-- For each retained non-core proof, record its invariant, consumer and why underlying or already-checked values do not suffice.
+- Retain non-core refinements when a consumer needs their guarantee; reuse already-checked values where possible.
 - Domain-valued test inputs and substituted port responses retain their constraints.
 - Standalone expected catalogs use underlying types; safely widen actual refined outputs for comparison.
 - Reuse checked test values while preserving complete outcomes, identity and order.

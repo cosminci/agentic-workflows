@@ -2,39 +2,39 @@
 
 - **Kind:** spec | implementation | archive/context
 - **Baseline / exact candidate:** commit or content manifest
-- **Coverage:** every changed/untracked candidate file; omitted evidence is an open gate
+- **Files:** every changed/untracked candidate file and its review status
 - **Sources:** applicable rule/contract/precedent pointers
 
-Execute the selected steps in order; fill pass/fail/N/A with source evidence and an explicit reason for N/A.
+Use the relevant section. Record findings and unresolved questions with source evidence; omit inapplicable steps rather than filling a checklist with N/A.
 
 ## Spec steps
 
-1. Establish scope/classification, grounding and required spec authority.
-2. Trace observable normal/failure/boundary outcomes and contract enforcement.
-3. Check testable acceptance, unique useful content and behavior-level altitude.
-4. Check Doc Sync knowledge ownership and Markdown source wrapping.
+1. Check scope, evidence and whether execution requires a spec.
+2. Check normal behavior, failures, edge cases and where each guarantee is enforced.
+3. Check that criteria are testable, sections add distinct information and the proposal describes behavior rather than implementation.
+4. Check documentation ownership and Markdown source wrapping.
 
 ## Implementation steps
 
-1. Verify approved scope, design delta approval or all-three-unchanged evidence, precedent fit and buildable slice/deferred owners.
-2. Trace changed responsibilities through existing facts/consumers; deeper analysis addresses novel ownership/contracts or named uncertainty.
-3. Inventory domain derivations/typeclass instances, sorting/precedence/winners and display projections; identify intrinsic invariant or correct non-domain owner.
-4. Check each changed API's supplier/consumer, facts, states, effects, construction lifetime, resource/concurrency guarantees and real boundary.
-5. Inspect the full changed surface against applicable conventions, including declarations, named calls, refinements, comments, density and test setup.
-6. Account for criteria/edges at owning tests, real seam evidence, required automated gates and delivered-slice demonstration/confirmation.
+1. Verify authorized scope, precedent fit, required design approvals and that this PR works without later deliveries.
+2. Trace changed responsibilities through existing data and consumers. Investigate more deeply for a new responsibility, changed contract or unresolved question.
+3. For changed domain states, derivations, ordering or projections, check the existing lifecycle and the responsibility that owns each rule.
+4. Check each changed API's callers, suppliers, inputs, valid outcomes and effects. Verify dependency lifetimes and resource/concurrency guarantees where affected.
+5. Check applicable conventions. Explain the design concern behind any threshold violation and its repair or approved exception.
+6. Check relevant behavior and edges at their owning tests, real boundary evidence, required automated checks and any required demonstration.
 
 ## Archive/context steps
 
-1. Compare the complete merged behavior and integrated confirmation with approved scope.
-2. Account for every knowledge delta at its owner/authority; verify current facts.
-3. Read complete affected documents for strategic altitude, coherent integration and pruning.
-4. Confirm archival, no new behavior and remaining lifecycle cleanup.
+1. Compare merged behavior with agreed scope and any required integrated checks.
+2. Check that each documentation change reaches its owning section and matches current source.
+3. Read complete affected documents for system-level meaning, duplication and obsolete content.
+4. Confirm the archive location, that archival adds no behavior and that task cleanup is complete.
 
 ## Findings and closure
 
-| ID | Rule / source location | Violation and consequence | Disposition / repair evidence | Final-candidate verification |
+| ID | Rule / source location | Problem and consequence | Decision / repair evidence | Final-candidate verification |
 | --- | --- | --- | --- | --- |
 
-- **Open gates / unresolved coverage:** ...
+- **Unresolved findings / questions:** ...
 - **Final candidate and assessment:** ...
 - Record accepted repairs and affected late changes against their actual candidate; a previous pass cannot cover later edits.

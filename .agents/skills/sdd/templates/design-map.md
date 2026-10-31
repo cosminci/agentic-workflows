@@ -1,14 +1,16 @@
-# Design delta approval
+# Design decision
 
-Present this in chat before tests/production implementation; retain approval and map in ignored work state.
+Use only when execution requires approval. Present the decision in chat and record its approval in work state.
 
-| Layer / changed owner | Existing flow and precedent | Proposed contract/API delta | Concrete supplier/consumer | Reuse/evolution/separation reason | Proof boundary |
-| --- | --- | --- | --- | --- | --- |
-| Domain | | | | | |
-| Use cases | | | | | |
-| Driving/driven ports | | | | | |
+## Existing model
 
-- Include changed existing operations, removed contracts, intrinsic invariants, effects/lifetimes and configuration authority where affected.
-- Inventory ordering/precedence/deduplication/presentation changes and assign their owner using principles; account for existing retained evidence before another acquisition.
-- Named unanswered questions block approval, not trigger unrestricted reconstruction. Established decisions cite precedent rather than restating rules.
-- Record explicit maintainer approval of this delta. Bypass requires source evidence that every listed layer is unchanged.
+Name the concepts, valid states, transitions and current owner affected by the decision. Cite the existing flow or implementation that establishes them.
+
+## Proposed change
+
+| Decision needing approval | Existing owner or contract | Proposed evolution | Why the existing model is insufficient | Affected supplier/consumer and proof boundary |
+| --- | --- | --- | --- | --- |
+
+- Include changed guarantees, effects, lifetimes, configuration ownership or ordering only when they bear on the decision.
+- New types, operations and ports must represent a real distinction or independently changing responsibility. Explain why refining the existing owner does not suffice.
+- State the recommended choice, its actual cost and any unanswered question. Approval covers this decision, not unrelated later changes.

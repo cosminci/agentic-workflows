@@ -1,57 +1,45 @@
 # Execution
 
-## Classify
+## Start
 
-- Record feature or investigation, approved scope, baseline and affected owners in ignored repository-root `.agent-work/<slug>/state.md`; use the matching branch prefix.
-- Before each phase and after interruption, read work state and resolve earlier open gates.
-- Before phase work, load every applicable source in SKILL.md's matrix and record its path/revision in work state.
-- Draft the durable knowledge delta using [context policy](context.md). A nonempty delta requires a reviewed spec; otherwise record preserved behavior and engineering rules as the review basis and skip Spec/Archive PRs. Only the maintainer may waive a required spec.
-- Reclassify when scope changes. Investigations establish the root cause from evidence before selecting a repair.
-- Investigations record each tested hypothesis and the evidence accepting or rejecting it.
-- Record phase timing separately for exploration, implementation, automated checks, review/repairs and approval waiting; this is evidence, not a diary.
+- Read project entrypoints and task-relevant sources. On resumption, reuse recorded decisions and results; reread changed sources or those needed for a new question.
+- Keep scope, baseline, workflow revision, decisions, test mapping and check results in ignored `.agent-work/<slug>/state.md`.
+- For an investigation, establish the cause from evidence before choosing a repair. Record tested hypotheses and their results.
+- Require a spec for a new user-visible capability, changed supported contract/lifecycle or unresolved product behavior. Restoring agreed behavior, internal refactoring and documentation corrections need none.
+- Without a spec, review against existing behavior, contracts and engineering rules.
 
-## Precedent and optional experiment
+## Understand and decide
 
-- Read the closest complete implementation, concrete caller and owning suite for each distinct seam. Record what stays the same and the precise contract gap.
-- Reuse sufficient contracts; evolve their existing owner when insufficient; separate only an independently changing responsibility. A new endpoint or caller alone establishes neither necessity nor ownership.
-- Expand investigation only to answer a named question affecting behavior, ownership or feasibility. Settled decisions remain settled unless new evidence contradicts them.
-- Default to no spike. Existing UX is inspected or demonstrated in the current application.
-- For material uncertainty, propose question, smallest experiment, evidence and budget; obtain approval before execution.
-- An approved disposable experiment defaults to Haiku 5.5, targets 10 minutes and stops at 15 minutes of active work. Continuing, model substitution or escalation needs approval; if that model is unavailable, report it.
-- Validate the experiment once against its question using relevant product checks; coverage may be skipped.
-- Keep experiments isolated and uncommitted; retain them only for an identified comparison, then stop owned services and remove only their resolved worktree.
+- Read each changed boundary's closest implementation, caller and tests; identify reuse and required changes.
+- For domain work, trace existing concepts, valid states, transitions and use cases to their consumers. Apply the evolution rules in principles.
+- Proceed with approved additions when precedent fits and existing responsibilities and guarantees are preserved.
+- Ask before introducing or moving a responsibility, changing previously agreed guarantees, choosing an unresolved product tradeoff or taking a rule exception. Use [the design template](templates/design-map.md) for that decision.
+- Investigate only named behavior, ownership or feasibility questions. Stop when answered; reopen decisions only for contradictory evidence.
+- Inspect existing UX in the application. When inspection cannot answer a material question, agree on an experiment's question, evidence and budget before running it.
+- An approved experiment defaults to Haiku 5.5, targets 10 minutes and stops at 15 minutes of active work. Continuing or changing the model requires approval; report an unavailable model.
+- Check the experiment once; coverage may be skipped. Keep it isolated and uncommitted; stop owned services and remove its resolved worktree unless retained for an agreed comparison.
 
 ## Spec
 
-- Use [the template](templates/change-spec.md), current living sources and confirmed evidence. Describe behavior and contracts, not signatures or code layout.
-- Project normal, failure and boundary outcomes; distinguish database constraints from application decisions. Include only useful diagrams or unique prose.
-- Review with the spec template before publication; implementation follows its authorized merge.
+- Use [the change template](templates/change-spec.md), current living documentation and confirmed evidence. Describe observable behavior and guarantees, not code structure.
+- Use tables or diagrams for contracts and transitions; prose adds only missing information.
+- Check acceptance criteria and documentation ownership once before publication. Implementation begins after the spec PR's authorized merge.
 
-## Design approval
+## Implement and check
 
-- Before tests or production changes, present [the delta map](templates/design-map.md) in chat for explicit maintainer approval.
-- Account for every changed domain model, use case and driving/driven port, including existing APIs; signatures follow source-backed ownership decisions.
-- Bypass only when all three layers are unchanged, with source evidence. Spike, spec and previous slice approvals do not substitute.
-- When later evidence changes an approved owner or contract, reopen the affected map before implementation; approved spec amendments also require authorization.
-- After an authorized spec amendment, update its criteria before their tests or implementation.
-- Include that amendment in the current slice's independent review.
-
-## Implement and test
-
-- Adapt the precedent within the approved current slice.
-- For new behavior, batch its tests and confirm they fail for the intended missing behavior before the production change.
-- Finish a coherent code-and-test change before running its targeted validation; do not compile or test after each edited file.
-- Other early checks require a named compiler/type uncertainty.
-- Rerun checks after a meaningful repair, not after unrelated edits; publication still requires all applicable gates.
-- Map acceptance criteria and enumerated edges to owning tests/slices; deferred guarantees retain explicit owners. Adapt existing scenarios unless their observable contract changes.
-- Core tests substitute ports; adapters cross their real HTTP/database/filesystem/process/configuration seam; frontend exercises delivered boundaries and accessibility.
-- Follow [conventions](conventions.md). Run the smallest existing checks covering the change, then required publication gates; preserve compiler, formatter, lint and coverage enforcement.
-- Perform one template-guided self-check, then [independent review](reviewer.md). A correction reopens affected decisions and consequences, not unrelated settled work.
-- Demonstrate the delivered layer with isolated state and obtain maintainer confirmation before its PR; core/adapters do not require an unfinished UI.
+- Adapt the inspected pattern. Resolve design signals using [principles](principles.md#guardrails) rather than reshaping code solely to satisfy a number.
+- For new behavior, batch its tests and confirm they fail for the intended missing behavior before changing production code.
+- Finish a coherent code-and-test change before targeted validation. Run an earlier check only for a named compiler or type uncertainty.
+- Extend owning scenarios for changed behavior. Cover relevant failures and edges at the boundary responsible for them: core tests substitute ports; adapter tests cross the real external boundary; frontend tests exercise behavior and accessibility.
+- Run the smallest existing checks that cover the change, then any additional checks required for publication. Reuse results while their code and dependencies remain unchanged.
+- Perform one self-check of changed behavior, ownership and applicable conventions. Fix findings and rerun affected checks; settled areas need no repeat inspection.
+- Independent review is required for new/moved responsibilities, changes to previously supported guarantees, concurrency/resource-safety changes, rule exceptions or local/maintainer requirements. Approved additions preserving existing guarantees otherwise finish with the self-check; use [the review protocol](reviewer.md) when required.
+- Demonstrate only for a named journey risk unproven by tests or a maintainer request. Agree on the scenario; obtain confirmation before publishing.
+- An approved behavior amendment updates affected spec criteria before its tests and implementation, and enters any required review. Reopen only affected decisions and checks.
+- Finish when required checks pass and findings are resolved. Further verification needs a new question or changed evidence.
 
 ## Complete
 
-- After all implementation merges, verify the integrated local journey against the approved review basis and obtain confirmation; resolve discrepancies.
-- For spec-backed work, integrate every Doc Sync delta at its owning section, prune superseded content and archive under `specs/changes/archive/YYYY-MM-DD-<slug>/`.
-- The archive introduces no behavior; apply the archive/context review to the complete merged change and resulting documents.
-- Persist the candidate, approvals, test mapping, command results, findings and reviewer channel in state; resume from that state after interruption.
+- Check the integrated journey when separate deliveries introduce an interaction not already proven by their checks. Use the same demonstration rule as above.
+- Update living documentation at its owning section and remove obsolete explanation. For spec-backed work, archive under `specs/changes/archive/YYYY-MM-DD-<slug>/` after implementation merges; archival adds no behavior.
+- Record the final candidate, check results, approvals and unresolved work. For independent review, retain the reviewer ID and report path.
