@@ -9,6 +9,9 @@ ROOT = Path(__file__).resolve().parents[1]
 SKILL = Path(".agents/skills/sdd")
 LIMIT = 480
 PROFILES = {"typelevel", "direct-style"}
+CORE_FILES = ("SKILL.md", "executor.md", "reviewer.md", "principles.md", "conventions.md",
+              "context.md", "templates/change-spec.md", "templates/design-map.md",
+              "templates/review.md")
 
 
 def git(*args: str) -> str:
@@ -53,21 +56,23 @@ def configuration(project: Path) -> tuple[str, Path]:
     return profile, owner
 
 
+def require_entrypoints(project: Path, owner: Path) -> None:
+    entrypoints = {project / "AGENTS.md", owner / "AGENTS.md", owner / "CONTRIBUTING.md",
+                   owner / "DESIGN-PRINCIPLES.md"}
+    for path in entrypoints:
+        if not path.is_file():
+            raise ValueError(f"missing local entrypoint: {path}")
+
+
 def validate(project: Path | None) -> int:
-    for name in ("SKILL.md", "executor.md", "reviewer.md", "principles.md", "conventions.md",
-                 "context.md", "templates/change-spec.md", "templates/design-map.md",
-                 "templates/review.md", "profiles/typelevel.md", "profiles/direct-style.md"):
+    for name in CORE_FILES + tuple(f"profiles/{profile}.md" for profile in PROFILES):
         if not (ROOT / SKILL / name).is_file():
             raise ValueError(f"missing shared guidance: {name}")
     if project is None:
         files = local_files(ROOT, ROOT) + [ROOT / "README.md"]
     else:
         profile, owner = configuration(project)
-        entrypoints = {project / "AGENTS.md", owner / "AGENTS.md", owner / "CONTRIBUTING.md",
-                       owner / "DESIGN-PRINCIPLES.md"}
-        for path in entrypoints:
-            if not path.is_file():
-                raise ValueError(f"missing local entrypoint: {path}")
+        require_entrypoints(project, owner)
         files = shared_files(profile) + local_files(project, owner)
     total = sum(len(path.read_text().splitlines()) for path in files)
     if total > LIMIT:
@@ -81,6 +86,7 @@ def validate(project: Path | None) -> int:
 
 def context(project: Path, revision: str | None) -> None:
     profile, owner = configuration(project)
+    require_entrypoints(project, owner)
     if revision is None and git("status", "--porcelain"):
         raise ValueError("shared checkout is dirty; commit or resolve its edits before starting a task")
     revision = git("rev-parse", "--verify", f"{revision or 'HEAD'}^{{commit}}")
@@ -96,16 +102,26 @@ def context(project: Path, revision: str | None) -> None:
     total += sum(len(path.read_text().splitlines()) for path in local_files(project, owner))
     if total > LIMIT:
         raise ValueError(f"guidance has {total} physical lines; limit is {LIMIT}")
-    if SKILL / "SKILL.md" not in contents or SKILL / "profiles" / f"{profile}.md" not in contents:
-        raise ValueError("shared revision lacks its router or selected profile")
+    for name in CORE_FILES + (f"profiles/{profile}.md",):
+        if SKILL / name not in contents:
+            raise ValueError(f"shared revision lacks required source: {name}")
     destination = project / ".agent-work/workflows" / revision
+    expected = {path.relative_to(SKILL) for path in contents}
+    if destination.exists():
+        actual = {path.relative_to(destination) for path in destination.rglob("*") if path.is_file()}
+        if actual != expected:
+            raise ValueError(f"workflow snapshot file set was modified: {destination}")
+        if any(path.is_symlink() for path in destination.rglob("*")):
+            raise ValueError(f"workflow snapshot contains a symlink: {destination}")
+        for relative, text in contents.items():
+            target = destination / relative.relative_to(SKILL)
+            if target.read_text() != text:
+                raise ValueError(f"workflow snapshot was modified: {target}")
     destination.mkdir(parents=True, exist_ok=True)
     paths = []
     for relative, text in contents.items():
         target = destination / relative.relative_to(SKILL)
         target.parent.mkdir(parents=True, exist_ok=True)
-        if target.exists() and target.read_text() != text:
-            raise ValueError(f"workflow snapshot was modified: {target}")
         target.write_text(text)
         paths.append(str(target))
     print(json.dumps({"reference": str(ROOT), "revision": revision, "project": str(project),

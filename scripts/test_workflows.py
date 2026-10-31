@@ -108,6 +108,29 @@ class WorkflowTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "snapshot was modified"):
             workflows.context(self.project, None)
 
+    def test_should_reject_missing_committed_execution_source(self):
+        (self.reference / workflows.SKILL / "executor.md").unlink()
+        self.commit()
+        with self.assertRaisesRegex(ValueError, "required source: executor"):
+            workflows.context(self.project, None)
+
+    def test_should_reject_missing_consumer_entrypoint(self):
+        (self.project / "AGENTS.md").unlink()
+        with self.assertRaisesRegex(ValueError, "missing local entrypoint"):
+            workflows.context(self.project, None)
+
+    def test_should_reject_deleted_or_extra_snapshot_sources(self):
+        output = json.loads(self.output(workflows.context, self.project, None))
+        target = Path(output["context"][0])
+        original = target.read_text()
+        target.unlink()
+        with self.assertRaisesRegex(ValueError, "file set was modified"):
+            workflows.context(self.project, None)
+        target.write_text(original)
+        (target.parent / "extra.md").write_text("# Extra\n")
+        with self.assertRaisesRegex(ValueError, "file set was modified"):
+            workflows.context(self.project, None)
+
     def test_should_resolve_machine_config_and_fail_without_it(self):
         subprocess.run(["git", "-C", str(self.project), "init", "-q"], check=True)
         config = self.project.parent / "machine.gitconfig"

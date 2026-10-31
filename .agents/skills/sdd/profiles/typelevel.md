@@ -1,5 +1,4 @@
 # Typelevel
-
 - Effectful algebras use `F[_]`.
 - Generic clock, identity and logging capabilities use context bounds and accessors.
 - Use Cats syntax for construction and traversal.
@@ -8,3 +7,4 @@
 - Use existing local transformer syntax where available.
 - Single-generator comprehensions with pure results use `.map`.
 - Resource acquisition, use and release use the ecosystem's resource-safe primitive.
+- Use readable named TypeScript imports, preserving compiler/reactivity-required bindings.

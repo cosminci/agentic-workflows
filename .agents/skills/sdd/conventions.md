@@ -20,10 +20,10 @@
 - Keep nontrivial shared setup only where it owns common knowledge; avoid fixture carriers/frameworks and duplicate contract tests through consumers.
 - Each Markdown prose paragraph or list item occupies one source line.
 - Omit empty or repetitive sections.
-- Commit subjects are imperative and at most 72 characters.
-- Explain the reason in the commit body when the diff does not.
+- Commit subjects are imperative, at most 72 characters, and contain no issue/ticket identifiers.
+- Explain the reason in the commit body when the diff does not; omit issue references.
 - Preserve commit signing and repository identity.
-- Keep secrets outside source control.
+- Never commit secrets or embed/print credentials.
 - Read setup and gate commands from their executable owners and local guidance.
 - Never weaken a gate to make a change pass.
 - Describe observable guarantees positively.
@@ -86,7 +86,7 @@
 - Icons have hover text and equivalent accessible names.
 - Keyboard shortcuts belong to their interaction and coexist with text entry and native controls.
 - Keep navigation, editing and viewing modes distinct.
-- Use readable named imports, preserving bindings required by compiler/reactivity semantics.
+- Follow the selected profile's import convention; preserve framework-required compiler/reactivity bindings.
 - Pure validation/derivation/formatting is directly tested plain logic; component tests cover rendering/wiring rather than duplicating branch tables.
 - Derived state uses accessors/createMemo; conditional rendering uses Show.
 - Use For for keyed identity and Index for positional or primitive rows.

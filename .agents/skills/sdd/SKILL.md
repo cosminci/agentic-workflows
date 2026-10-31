@@ -13,9 +13,9 @@ description: Use for product changes, investigations, change specs and living-do
 | --- | --- |
 | Starting work | Project AGENTS and project `.agents/skills/sdd/local.md` |
 | Changing domain, use cases or ports | [Principles](principles.md) and [design delta](templates/design-map.md) |
-| Implementing | [Principles](principles.md), [conventions](conventions.md) and the resolver-selected stack profile |
+| Implementing | [Principles](principles.md), [conventions](conventions.md) and selected profile; its explicit stack exceptions take precedence |
 | Writing a proposal | [Change template](templates/change-spec.md) |
-| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), [review protocol](reviewer.md) and [review template](templates/review.md) |
+| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile, [review protocol](reviewer.md) and [review template](templates/review.md) |
 | Planning Doc Sync or changing living docs | [Context policy and templates](context.md) |
 
 ## Approvals and delivery

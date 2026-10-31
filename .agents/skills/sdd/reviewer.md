@@ -1,5 +1,4 @@
 # Independent review
-
 - One review phase per PR; use [the fixed template](templates/review.md). Architecture and convention violations count even with green tests.
 - Start a fresh, messageable reviewer, not a one-shot invocation. Persist its agent ID, baseline/candidate and ignored report path in work state.
 - The launch supplies scope, authoritative sources, applicable template and output path; the reviewer checks source before reconciling implementer conclusions.
