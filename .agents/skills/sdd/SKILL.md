@@ -5,7 +5,7 @@ description: Use for product changes, investigations, change specs and living-do
 # SDD
 
 - Use [execution](executor.md) for the current phase only. Established patterns discharge design choices: inspect their applicability, approve the delta, then adapt.
-- The resolver prints the project root, selected stack profile and immutable context paths; product paths below are relative to that project, not this reference repo.
+- Use the resolver's `project` for Git/evidence paths and `owner` for product documentation/commands.
 
 ## Context routing
 
@@ -13,9 +13,9 @@ description: Use for product changes, investigations, change specs and living-do
 | --- | --- |
 | Starting work | Project AGENTS and project `.agents/skills/sdd/local.md` |
 | Changing domain, use cases or ports | [Principles](principles.md) and [design delta](templates/design-map.md) |
-| Implementing | [Conventions](conventions.md) and the resolver-selected stack profile |
+| Implementing | [Principles](principles.md), [conventions](conventions.md) and the resolver-selected stack profile |
 | Writing a proposal | [Change template](templates/change-spec.md) |
-| Reviewing or repairing | [Review protocol](reviewer.md) and the applicable [review template](templates/review.md) |
+| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), [review protocol](reviewer.md) and [review template](templates/review.md) |
 | Planning Doc Sync or changing living docs | [Context policy and templates](context.md) |
 
 ## Approvals and delivery
