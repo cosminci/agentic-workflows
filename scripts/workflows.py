@@ -81,7 +81,7 @@ def validate(project: Path | None) -> int:
 
 def context(project: Path, revision: str | None) -> None:
     profile, owner = configuration(project)
-    if git("status", "--porcelain"):
+    if revision is None and git("status", "--porcelain"):
         raise ValueError("shared checkout is dirty; commit or resolve its edits before starting a task")
     revision = git("rev-parse", "--verify", f"{revision or 'HEAD'}^{{commit}}")
     contents = {}
@@ -110,6 +110,9 @@ def context(project: Path, revision: str | None) -> None:
         paths.append(str(target))
     print(json.dumps({"reference": str(ROOT), "revision": revision, "project": str(project),
                       "owner": str(owner), "profile": profile, "guidanceLines": total,
+                      "entrypoint": str(destination / "SKILL.md"),
+                      "profileFile": str(destination / "profiles" / f"{profile}.md"),
+                      "localGuidance": str(project / SKILL / "local.md"),
                       "context": paths}, indent=2))
 
 

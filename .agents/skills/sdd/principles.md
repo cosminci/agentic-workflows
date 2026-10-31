@@ -30,7 +30,6 @@
 - Use-case selection and normalization belong to the operation supplying them.
 - Source contract order belongs to its adapter.
 - Visual order, labels and formatting belong to presentation.
-- Test each rule at its owner.
 - Global ordering instances that choose winners must name their intrinsic invariant.
 
 ## Continuity and seams
@@ -70,7 +69,6 @@
 - Pure computation returns plain values.
 - Effects require I/O, resource, concurrency or capability work.
 - Lifting one workflow branch does not justify an otherwise pure API.
-- Business collaborators use traits; mechanical pure utilities may be concrete.
 - Adapters use application contracts, not peer adapters or bypassed infrastructure.
 - Collections preserve typed identity, required cardinality and associations.
 - Preserve duplicate handling and meaningful precedence through projections.

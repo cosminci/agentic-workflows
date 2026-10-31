@@ -82,6 +82,9 @@ class WorkflowTest(unittest.TestCase):
         self.assertEqual(manifest["revision"], self.git("rev-parse", "HEAD"))
         self.assertTrue(all(Path(path).is_file() for path in manifest["context"]))
         self.assertFalse(any(path.endswith("direct-style.md") for path in manifest["context"]))
+        self.assertTrue(Path(manifest["entrypoint"]).is_file())
+        self.assertTrue(Path(manifest["profileFile"]).is_file())
+        self.assertTrue(Path(manifest["localGuidance"]).is_file())
 
     def test_should_reuse_old_revision_after_reference_changes(self):
         previous = self.git("rev-parse", "HEAD")
@@ -91,9 +94,12 @@ class WorkflowTest(unittest.TestCase):
         self.assertEqual(original, self.output(workflows.context, self.project, previous))
 
     def test_should_reject_dirty_reference(self):
+        recorded = self.git("rev-parse", "HEAD")
         (self.reference / "uncommitted").write_text("pending\n")
         with self.assertRaisesRegex(ValueError, "dirty"):
             workflows.context(self.project, None)
+        resumed = json.loads(self.output(workflows.context, self.project, recorded))
+        self.assertEqual(resumed["revision"], recorded)
 
     def test_should_reject_modified_task_snapshot(self):
         output = self.output(workflows.context, self.project, None)
@@ -111,6 +117,11 @@ class WorkflowTest(unittest.TestCase):
         missing = subprocess.run(command, cwd=self.project, env=environment, capture_output=True, text=True)
         self.assertNotEqual(missing.returncode, 0)
         self.assertIn("machine-local git config", missing.stderr)
+        subprocess.run(["git", "config", "--file", str(config), "agentic.workflowsPath",
+                        str(self.reference / "missing")], check=True)
+        unavailable = subprocess.run(command, cwd=self.project, env=environment, capture_output=True, text=True)
+        self.assertNotEqual(unavailable.returncode, 0)
+        self.assertIn("registered shared checkout is unavailable", unavailable.stderr)
         subprocess.run(["git", "config", "--file", str(config), "agentic.workflowsPath",
                         str(self.reference)], check=True)
         resolved = subprocess.run(command, cwd=self.project, env=environment, capture_output=True, text=True)

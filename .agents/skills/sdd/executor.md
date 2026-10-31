@@ -4,6 +4,7 @@
 
 - Record feature or investigation, approved scope, baseline and affected owners in ignored repository-root `.agent-work/<slug>/state.md`; use the matching branch prefix.
 - Before each phase and after interruption, read work state and resolve earlier open gates.
+- Before phase work, load every applicable source in SKILL.md's matrix and record its path/revision in work state.
 - Draft the durable knowledge delta using [context policy](context.md). A nonempty delta requires a reviewed spec; otherwise record preserved behavior and engineering rules as the review basis and skip Spec/Archive PRs. Only the maintainer may waive a required spec.
 - Reclassify when scope changes. Investigations establish the root cause from evidence before selecting a repair.
 - Investigations record each tested hypothesis and the evidence accepting or rejecting it.
