@@ -106,6 +106,11 @@ def context(project: Path, revision: str | None) -> None:
         if SKILL / name not in contents:
             raise ValueError(f"shared revision lacks required source: {name}")
     destination = project / ".agent-work/workflows" / revision
+    for directory in (project / ".agent-work", project / ".agent-work/workflows", destination):
+        if directory.is_symlink():
+            raise ValueError(f"workflow snapshot path contains a symlink: {directory}")
+        if directory.exists() and not directory.is_dir():
+            raise ValueError(f"workflow snapshot path is not a directory: {directory}")
     expected = {path.relative_to(SKILL) for path in contents}
     if destination.exists():
         actual = {path.relative_to(destination) for path in destination.rglob("*") if path.is_file()}

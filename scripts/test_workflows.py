@@ -131,6 +131,20 @@ class WorkflowTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "file set was modified"):
             workflows.context(self.project, None)
 
+    def test_should_reject_snapshot_root_and_ancestor_symlinks_before_writing(self):
+        outside = self.project.parent / "outside"
+        outside.mkdir()
+        revision = self.git("rev-parse", "HEAD")
+        for relative in (".agent-work", ".agent-work/workflows", f".agent-work/workflows/{revision}"):
+            with self.subTest(relative=relative):
+                link = self.project / relative
+                link.parent.mkdir(parents=True, exist_ok=True)
+                link.symlink_to(outside, target_is_directory=True)
+                with self.assertRaisesRegex(ValueError, "path contains a symlink"):
+                    workflows.context(self.project, None)
+                self.assertFalse(any(outside.iterdir()))
+                link.unlink()
+
     def test_should_resolve_machine_config_and_fail_without_it(self):
         subprocess.run(["git", "-C", str(self.project), "init", "-q"], check=True)
         config = self.project.parent / "machine.gitconfig"
