@@ -1,0 +1,31 @@
+# Direct style
+
+- Use Java virtual threads and direct-style operations; introduce no Cats Effect or ZIO runtime.
+- Inject capabilities with `using`; substitute them through existing TestImplicits.
+- Either-valued names end in `Result`.
+- Adapt operation results to Either only for dependent composition, not a single wrap/unwrap.
+- Helpers return their own narrow data, not the caller's public result.
+- Attach lazy compensation beside its owning step; retain both failures if compensation also fails.
+- Prefer optics for nested immutable updates.
+- Use cases log business outcomes; adapters do not.
+- Composition logs startup and top-level failures.
+- Info records successful mutations or meaningful transitions; successful reads log nothing.
+- Error records unexpected failures with operation and cause, on one line rather than a raw stack trace.
+- Business metrics use injected low-level MetricsApi ports chosen for historical trends.
+- Current-state counts are gauges re-derived from reads, not accumulators.
+- Record metrics after successful work and compensation; never replay historical metrics on edit/delete.
+- HTTP RED and process/JVM USE metrics share a transport-owned registry.
+- More than three TypeScript imports use a namespace, except framework-required named bindings.
+- Component suites own real runtime types; structural suites use plain names.
+- Vitest uses componentTest, seamIntegrationTest and systemIntegrationTest suffixes by proved boundary.
+- Use existing stable ID builders instead of ad hoc literals.
+- Builders create every substitute and return only the component; ordinary response defaults are test-only.
+- Use Refs only when observed calls/effects are asserted.
+- Small test data stays local; only nontrivial multi-suite substitutes belong in TestImplicits/Mocks.
+- Create no cross-suite fixture-holder objects.
+- Declarative codecs stay private to their adapter; do not add encode/decode helper families.
+- Domain/HTTP logic remains measured; only genuine composition shells use existing exclusions.
+- Required standalone coverage markers may have the mandatory site-specific safety explanation.
+- Never exclude reachable failures or widen formatter/linter/coverage exclusions to pass.
+- Respect tapir's legitimate Any type parameter; it does not authorize Any casts or widening hacks.
+- Domain terms are English; translate foreign source vocabulary at the adapter.
