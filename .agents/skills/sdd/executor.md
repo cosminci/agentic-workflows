@@ -36,10 +36,11 @@
 - Independent review is required for new/moved responsibilities, changes to previously supported guarantees, concurrency/resource-safety changes, rule exceptions or local/maintainer requirements. Approved additions preserving existing guarantees otherwise finish with the self-check; use [the review protocol](reviewer.md) when required.
 - Demonstrate only for a named journey risk unproven by tests or a maintainer request. Agree on the scenario; obtain confirmation before publishing.
 - For an amendment discovered during implementation, obtain scoped maintainer approval and update affected spec criteria before its tests and code. That approval permits implementation without another spec-only merge unless local policy or the maintainer requires one. Include the amended spec in the implementation PR and perform any required review; reopen only affected decisions and checks.
+- For spec-backed work, maintain the spec's Doc Sync delta during implementation; apply it to living documentation in the archive phase. For work without a spec, include directly related documentation updates with implementation.
 - Finish when required checks pass and findings are resolved. Further verification needs a new question or changed evidence.
 
 ## Complete
 
 - Check the integrated journey when separate deliveries introduce an interaction not already proven by their checks. Use the same demonstration rule as above.
-- Update living documentation at its owning section and remove obsolete explanation. For spec-backed work, archive under `specs/changes/archive/YYYY-MM-DD-<slug>/` after implementation merges; archival adds no behavior.
+- For spec-backed work, after all implementation merges, reconcile every Doc Sync delta with delivered behavior, update living documentation at its owning section, remove obsolete explanation and archive under `specs/changes/archive/YYYY-MM-DD-<slug>/` in the same documentation PR; archival adds no behavior.
 - Record the final candidate, check results, approvals and unresolved work. For independent review, retain the reviewer ID and report path.

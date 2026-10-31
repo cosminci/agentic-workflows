@@ -27,7 +27,7 @@ Use the relevant section. Record findings and unresolved questions with source e
 
 1. Compare merged behavior with agreed scope and any required integrated checks.
 2. Check that each documentation change reaches its owning section and matches current source.
-3. Read complete affected documents for system-level meaning, duplication and obsolete content.
+3. Read complete affected documents against [documentation ownership and abstraction rules](../context.md). Check every addition for necessary system-level meaning, fit with existing contents, duplication of authoritative definitions and obsolete content; remove or replace misplaced detail with a source link before closure.
 4. Confirm the archive location, that archival adds no behavior and that task cleanup is complete.
 
 ## Findings and closure
