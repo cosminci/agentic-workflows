@@ -111,7 +111,7 @@
 
 - Keep configured compiler, formatter, lint, architecture and coverage gates enabled. Gate changes and rule exceptions require scoped maintainer approval.
 - Aim for at most five API inputs and five injected business dependencies, excluding generic capabilities. Comprehension statements normally occupy one physical line.
-- Crossing these expectations starts a discussion: identify unrelated inputs, contradictory states, mixed abstraction levels, multiple responsibilities or missing test seams. Compare model refinement, separation and retaining the cohesive design; obtain approval for a retained exception.
+- Crossing these expectations prompts inspection of input cohesion, valid states, abstraction levels, responsibilities and test seams. Refine or separate when that resolves a concrete concern; otherwise retain the cohesive design and record why. Crossing an approximate signal alone requires neither approval nor independent review; substantive changes and hard-rule exceptions follow execution's approval rules.
 - Approximate size signals prompt inspection, not permission. Keep larger cohesive units with a reason; split distinct responsibilities.
 - At a coverage gate, including 100%, identify the missing observable guarantee. For composition or unreachable code, prove a repository-permitted exclusion and obtain required authorization.
 - Numeric compliance alone does not establish design quality.

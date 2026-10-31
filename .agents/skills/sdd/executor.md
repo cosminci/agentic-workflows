@@ -23,7 +23,7 @@
 
 - Use [the change template](templates/change-spec.md), current living documentation and confirmed evidence. Describe observable behavior and guarantees, not code structure.
 - Use tables or diagrams for contracts and transitions; prose adds only missing information.
-- Check acceptance criteria and documentation ownership once before publication. Implementation begins after the spec PR's authorized merge.
+- Check acceptance criteria and documentation ownership once before publication. Implementation begins after the initial spec PR's authorized merge; amendments discovered during implementation follow the amendment rule below.
 
 ## Implement and check
 
@@ -35,7 +35,7 @@
 - Perform one self-check of changed behavior, ownership and applicable conventions. Fix findings and rerun affected checks; settled areas need no repeat inspection.
 - Independent review is required for new/moved responsibilities, changes to previously supported guarantees, concurrency/resource-safety changes, rule exceptions or local/maintainer requirements. Approved additions preserving existing guarantees otherwise finish with the self-check; use [the review protocol](reviewer.md) when required.
 - Demonstrate only for a named journey risk unproven by tests or a maintainer request. Agree on the scenario; obtain confirmation before publishing.
-- An approved behavior amendment updates affected spec criteria before its tests and implementation, and enters any required review. Reopen only affected decisions and checks.
+- For an amendment discovered during implementation, obtain scoped maintainer approval and update affected spec criteria before its tests and code. That approval permits implementation without another spec-only merge unless local policy or the maintainer requires one. Include the amended spec in the implementation PR and perform any required review; reopen only affected decisions and checks.
 - Finish when required checks pass and findings are resolved. Further verification needs a new question or changed evidence.
 
 ## Complete

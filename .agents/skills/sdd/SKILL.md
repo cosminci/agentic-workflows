@@ -21,7 +21,7 @@ description: Use for product changes, investigations, change specs and living-do
 ## Approvals and delivery
 
 - Approval covers only the stated scope. Spec approval, design approval and merge permission are distinct.
-- When a spec is required, merge its PR before implementation. Prefer one cohesive implementation PR; split only for independently useful delivery or a maintainer request.
+- When a spec is required, merge its initial PR before implementation; amendments discovered during implementation follow execution's amendment rule. Prefer one cohesive implementation PR; split only for independently useful delivery or a maintainer request.
 - Each implementation PR works without later PRs. Include call-site migrations; resolve sequencing conflicts with the maintainer.
 - When delivery is split, keep one feature branch. After each authorized merge, fetch main and reconcile without replaying squash-merged work.
 - Preserve other agents' edits; use a separate worktree when another agent owns the checkout.
