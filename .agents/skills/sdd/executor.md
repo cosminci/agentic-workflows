@@ -21,9 +21,9 @@
 
 ## Spec
 
-- Use [the change template](templates/change-spec.md), current living documentation and confirmed evidence. Describe observable behavior and guarantees, not code structure.
+- Use [the change template](templates/change-spec.md), current living documentation and confirmed evidence; its model evolution is required reviewed spec content, alongside observable behavior and guarantees.
 - Use tables or diagrams for contracts and transitions; prose adds only missing information.
-- Check acceptance criteria and documentation ownership once before publication. Implementation begins after the initial spec PR's authorized merge; amendments discovered during implementation follow the amendment rule below.
+- Check acceptance, concrete model evolution and documentation ownership before publication; expose unresolved design decisions in the spec PR. Implementation begins after its authorized merge; later model changes follow the amendment rule below.
 
 ## Implement and check
 

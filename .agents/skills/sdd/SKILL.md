@@ -14,7 +14,7 @@ description: Use for product changes, investigations, change specs and living-do
 | Starting work | Project AGENTS and project `.agents/skills/sdd/local.md` |
 | Changing domain, use cases or ports | [Principles](principles.md); use the [design decision](templates/design-map.md) when execution requires approval |
 | Implementing | [Principles](principles.md), [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); load its examples and local contracts for each changed surface |
-| Writing a proposal | [Change template](templates/change-spec.md) and [spec gates](references/quality-gates.md#spec-and-completion) |
+| Writing a proposal | [Change template](templates/change-spec.md), [principles](principles.md) and [spec gates](references/quality-gates.md#spec-and-completion); model evolution is mandatory review content |
 | Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); [review protocol](reviewer.md) and [review template](templates/review.md) for independent review |
 | Planning Doc Sync or changing living docs | [Context policy and templates](context.md) |
 

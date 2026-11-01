@@ -1,6 +1,6 @@
 # Design decision
 
-Use only when execution requires approval. Present the decision in chat and record its approval in work state.
+For spec-backed model changes, include this decision in the spec PR and link it from the proposal; chat and ignored work state cannot substitute for reviewed design. For work without a spec, present it in chat when execution requires approval and record that approval in work state.
 
 ## Existing model
 

@@ -9,7 +9,7 @@
 | Testing | Risks, the tests that address them and suite naming |
 | Operations | Startup, deployment layout, stored state, recovery and available monitoring |
 | Pipeline context | Pipeline design/testing/operations in `ci/specs/` |
-| Proposal / ignored work state | Feature criteria and reasons / test mappings, command results and review decisions |
+| Proposal and linked spec design / ignored work state | Feature criteria, reasons and reviewed domain/use-case/port evolution / test mappings, command results and approval evidence |
 | Schemas/configuration/reference data | Exact representations, inventories and values |
 
 - Doc Sync lists changes to enduring system understanding. Integrate them into the owning section and remove obsolete explanation.
