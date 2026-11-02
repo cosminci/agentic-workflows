@@ -29,25 +29,38 @@
 - Describe observable guarantees positively.
 
 ## Scala
+
+### Syntax
+
+- Prefer Scala 3 significant indentation and optional-braces syntax where supported by the configured compiler and formatter.
+- Block arguments use braces or colon syntax at the call boundary; nesting a braced block inside parentheses is forbidden.
+- Multiline lambdas use braces or colon syntax, including standalone definitions.
+- Private members omit explicit return types except for Unit.
+- Public APIs declare return types.
+- Runtime code has no default arguments.
+- Keep assignments and chains on one line when they fit.
+- Follow configured line limits.
+- Destructure only when every field is required.
+- Tuple callbacks use named pattern matching, not positional selectors.
+
+### Modules and results
+
 - Business modules use caller-defined trait, companion `make`, private final class `Live<CompanionObjectName>` (e.g. `LiveUserRepository` for `UserRepository`), then companion-owned results. Pure domain values need no artificial module machinery.
 - Use operation-owned result enums for distinct business outcomes. Preserve an existing result contract when it expresses the operation completely; mechanical success or absence alone does not require a new enum.
 - Generic capability and mechanical library APIs are outside this result-enum rule.
 - Companion failure enums are named `Failure`.
 - Top-level types are shared domain/config values, not orphan operation results.
-- Private members omit explicit return types except for Unit.
-- Public APIs declare return types.
-- Runtime code has no default arguments.
+- Public helpers are factories or mechanical utilities, not business-policy shortcuts.
+
+### Sequencing
+
 - Multiple dependent steps use comprehensions.
 - Keep comprehension generators contiguous.
-- Aim for one physical line per comprehension statement. If it needs more, use the principles' guardrail discussion to check abstraction level and cohesion.
-- Mixed effect generators and pure bindings need a same-abstraction-level reason.
-- Name constructed dependencies when their responsibility merits a name. A long constructor/factory call prompts the guardrail discussion; extracting incidental values solely to shorten it does not resolve the concern.
-- Keep assignments and chains on one line when they fit.
-- Multiline lambdas use braces or colon syntax.
-- Follow configured line limits.
-- Destructure only when every field is required.
-- Tuple callbacks use named pattern matching, not positional selectors.
-- Public helpers are factories or mechanical utilities, not business-policy shortcuts.
+- Prefer one physical line per statement and effect generators without interleaved pure bindings. Multiline statements or mixed `<-` and `=` trigger the [design discussion](principles.md#guardrails); retain them only with a same-abstraction-level reason.
+- Name constructed dependencies for their responsibility, not to shorten a factory call.
+
+### Codecs and refinements
+
 - Shared codecs require multiple consumers and one shared representation invariant.
 - Shared codecs contain pure bidirectional mappings only.
 - Use a DTO only when a direct codec cannot express the format cleanly; keep it inside its adapter.
@@ -60,6 +73,9 @@
 - Reuse checked test values while preserving complete outcomes, identity and order.
 - Reduce repeated proof sites without casts, assumptions or fixture frameworks.
 - Suppressions need site-specific proof of safety, smallest scope and full rule identifier; rationale is review evidence, not an explanatory comment.
+
+### Suites and assertions
+
 - Name suites `<Boundary>ComponentTest` or `<Adapter>SeamIntegrationTest` according to the boundary they prove.
 - Architecture rules use one ArchitectureTest with one test.
 - Suite-local `buildX` helpers accept scenario-varying responses.
@@ -67,7 +83,7 @@
 - At most one suite-local Refs records calls; it does not supply stub responses.
 - Captured call observations preserve named argument roles; test control flags through explicit scenarios.
 - Suite order is reusable meaningful data, scenarios, Refs and builders.
-- Assertions normally fit one line through named expected/actual values.
+- Assertions normally occupy one line. If only one operand is complex, name it and keep the assertion on one line; when both operands require substantial construction, a compact multiline assertion may be clearer than extracting both solely to reduce line count.
 - Test names interpolate the actual domain variant under test.
 - Test setups follow the inspected precedent.
 - Integration suites own resources directly, not through callback setup frameworks.

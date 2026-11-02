@@ -14,6 +14,7 @@
 
 - Doc Sync lists changes to enduring system understanding. Integrate them into the owning section and remove obsolete explanation.
 - Before writing, read the whole affected document and the source that establishes its current facts. Explain each concept once; link exact details instead of copying them.
+- When evolving standards, map each replaced obligation to its retained or stronger rule; restore lost scope or evidence requirements before completion. Weakening a guardrail requires explicit scoped maintainer approval.
 - Living system documentation contains strategic guidelines: system purpose, responsibility boundaries, interactions, guarantees and the rationale needed to guide decisions. Code, schemas and configuration own implementation details and exact definitions; living docs link those sources rather than duplicate or narrate them.
 - Preserve the document's purpose, existing contents and abstraction level. Each addition must change the reader's system-level understanding and belong to that document's stated ownership.
 - Contracts links authoritative definitions and explains only boundary semantics necessary to interpret them. Implementation names, parsing algorithms, character-handling rules and field-state catalogs stay in their authoritative source; link that source where needed. Document a boundary guarantee only when its interpretation is necessary and not already explained by the linked definition.

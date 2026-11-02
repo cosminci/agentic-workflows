@@ -10,7 +10,7 @@
 
 ## Understand and decide
 
-- Read each changed boundary's closest implementation, caller and tests; identify reuse and required changes.
+- Read each changed boundary's implementation, callers and tests; apply [contract evolution](principles.md#evolve-existing-responsibilities) before choosing the implementation.
 - For domain work, trace existing concepts, valid states, transitions and use cases to their consumers. Apply the evolution rules in principles.
 - Proceed with approved additions when precedent fits and existing responsibilities and guarantees are preserved.
 - Ask before introducing or moving a responsibility, changing previously agreed guarantees, choosing an unresolved product tradeoff or taking a rule exception. Use [the design template](templates/design-map.md) for that decision.
@@ -27,7 +27,7 @@
 
 ## Implement and check
 
-- Adapt the inspected pattern. Resolve design signals using [principles](principles.md#guardrails) rather than reshaping code solely to satisfy a number.
+- Adapt the inspected pattern only if it still fits. Resolve [design signals](principles.md#guardrails) before editing; remove unnecessary machinery in the affected design and prove its required invariants still hold.
 - For new behavior, batch its tests and confirm they fail for the intended missing behavior before changing production code.
 - Finish a coherent code-and-test change before targeted validation. Run an earlier check only for a named compiler or type uncertainty.
 - Extend owning scenarios for changed behavior. Cover relevant failures and edges at the boundary responsible for them: core tests substitute ports; adapter tests cross the real external boundary; frontend tests exercise behavior and accessibility.

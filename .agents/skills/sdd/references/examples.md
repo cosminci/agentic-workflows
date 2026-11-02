@@ -69,6 +69,10 @@ object UserRepository:
 
 The naming is `LiveUserRepository`, never the truncated `LiveUser`. The trait/factory/result belong together; the example's storage contract must actually provide this operation's domain-valid outcomes. Apply the effect wrapper/capability injection of the selected profile rather than copying direct style into Typelevel.
 
+## Library integration
+
+In an http4s/Circe/Iron stack, middleware owns shared HTTP concerns; entity decoding, codecs and refinement integration own representation conversion. Application code supplies business policy and preserves the boundary's error contract.
+
 ## Intelligible table scenarios
 
 The historical `s"should return ${WateringAttention.Current} ..."` names the actual variant, preventing stale hard-coded wording after a rename. Tables preserve that property and make each scenario's roles explicit:
@@ -109,7 +113,7 @@ For keyed chapter identity use For; for positional primitive page-number rows us
 
 ## Review replays
 
-For every changed review gate, record the actual candidate, rejected/accepted result, rule and consequence. These controls are semantic tests, not a symbol-name blacklist or substitute for the real missed case.
+For every changed review gate, record the actual candidate, result, rule and consequence. `Discuss` requires design analysis, then a defect-backed `Block` or justified `Pass`; a signal alone cannot determine the verdict.
 
 | Candidate | Required verdict | Rule and concrete consequence |
 | --- | --- | --- |
@@ -124,8 +128,18 @@ For every changed review gate, record the actual candidate, rejected/accepted re
 | Unnecessary batch/scope added to a per-item operation | Block | Caller-shaped API: no consumed fact or decision justifies global work. |
 | Single operation wrapped in Either then immediately unwrapped | Block in direct style | No dependent composition; the public ADT already expresses the outcome. |
 | Dependent direct-style steps adapted to Either with lazy adjacent compensation | Pass | Sequencing is linear and both primary/compensation failures remain explicit. |
-| Formatter passes but nested expected result and assertion span a screen | Block | Readable density requires meaningful expected/actual intermediates. |
+| Formatter passes but nested expected result and assertion span a screen | Discuss | Determine whether construction hides a distinct responsibility or meaningful operands would clarify the complete outcome. |
 | Large cohesive unit with same-level statements and recorded reason | Pass | Approximate size signal is inspected, not an automatic exception. |
+| Trait exposes primitive operations alongside a workflow calling those operations | Block | API cohesion: orchestration and its building blocks are not sibling operations. |
+| Cohesive trait exposes complementary same-level operations, composed by an injected caller | Pass | Composition preserves a small vocabulary without imposing artificial layers or one-method traits. |
+| New near-duplicate API handles a variant the existing contract cannot express | Block | Contract evolution: overlapping paths can drift; reassess the original API and migrate its callers. |
+| Existing contract evolves with its callers while preserving required guarantees | Pass | Better understanding improves the building block instead of multiplying competing APIs. |
+| Shallow method has many parameters or a comprehension statement spans lines | Discuss | Identify the responsibility or abstraction-level defect; a cohesive same-level operation may remain unchanged. |
+| Pass-through helper merely hides the same wide call and claims to resolve its design defect | Block | Parameter relocation leaves the identified defect unresolved. |
+| Two substantial assertion operands remain inline in a compact multiline assertion | Pass | Readability: extracting both solely to save one line adds no clarity. |
+| Mixed generators and pure bindings have a demonstrated same-level cohesive reason | Pass | Same-level data preparation needs neither a new service nor a pure helper lifted into an effect. |
+| Home-NAS deployment gains coordination machinery without a supported requirement | Block | Complexity budget: added operating burden has no required guarantee to justify it. |
+| Manual JSON/refinement plumbing duplicates supported library integration | Block | Library leverage: redundant mechanics create extra maintenance and error-handling paths. |
 | Source-accurate acceptance checklist recast as design prose | Block | Living-doc altitude: feature walkthroughs are not strategic system context. |
 | Individual test scenarios/fixtures recast as testing strategy | Block | Testing owns risks and proof boundaries, not a scenario catalog. |
 | Copied schema/catalog/configuration inventories recast as context | Block | Authoritative definitions now have a stale duplicate owner. |
