@@ -19,7 +19,7 @@
 - Preserve the document's purpose, existing contents and abstraction level. Each addition must change the reader's system-level understanding and belong to that document's stated ownership.
 - Contracts links authoritative definitions and explains only boundary semantics necessary to interpret them. Implementation names, parsing algorithms, character-handling rules and field-state catalogs stay in their authoritative source; link that source where needed. Document a boundary guarantee only when its interpretation is necessary and not already explained by the linked definition.
 - Keep feature walkthroughs in proposals, individual test results in work state and configuration values in configuration.
-- Add a specialist document only for shared knowledge that has no existing owner. Link it from the document where a reader would need it; keep engineering instructions within the guidance budget.
+- Add a specialist document only for shared knowledge that has no existing owner. Link it from the document where a reader would need it.
 - Check that the resulting document explains the current system without requiring feature history. Distinguish available behavior from recommendations.
 - Describe package responsibilities, not class inventories. Operations records each available alert's severity, meaning and runbook location.
 

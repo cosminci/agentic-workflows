@@ -27,4 +27,3 @@ description: Use for product changes, investigations, change specs and living-do
 - Preserve other agents' edits; use a separate worktree when another agent owns the checkout.
 - Production-state changes, destructive operations and rule exceptions require explicit scoped authorization.
 - Publication requires execution/local checks and review; merge requires maintainer authorization.
-- Shared guidance and project-local instructions fit 800 physical lines; the resolver's `check` enforces that limit. This limits instruction size, not complexity or reading cost.

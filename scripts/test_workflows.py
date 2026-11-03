@@ -51,19 +51,25 @@ class WorkflowTest(unittest.TestCase):
         return output.getvalue()
 
     def test_should_validate_shared_and_effective_guidance(self):
-        self.assertLessEqual(workflows.validate(None), workflows.LIMIT)
-        self.assertLessEqual(workflows.validate(self.project), workflows.LIMIT)
+        self.assertIsNone(workflows.validate(None))
+        self.assertIsNone(workflows.validate(self.project))
 
     def test_should_reject_missing_shared_owner(self):
         (self.reference / workflows.SKILL / "principles.md").unlink()
         with self.assertRaisesRegex(ValueError, "missing shared"):
             workflows.validate(None)
 
-    def test_should_reject_local_instruction_overflow(self):
+    def test_should_accept_complete_local_guidance(self):
         directory = self.project / ".github/instructions"
         directory.mkdir(parents=True)
-        (directory / "policy.md").write_text("\n" * (workflows.LIMIT + 1))
-        with self.assertRaisesRegex(ValueError, "physical lines"):
+        (directory / "policy.md").write_text("# Policy\n\n" * 1000)
+        workflows.validate(self.project)
+        manifest = json.loads(self.output(workflows.context, self.project, None))
+        self.assertTrue(Path(manifest["entrypoint"]).is_file())
+
+    def test_should_reject_invalid_local_markdown_wrapping(self):
+        (self.project / "AGENTS.md").write_text("First line\ncontinued prose\n")
+        with self.assertRaisesRegex(ValueError, "invalid Markdown wrapping"):
             workflows.validate(self.project)
 
     def test_should_reject_owner_escape(self):

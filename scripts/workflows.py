@@ -7,7 +7,6 @@ from check_markdown_wrapping import check
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = Path(".agents/skills/sdd")
-LIMIT = 800
 PROFILES = {"typelevel", "direct-style"}
 CORE_FILES = ("SKILL.md", "executor.md", "reviewer.md", "principles.md", "conventions.md",
               "context.md", "templates/change-spec.md", "templates/design-map.md",
@@ -64,7 +63,7 @@ def require_entrypoints(project: Path, owner: Path) -> None:
             raise ValueError(f"missing local entrypoint: {path}")
 
 
-def validate(project: Path | None) -> int:
+def validate(project: Path | None) -> None:
     for name in CORE_FILES + tuple(f"profiles/{profile}.md" for profile in PROFILES):
         if not (ROOT / SKILL / name).is_file():
             raise ValueError(f"missing shared guidance: {name}")
@@ -74,14 +73,10 @@ def validate(project: Path | None) -> int:
         profile, owner = configuration(project)
         require_entrypoints(project, owner)
         files = shared_files(profile) + local_files(project, owner)
-    total = sum(len(path.read_text().splitlines()) for path in files)
-    if total > LIMIT:
-        raise ValueError(f"guidance has {total} physical lines; limit is {LIMIT}")
     for path in files:
         errors = check(path)
         if errors:
             raise ValueError(f"{path}: invalid Markdown wrapping: {errors}")
-    return total
 
 
 def context(project: Path, revision: str | None) -> None:
@@ -98,10 +93,6 @@ def context(project: Path, revision: str | None) -> None:
         result = subprocess.run(["git", "-C", str(ROOT), "show", f"{revision}:{relative}"],
                                 text=True, capture_output=True, check=True)
         contents[relative] = result.stdout
-    total = sum(len(text.splitlines()) for text in contents.values())
-    total += sum(len(path.read_text().splitlines()) for path in local_files(project, owner))
-    if total > LIMIT:
-        raise ValueError(f"guidance has {total} physical lines; limit is {LIMIT}")
     for name in CORE_FILES + (f"profiles/{profile}.md",):
         if SKILL / name not in contents:
             raise ValueError(f"shared revision lacks required source: {name}")
@@ -130,7 +121,7 @@ def context(project: Path, revision: str | None) -> None:
         target.write_text(text)
         paths.append(str(target))
     print(json.dumps({"reference": str(ROOT), "revision": revision, "project": str(project),
-                      "owner": str(owner), "profile": profile, "guidanceLines": total,
+                      "owner": str(owner), "profile": profile,
                       "entrypoint": str(destination / "SKILL.md"),
                       "profileFile": str(destination / "profiles" / f"{profile}.md"),
                       "localGuidance": str(project / SKILL / "local.md"),
@@ -146,7 +137,8 @@ def main() -> None:
     project = args.project.resolve() if args.project else None
     try:
         if args.command == "check":
-            print(f"{validate(project)}/{LIMIT} guidance lines")
+            validate(project)
+            print("Guidance validated")
         elif project is None:
             raise ValueError("context requires --project")
         else:
