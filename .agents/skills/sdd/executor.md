@@ -4,24 +4,26 @@
 
 - Read project entrypoints and task-relevant sources. On resumption, reuse recorded decisions and results; reread changed sources or those needed for a new question.
 - Keep scope, baseline, workflow revision, decisions, test mapping and check results in ignored `.agent-work/<slug>/state.md`.
-- For an investigation, establish the cause from evidence before choosing a repair. Record tested hypotheses and their results.
+- For an investigation, establish the cause from evidence before choosing a repair; no-change and inconclusive findings are valid reports, not repair authority. Keep observations, hypotheses and conclusions distinct; record tested hypotheses, supporting and contradicting evidence, confidence and remaining unknowns.
 - Require a spec for a new user-visible capability, changed supported contract/lifecycle or unresolved product behavior. Restoring agreed behavior, internal refactoring and documentation corrections need none.
 - Without a spec, review against existing behavior, contracts and engineering rules.
 
 ## Understand and decide
 
-- Read each changed boundary's implementation, callers and tests; apply [contract evolution](principles.md#evolve-existing-responsibilities) before choosing the implementation.
+- The maintainer owns problem intent, requirements, scope, acceptance criteria and significant design decisions. Investigate facts independently, develop a concrete recommendation and distinguish established requirements, proposed choices and approved decisions.
+- Before drafting, read relevant code, tests and prior decisions, including each changed boundary's implementation, callers and tests; apply [contract evolution](principles.md#evolve-existing-responsibilities) before choosing the implementation. Ask only about intent or consequential choices evidence cannot resolve; reuse supplied intent and approved decisions unless contradictory evidence reopens them, blocking only affected work.
 - For domain work, trace existing concepts, valid states, transitions and use cases to their consumers. Apply the evolution rules in principles.
 - Proceed with approved additions when precedent fits and existing responsibilities and guarantees are preserved.
 - Ask before introducing or moving a responsibility, changing previously agreed guarantees, choosing an unresolved product tradeoff or taking a rule exception. Use [the design template](templates/design-map.md) for that decision.
-- Investigate only named behavior, ownership or feasibility questions. Stop when answered; reopen decisions only for contradictory evidence.
+- Investigate only named behavior, ownership or feasibility questions; stop when answered and reopen decisions only for contradictory evidence. Diagnosis inspects the existing model; return unresolved intended behavior or redesign to the maintainer, planning a repair only when its cause and expected behavior are established.
+- Use brainstorming, grilling, domain modeling or a prototype/spike only for a named uncertainty; agree on a session before starting it. If declined, ask directly for missing decisions or proceed when sufficiently clear; routine investigation and execution choices remain within authorized scope.
 - Inspect existing UX in the application. When inspection cannot answer a material question, agree on an experiment's question, evidence and budget before running it.
 - An approved experiment defaults to Haiku 5.5, targets 10 minutes and stops at 15 minutes of active work. Continuing or changing the model requires approval; report an unavailable model.
 - Check the experiment once; coverage may be skipped. Keep it isolated and uncommitted; stop owned services and remove its resolved worktree unless retained for an agreed comparison.
 
 ## Spec
 
-- Use [the change template](templates/change-spec.md), current living documentation and confirmed evidence; its model evolution is required reviewed spec content, alongside observable behavior and guarantees.
+- Use [the change template](templates/change-spec.md), current living documentation and confirmed evidence; its model evolution is required reviewed spec content, alongside observable behavior and guarantees. Develop the recommendation and expose unresolved choices in the spec PR; its approval covers the stated behavior and concrete design together, while implementation waits for authorized merge.
 - Use tables or diagrams for contracts and transitions; prose adds only missing information.
 - Check acceptance, concrete model evolution and documentation ownership before publication; expose unresolved design decisions in the spec PR. Implementation begins after its authorized merge; later model changes follow the amendment rule below.
 
