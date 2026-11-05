@@ -26,7 +26,7 @@ Short observable criteria, including relevant failure/boundary/accessibility cas
 
 ## Doc Sync
 
-Owning document/section and the change to enduring system understanding. Link authoritative details; say `None` when unchanged.
+Default to `None`. Under [context policy](../context.md), identify the strategic statement made false or the necessary strategic understanding missing, then its owning document/section and durable delta. Link authoritative details.
 
 Add existing invariants, actual tradeoffs or unresolved scope only when useful; alternatives reflect approaches meaningfully considered, and scope exclusions have a stated reason and remain proposed until agreed. A linked [design decision](design-map.md) may carry concrete shapes and signatures as committed spec review content; file layouts, diffs and test inventories remain implementation work.
 - Inspect the rendered proposal: each criterion states one observable behavior, each section adds unique information and each tradeoff names the actual cost and who bears it.

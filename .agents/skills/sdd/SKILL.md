@@ -12,10 +12,11 @@ description: Use for product changes, investigations, change specs and living-do
 | When | Read |
 | --- | --- |
 | Starting work, including investigation or clarification | Project AGENTS, project `.agents/skills/sdd/local.md` and [execution: understand and decide](executor.md#understand-and-decide) |
+| Writing responses, proposals, documentation or reviews | [Concise writing](writing/SKILL.md) |
 | Changing domain, use cases or ports | [Principles](principles.md); use the [design decision](templates/design-map.md) when execution requires approval |
 | Implementing | [Principles](principles.md), [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); load its examples and local contracts for each changed surface |
 | Writing a proposal | [Change template](templates/change-spec.md), [principles](principles.md) and [spec gates](references/quality-gates.md#spec-and-completion); model evolution is mandatory review content |
-| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); [review protocol](reviewer.md) and [review template](templates/review.md) for independent review |
+| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); [review protocol](reviewer.md) and [review template](templates/review.md) for self-review and required independent review |
 | Planning Doc Sync or changing living docs | [Context policy and templates](context.md) |
 
 ## Approvals and delivery

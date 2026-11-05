@@ -25,7 +25,7 @@
 - A transaction proves atomicity, not the safety of an earlier business decision.
 - An event recorded after it happened takes its timestamp from the caller, not the server clock.
 - The boundary converts local entry to an absolute instant, validates it and preserves it.
-- Code, contracts and UI share domain vocabulary.
+- Code, contracts, UI, proposals, living documentation, reviews and agent responses share the project's established domain vocabulary. Before naming a concept, inspect its existing names in authoritative sources; reuse the established term rather than introducing a synonym.
 - New terms require a real distinction and maintainer agreement.
 
 ## Where rules belong

@@ -12,11 +12,13 @@
 | Proposal and linked spec design / ignored work state | Feature criteria, reasons and reviewed domain/use-case/port evolution / test mappings, command results and approval evidence |
 | Schemas/configuration/reference data | Exact representations, inventories and values |
 
-- Doc Sync lists changes to enduring system understanding. Integrate them into the owning section and remove obsolete explanation.
+- Doc Sync defaults to `None`. Propose an edit only when delivery makes an existing strategic statement false or leaves necessary strategic understanding missing: purpose, responsibilities, interactions, lifecycles or shared guarantees and their decision-relevant rationale. Identify that statement or missing understanding before drafting; shipping a feature alone does not qualify.
+- Integrate qualifying changes into the owning section and remove obsolete explanation. A Doc Sync entry is a proposal to verify against delivered behavior, not an obligation to add text; discard entries that no longer qualify.
 - Before writing, read the whole affected document and the source that establishes its current facts. Explain each concept once; link exact details instead of copying them.
 - When evolving standards, map each replaced obligation to its retained or stronger rule; restore lost scope or evidence requirements before completion. Weakening a guardrail requires explicit scoped maintainer approval.
 - Living system documentation contains strategic guidelines: system purpose, responsibility boundaries, interactions, guarantees and the rationale needed to guide decisions. Code, schemas and configuration own implementation details and exact definitions; living docs link those sources rather than duplicate or narrate them.
 - Preserve the document's purpose, existing contents and abstraction level. Each addition must change the reader's system-level understanding and belong to that document's stated ownership.
+- Reject misplaced detail rather than merely shortening it. Keep accurate operational instructions and other existing document-owned obligations; strategic abstraction does not excuse removing necessary recovery, safety or contract interpretation.
 - Contracts links authoritative definitions and explains only boundary semantics necessary to interpret them. Implementation names, parsing algorithms, character-handling rules and field-state catalogs stay in their authoritative source; link that source where needed. Document a boundary guarantee only when its interpretation is necessary and not already explained by the linked definition.
 - Keep feature walkthroughs in proposals, individual test results in work state and configuration values in configuration.
 - Add a specialist document only for shared knowledge that has no existing owner. Link it from the document where a reader would need it.

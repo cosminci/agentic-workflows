@@ -1,12 +1,21 @@
-# Independent review
+# Review
+
+## Self-review
+
+- Review every candidate file from source using [the review template](templates/review.md) and every applicable quality gate, including architecture, conventions, selected stack/local contracts and concrete examples. Re-derive conclusions from approved requirements and the final candidate; earlier implementation statuses are not evidence of correctness.
+- Record the exact candidate, coverage, findings and their resolution in ignored work state. Preserve decision provenance: approved intent constrains the review; exceptions still require maintainer authorization.
+- Verify repairs and affected late changes against the actual candidate, including their consequences and affected checks. Finish only when all candidate files are accounted for, findings are resolved and required checks pass.
+
+## Independent review
 
 - Execution and local policy decide whether independent review is required. When required, use one review phase per PR and [the review template](templates/review.md).
-- Start a fresh, messageable reviewer with scope, baseline/candidate, sources and report path; save its ID. It reads source before assessing conclusions; present disputed questions without a predetermined verdict.
+- Start a fresh, messageable reviewer with scope, baseline/candidate, approved requirements, decisions and constraints, sources, unresolved questions and report path; save its ID. Distinguish approved intent from implementer conclusions. It reads source before assessing conclusions; present disputed questions without a predetermined verdict.
 - Apply [quality gates](references/quality-gates.md), selected stack/local contracts and their concrete examples independently of executor statuses. Architecture and conventions block a pass even when tests pass; assess every applicable gate, not only high-severity runtime bugs.
 - Account for every candidate file. Check precedent fit for adaptations; trace states, owners, consumers and failures more deeply when they changed.
 - Reuse applicable preparatory evidence; independently verify conclusions, not every preparatory command.
 - Report the candidate, files inspected, findings and unresolved questions. Each finding names the rule, source location and concrete consequence; a design signal needs analysis under [guardrails](principles.md#guardrails), not a threshold-only verdict.
 - The reviewer neither edits nor grants merge permission. The implementer fixes findings or rejects them with source evidence; only the maintainer approves exceptions.
+- Reviewer suggestions do not override approved intent. Verify each finding's rule, source evidence and consequence before adopting it; return proposed scope or guarantee changes to the maintainer.
 - Send repairs and affected late changes to the same reviewer. Independently verify those changes and their consequences against the actual candidate. Ensure affected checks cover that candidate; reuse applicable passing results unless the repair or review introduces changed evidence or a new question.
 - Replace an unavailable reviewer with the saved report and remaining questions. Repeat the whole review only by explicit decision.
 - Finish when every candidate file is accounted for, findings are resolved, repairs are verified and required checks pass.

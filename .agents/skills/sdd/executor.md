@@ -3,6 +3,7 @@
 ## Start
 
 - Read project entrypoints and task-relevant sources. On resumption, reuse recorded decisions and results; reread changed sources or those needed for a new question.
+- Do the work yourself. Use a subagent for required independent review. Any other delegation requires a concrete blocker showing the task cannot be completed correctly without a subagent and maintainer approval before launching. Convenience, speed, parallelism and task size alone do not justify delegation. A preference for direct execution does not prohibit required independent review.
 - Keep scope, baseline, workflow revision, decisions, test mapping and check results in ignored `.agent-work/<slug>/state.md`.
 - For an investigation, establish the cause from evidence before choosing a repair; no-change and inconclusive findings are valid reports, not repair authority. Keep observations, hypotheses and conclusions distinct; record tested hypotheses, supporting and contradicting evidence, confidence and remaining unknowns.
 - Require a spec for a new user-visible capability, changed supported contract/lifecycle or unresolved product behavior. Restoring agreed behavior, internal refactoring and documentation corrections need none.
@@ -34,9 +35,10 @@
 - Finish a coherent code-and-test change before targeted validation. Run an earlier check only for a named compiler or type uncertainty.
 - Extend owning scenarios for changed behavior. Cover relevant failures and edges at the boundary responsible for them: core tests substitute ports; adapter tests cross the real external boundary; frontend tests exercise behavior and accessibility.
 - Run the smallest existing checks that cover the change, then any additional checks required for publication. Reuse results while their code and dependencies remain unchanged.
-- Perform one self-check of changed behavior, ownership and applicable conventions. Fix findings and rerun affected checks; settled areas need no repeat inspection.
+- Perform a fresh self-review of the exact final candidate using [the review protocol and template](reviewer.md), reassessing source against every applicable quality gate rather than accepting implementation reasoning or earlier pass statuses. Fix findings and rerun affected checks; reopen affected conclusions after repairs or late edits, without repeating unaffected checks.
 - Fill [quality gates](references/quality-gates.md) from actual changed declarations/calls/suites and named evidence; load the selected surface's examples/local contracts. Spec and completion checks cover every criterion and edge case, not just nearby passing tests.
 - Independent review is required for new/moved responsibilities, changes to previously supported guarantees, concurrency/resource-safety changes, rule exceptions or local/maintainer requirements. Approved additions preserving existing guarantees otherwise finish with the self-check; use [the review protocol](reviewer.md) when required.
+- Self-review does not replace required independent review. If that review is unavailable or prohibited, complete permitted work and report the unmet requirement as a blocker; do not silently waive it or claim completion.
 - Demonstrate only for a named journey risk unproven by tests or a maintainer request. Agree on the scenario; obtain confirmation before publishing.
 - For an amendment discovered during implementation, obtain scoped maintainer approval and update affected spec criteria before its tests and code. That approval permits implementation without another spec-only merge unless local policy or the maintainer requires one. Include the amended spec in the implementation PR and perform any required review; reopen only affected decisions and checks.
 - For spec-backed work, maintain the spec's Doc Sync delta during implementation; apply it to living documentation in the archive phase. For work without a spec, include directly related documentation updates with implementation.
