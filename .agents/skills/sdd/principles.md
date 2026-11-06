@@ -1,5 +1,7 @@
 # Design principles
 
+The [eight fundamental engineering rules](foundations.md) govern these detailed rules. Apply both; language profiles and local contracts do not reduce the foundations.
+
 ## Complexity
 
 - Keep complexity at bay. For the affected design, identify required invariants, remove machinery that serves none and prove those invariants still hold; obtain approval when simplification crosses authorized scope.

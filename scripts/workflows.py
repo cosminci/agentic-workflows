@@ -8,7 +8,7 @@ from check_markdown_wrapping import check
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = Path(".agents/skills/sdd")
 PROFILES = {"typelevel", "direct-style"}
-CORE_FILES = ("SKILL.md", "executor.md", "reviewer.md", "principles.md", "conventions.md",
+CORE_FILES = ("SKILL.md", "executor.md", "reviewer.md", "foundations.md", "principles.md", "conventions.md",
               "context.md", "templates/change-spec.md", "templates/design-map.md",
               "templates/review.md")
 

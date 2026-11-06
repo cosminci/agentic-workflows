@@ -5,6 +5,7 @@ description: Use for product changes, investigations, change specs and living-do
 # SDD
 
 - Follow [execution](executor.md); adapt existing patterns within authorized scope.
+- Read [the eight fundamental engineering rules](foundations.md) for all work. They govern every repository and stack; SDD and local guidance may strengthen but never weaken them.
 - Resolver fields: `project` is the Git root; `owner` contains product documentation and commands.
 
 ## Context routing

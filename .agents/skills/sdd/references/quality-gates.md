@@ -6,6 +6,8 @@ Record `pass`, `fail` or `not applicable` for every applicable check with `file:
 
 ## Architecture
 
+Verify all [eight fundamental engineering rules](../foundations.md) against the affected source, contracts and checks. Record compliance or a concrete inapplicability reason for each; a local-only gate or missing automation does not waive a universal obligation. Check explicit business interfaces, external/internal model separation, 100% coverage, zero-warning strict analysis/compiler settings and automated dependency updates as well as the detailed checks below.
+
 | Check | Required evidence | Blocking example and consequence |
 | --- | --- | --- |
 | Continuity | Trace trigger → authoritative state → acquisition → transformations → retained result → publication → all consumers; try reuse, then evolution, before separation. | A second reader rebuilds an already prepared snapshot for another endpoint: divergent selection and normalization now have two owners. |
@@ -58,7 +60,7 @@ A seam crosses the adapter's actual HTTP exchange, database engine, filesystem, 
 - Builders create substitutes for actual collaborators; pure modules need none. Share only nontrivial multi-suite setup owning knowledge, not constructor aliases or small independent domain examples. Direct-style substitutes use the existing TestImplicits/Mocks contract.
 - Suites name real runtime boundaries, not result ADTs, private traversals or feature buckets. Component tests substitute ports; adapters prove their own shape/order/validity once at real seams rather than through each consumer. Structural architecture policy uses one plainly named ArchitectureTest with one test.
 - Suppressions require site-specific proof, smallest declaration scope and full rule ID; for example `minBy` after a proven nonempty guard. A reason does not authorize disabling an unsafe operation or weakening a gate; comment/directive exceptions follow the selected profile and explicit local contract.
-- Preserve configured compiler, formatter, lint, architecture, dependency-update and coverage gates. Pin introduced dependencies and demonstrate their needed capability. Existing zero-warning/100%-coverage and contract-generation requirements stay local, not downgraded to recommendations.
+- Preserve configured compiler, formatter, lint, architecture, dependency-update and coverage gates. Pin introduced dependencies and demonstrate their needed capability. Zero warnings and 100% coverage are universal foundations; local contracts own their tooling and any additional contract-generation requirements, not permission to weaken them.
 
 ## Frontend inventory
 
