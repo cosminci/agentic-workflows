@@ -6,7 +6,20 @@ Read for implementation and review of the corresponding surface under [quality g
 
 `findCreationConflict` returns an optional conflict; `hasCreationConflict` answers a Boolean. `maybeDescription` and `maybeNickname: Option[Nickname]` expose absence. `orderedChapters` and `wateredPlantOperations` expose the established fact; `processed` and `watered` conceal it.
 
-Name arguments whose values hide their role: `maybeNote = None`, `date = Instant.parse(...)`, `share = 100`, `chapters = Nil`. Self-describing `PlantId`/`AlbumId` values may remain positional. This applies equally to a private helper, builder and captured collaborator call.
+The Scala [named-argument rule](../conventions.md#syntax) is mandatory: use `maybeNote = None`, `date = Instant.parse(...)`, `share = 100`, `chapters = Nil`. Distinct `PlantId`/`AlbumId` values can identify their roles without labels; a raw string or list cannot.
+
+### A bulky constructor argument
+
+`AcceptedIntent` wrapped because its metadata argument contained a refinement and another constructor. Extract the complete metadata value; label the absent fields. A factory alias would only hide the same construction.
+
+```scala
+val readyMetadata = ImportReadyMetadata(metadata.refineUnsafe[ImportReadyMetadata.Valid])
+val intent = AcceptedIntent(
+  candidate, readyMetadata, maybeRuntimeMinutes = None, maybeCover = None, original = measurements, maybeRecording = None
+)
+```
+
+Apply the same repair when one nested result expands an assertion.
 
 ```scala
 val hasCreationConflict = existingNames.contains(requestedName)
@@ -88,7 +101,7 @@ val scenarios = List(
 scenarios.foreach { case Scenario(attention, expectsWarning) =>
   test(s"should report watering warning for $attention") {
     val plant = buildPlant(attention)
-    val expectedResult = AttentionView(plant.id, attention, expectsWarning)
+    val expectedResult = AttentionView(plant.id, attention, expectsWarning = expectsWarning)
 
     val actualResult = attentionView.show(plant)
 
@@ -97,9 +110,25 @@ scenarios.foreach { case Scenario(attention, expectsWarning) =>
 }
 ```
 
-These are illustrative role-labeled rows; use the repository's actual scenario type/builder. An unlabeled `(true, false, true)` matrix cannot tell the reviewer which behavior each flag controls. A suite-local Scenario record makes tuple roles explicit; assert named call observations rather than positional flag sequences.
+These are illustrative role-labeled rows; use the repository's actual scenario type/builder. `(true, false, true)` and a named-tuple type annotation still leave the row values unexplained. Use named fields at construction; assert named call observations.
 
-Use `buildX(refs, scenarioResponse)` only when calls/effects are asserted; otherwise `buildX()` suffices. Refs observes calls, never supplies stub responses. The builder returns only the component, not `(component, fixtures, expectedResults)`; each scenario owns its local domain facts and expected full outcome.
+Supply fixed responses directly: `buildX(response = scenarioResponse)`. Add observations only when calls/effects are asserted: `buildX(refs, response = scenarioResponse)`. The builder returns only the component; each scenario owns its local domain facts and expected full outcome.
+
+### Named setup controls
+
+`(buildOwner(), Deferred[IO, Unit], expected).tupled` mixes construction, synchronization and assertion data. Its reader must inspect the builder to decode the tuple. Keep expected data local and allocate each effect by role:
+
+```scala
+val expectedResult = ImportResult.Completed(original)
+for
+  dispatchEntered <- Deferred[IO, Unit]
+  releaseDispatch <- Deferred[IO, Unit]
+  owner <- buildOwner(dispatchEntered = dispatchEntered, releaseDispatch = releaseDispatch)
+  actualResult <- owner.execute(candidate)
+yield assertEquals(actualResult, expectedResult)
+```
+
+An existing library's key/value pair, such as `Map[ReadResult, ImportProblem]`, expresses one association. It does not justify `(owner, input, release, expected)` or a fixture record containing the same unrelated values.
 
 Construct domain-valued inputs and substituted port responses with checked refinements before Act. Reuse those values in a whole-domain expected result. A standalone expected text catalog uses underlying strings and safely widens actual values instead of repeating autoRefine at every literal; rejection scenarios still prove invalid input is rejected.
 
@@ -129,6 +158,10 @@ For every changed review gate, record the actual candidate, result, rule and con
 | Single operation wrapped in Either then immediately unwrapped | Block in direct style | No dependent composition; the public ADT already expresses the outcome. |
 | Dependent direct-style steps adapted to Either with lazy adjacent compensation | Pass | Sequencing is linear and both primary/compensation failures remain explicit. |
 | Formatter passes but nested expected result and assertion span a screen | Discuss | Determine whether construction hides a distinct responsibility or meaningful operands would clarify the complete outcome. |
+| `AcceptedIntent(candidate, ImportReadyMetadata(metadata.refineUnsafe[Valid]), None, None, measurements, None)` | Block | Named arguments and bulky operands: absent fields are ambiguous and one nested value needlessly expands the constructor. |
+| Named `readyMetadata` plus named absent fields in a compact `AcceptedIntent` call | Pass | The complete refined metadata and intent remain visible; each absent field has a role. |
+| `(owner, input, release, expected)` returned from setup, or unlabeled multi-field table rows | Block | Semantic setup: decoding fixture roles requires reading machinery and assertions. |
+| Named local inputs/expectations, named control allocations and a builder returning only the owner | Pass | Setup roles are visible at the scenario; no fixture bundle hides them. |
 | Large cohesive unit with same-level statements and recorded reason | Pass | Approximate size signal is inspected, not an automatic exception. |
 | Trait exposes primitive operations alongside a workflow calling those operations | Block | API cohesion: orchestration and its building blocks are not sibling operations. |
 | Cohesive trait exposes complementary same-level operations, composed by an injected caller | Pass | Composition preserves a small vocabulary without imposing artificial layers or one-method traits. |
@@ -141,6 +174,8 @@ For every changed review gate, record the actual candidate, result, rule and con
 | Home-NAS deployment gains coordination machinery without a supported requirement | Block | Complexity budget: added operating burden has no required guarantee to justify it. |
 | Manual JSON/refinement plumbing duplicates supported library integration | Block | Library leverage: redundant mechanics create extra maintenance and error-handling paths. |
 | Source-accurate acceptance checklist recast as design prose | Block | Living-doc altitude: feature walkthroughs are not strategic system context. |
+| A diagram's dispatch/checkpoint order repeated in an adjacent paragraph or another document | Block | One fact has two owners; clearer wording does not remove the duplicate. |
+| Lifecycle diagram plus an invariant explaining which uncertain effect prevents cleanup | Pass | The invariant answers a safety question the arrows do not answer. |
 | Individual test scenarios/fixtures recast as testing strategy | Block | Testing owns risks and proof boundaries, not a scenario catalog. |
 | Copied schema/catalog/configuration inventories recast as context | Block | Authoritative definitions now have a stale duplicate owner. |
 | System-level lifecycle/sequence diagram with essential consistency guarantees | Pass | Design explains enduring relationships and decisions. |

@@ -5,7 +5,7 @@
 - Functions and helpers use action or predicate names.
 - Name values for the fact they establish, not the helper that created them.
 - Optional values use the `maybe` prefix.
-- Name arguments whose types conceal their roles; self-describing domain values remain positional.
+- Make argument roles visible with the language's call syntax or named values.
 - Use imports instead of fully qualified paths.
 - Inspect readability after formatting.
 - Name meaningful conditions and expected values instead of extracting shallow helpers.
@@ -32,6 +32,7 @@
 
 ### Syntax
 
+- In Scala application calls with several arguments, named arguments are mandatory for literals, booleans, dates, collections and optional values, including `None` and `Nil`. Apply this to constructors, private calls, test builders and captured calls. Only distinct domain types that identify their roles may remain positional; library syntax keeps its established form.
 - Prefer Scala 3 significant indentation and optional-braces syntax where supported by the configured compiler and formatter.
 - Block arguments use braces or colon syntax at the call boundary; nesting a braced block inside parentheses is forbidden.
 - Multiline lambdas use braces or colon syntax, including standalone definitions.
@@ -39,6 +40,7 @@
 - Public APIs declare return types.
 - Runtime code has no default arguments.
 - Keep assignments and chains on one line when they fit.
+- When one bulky argument wraps an otherwise short call, extract that argument to a meaningfully named local value, then keep the call together. This applies to constructors, generators and assertions; a new helper or parameter bag is not the repair.
 - Follow configured line limits.
 - Destructure only when every field is required.
 - Tuple callbacks use named pattern matching, not positional selectors.
@@ -82,6 +84,8 @@
 - Builder arguments put observation Refs first.
 - At most one suite-local Refs records calls; it does not supply stub responses.
 - Captured call observations preserve named argument roles; test control flags through explicit scenarios.
+- Test setup uses named local values. Allocate effectful controls with named generators; pass dependencies and responses directly to builders. A setup tuple must not bundle a component, controls, inputs and expected results.
+- Table rows use named fields for one behavior. A key/value pair may express one association; larger tuples and named-tuple annotations do not replace named row fields. Keep resource controls and expected fixture data outside the row.
 - Suite order is reusable meaningful data, scenarios, Refs and builders.
 - Assertions normally occupy one line. If only one operand is complex, name it and keep the assertion on one line; when both operands require substantial construction, a compact multiline assertion may be clearer than extracting both solely to reduce line count.
 - Test names interpolate the actual domain variant under test.
@@ -91,6 +95,7 @@
 
 ## SolidJS / TypeScript
 
+- Use named values or existing options fields for positional arguments whose types conceal their roles. Assignment expressions are not parameter labels; a new options bag is not the repair.
 - Extend current style, dialog and feedback precedents.
 - Keep domain content primary and editing chrome quiet.
 - Source styles own presentation values and responsive treatment.
