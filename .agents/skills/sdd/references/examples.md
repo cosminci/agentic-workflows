@@ -178,6 +178,10 @@ For every changed review gate, record the actual candidate, result, rule and con
 | Lifecycle diagram plus an invariant explaining which uncertain effect prevents cleanup | Pass | The invariant answers a safety question the arrows do not answer. |
 | Individual test scenarios/fixtures recast as testing strategy | Block | Testing owns risks and proof boundaries, not a scenario catalog. |
 | Copied schema/catalog/configuration inventories recast as context | Block | Authoritative definitions now have a stale duplicate owner. |
+| Provided/consumed contracts list Scala classes or ports, with source links | Block | A code index gives clients no protocol, endpoint or exchange contract. |
+| OpenAPI defines `GET /api/audiobooks`, JSON/SSE `Accept` selection, payloads, `subscribed`/`changed` framing and reconnect/read semantics; provided boundaries only links that file | Pass | One standard wire contract lets clients and proxies interoperate without a copied inventory. |
+| HTTP paths/payloads are only a prose table because OpenAPI does not exist yet | Block | Author the standard contract; the table is not a substitute. |
+| Contract adds WebSocket transport because notifications exist, but the service emits SSE | Block | Invented transport gives consumers a protocol the application does not provide. |
 | System-level lifecycle/sequence diagram with essential consistency guarantees | Pass | Design explains enduring relationships and decisions. |
 | Risk-to-boundary testing strategy explaining why component tests are insufficient | Pass | Testing explains the confidence model without copied scenarios. |
 | Source-backed supported startup/recovery and monitoring gaps | Pass | Operations explains current capability and safe intervention. |
