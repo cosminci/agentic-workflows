@@ -16,7 +16,7 @@ CORE_FILES = ("SKILL.md", "executor.md", "reviewer.md", "foundations.md", "princ
 def git(*args: str) -> str:
     result = subprocess.run(["git", "-C", str(ROOT), *args], text=True, capture_output=True)
     if result.returncode:
-        raise ValueError(result.stderr.strip() or "shared checkout has no committed revision")
+        raise ValueError(result.stderr.strip() or "The shared checkout has no committed revision.")
     return result.stdout.strip()
 
 
@@ -46,12 +46,12 @@ def configuration(project: Path) -> tuple[str, Path]:
     config = json.loads((project / ".agents/workflows.json").read_text())
     profile = config["profile"]
     if not isinstance(profile, str) or not isinstance(config["owner"], str):
-        raise ValueError("workflow profile and owner must be strings")
+        raise ValueError("The workflow profile and owner must be strings.")
     owner = (project / config["owner"]).resolve()
     if profile not in PROFILES or not owner.is_relative_to(project) or not owner.is_dir():
-        raise ValueError("invalid workflow profile or owning directory")
+        raise ValueError("The workflow profile or owning directory is not valid.")
     if not (project / SKILL / "local.md").is_file():
-        raise ValueError("missing project-local guidance")
+        raise ValueError("The project-local guidance is missing.")
     return profile, owner
 
 
@@ -60,13 +60,13 @@ def require_entrypoints(project: Path, owner: Path) -> None:
                    owner / "DESIGN-PRINCIPLES.md"}
     for path in entrypoints:
         if not path.is_file():
-            raise ValueError(f"missing local entrypoint: {path}")
+            raise ValueError(f"The local entrypoint is missing: {path}")
 
 
 def validate(project: Path | None) -> None:
     for name in CORE_FILES + tuple(f"profiles/{profile}.md" for profile in PROFILES):
         if not (ROOT / SKILL / name).is_file():
-            raise ValueError(f"missing shared guidance: {name}")
+            raise ValueError(f"The shared guidance is missing: {name}")
     if project is None:
         files = local_files(ROOT, ROOT) + [ROOT / "README.md"]
     else:
@@ -76,14 +76,14 @@ def validate(project: Path | None) -> None:
     for path in files:
         errors = check(path)
         if errors:
-            raise ValueError(f"{path}: invalid Markdown wrapping: {errors}")
+            raise ValueError(f"{path}: Markdown wrapping is not valid: {errors}")
 
 
 def context(project: Path, revision: str | None) -> None:
     profile, owner = configuration(project)
     require_entrypoints(project, owner)
     if revision is None and git("status", "--porcelain"):
-        raise ValueError("shared checkout is dirty; commit or resolve its edits before starting a task")
+        raise ValueError("The shared checkout has uncommitted changes. Before a new task, commit or resolve those changes.")
     revision = git("rev-parse", "--verify", f"{revision or 'HEAD'}^{{commit}}")
     contents = {}
     for name in git("ls-tree", "-r", "--name-only", revision, str(SKILL)).splitlines():
@@ -95,24 +95,24 @@ def context(project: Path, revision: str | None) -> None:
         contents[relative] = result.stdout
     for name in CORE_FILES + (f"profiles/{profile}.md",):
         if SKILL / name not in contents:
-            raise ValueError(f"shared revision lacks required source: {name}")
+            raise ValueError(f"The shared revision has no mandatory source: {name}")
     destination = project / ".agent-work/workflows" / revision
     for directory in (project / ".agent-work", project / ".agent-work/workflows", destination):
         if directory.is_symlink():
-            raise ValueError(f"workflow snapshot path contains a symlink: {directory}")
+            raise ValueError(f"The workflow snapshot path contains a symlink: {directory}")
         if directory.exists() and not directory.is_dir():
-            raise ValueError(f"workflow snapshot path is not a directory: {directory}")
+            raise ValueError(f"The workflow snapshot path is not a directory: {directory}")
     expected = {path.relative_to(SKILL) for path in contents}
     if destination.exists():
         actual = {path.relative_to(destination) for path in destination.rglob("*") if path.is_file()}
         if actual != expected:
-            raise ValueError(f"workflow snapshot file set was modified: {destination}")
+            raise ValueError(f"The workflow snapshot file set was modified: {destination}")
         if any(path.is_symlink() for path in destination.rglob("*")):
-            raise ValueError(f"workflow snapshot contains a symlink: {destination}")
+            raise ValueError(f"The workflow snapshot contains a symlink: {destination}")
         for relative, text in contents.items():
             target = destination / relative.relative_to(SKILL)
             if target.read_text() != text:
-                raise ValueError(f"workflow snapshot was modified: {target}")
+                raise ValueError(f"The workflow snapshot was modified: {target}")
     destination.mkdir(parents=True, exist_ok=True)
     paths = []
     for relative, text in contents.items():
@@ -138,9 +138,9 @@ def main() -> None:
     try:
         if args.command == "check":
             validate(project)
-            print("Guidance validated")
+            print("The guidance check found no errors.")
         elif project is None:
-            raise ValueError("context requires --project")
+            raise ValueError("--project is mandatory for context.")
         else:
             context(project, args.revision)
     except (OSError, ValueError, KeyError, subprocess.CalledProcessError) as error:

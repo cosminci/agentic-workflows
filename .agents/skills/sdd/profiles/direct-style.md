@@ -1,32 +1,46 @@
 # Direct style
-- Use Java virtual threads and direct-style operations; introduce no Cats Effect or ZIO runtime.
-- Inject capabilities with `using`; substitute them through existing TestImplicits.
-- Either-valued names end in `Result`.
-- Adapt operation results to Either only for dependent composition, not a single wrap/unwrap.
-- Helpers return their own narrow data, not the caller's public result.
-- Attach lazy compensation beside its owning step; retain both failures if compensation also fails.
-- Prefer optics for nested immutable updates.
-- Use cases log business outcomes; adapters do not.
-- Composition logs startup and top-level failures.
-- Info records mutation action/entity ID or meaningful transitions; successful reads log nothing.
-- Error records unexpected failures with operation and cause.
-- Every log record occupies one line; never print a raw stack trace.
+
+- Use Java virtual threads and direct-style operations, without a Cats Effect or ZIO runtime.
+- Inject capabilities with `using`.
+- Use the project's TestImplicits for capability substitutes.
+- End Either-valued names with `Result`.
+- Adapt operation results to Either only for dependent composition, not one wrap/unwrap.
+- Return narrow helper data, not the caller's public result.
+- Attach lazy compensation next to its owning step.
+- Keep the primary and compensation failures.
+- Use optics for nested immutable updates.
+- Put business-outcome logs in usecases, not adapters.
+- Put startup and top-level failure logs in composition.
+- Use Info for mutation action/entity ID or business transitions.
+- Keep reads without errors silent.
+- Use Error for unexpected failures with operation and cause.
+- Put each log record on one line, without a raw stack trace.
 - Inject business MetricsApi ports with `using`.
-- Each MetricsApi call increments one counter or sets one gauge for a historical trend.
-- Current-state counts are gauges re-derived from reads, not accumulators.
-- Record metrics after successful work and compensation; never replay historical metrics on edit/delete.
-- HTTP RED and process/JVM USE metrics share a transport-owned registry.
-- Follow the [direct-style local quality contract](../references/local-contracts.md#direct-style) for business result ADTs, TypeScript imports, generated contracts and strict gates; preserve framework-required named bindings.
-- Component suites own real runtime types; structural suites use plain names.
-- Vitest uses componentTest, seamIntegrationTest and systemIntegrationTest suffixes by proved boundary.
-- Use existing stable ID builders instead of ad hoc literals.
-- Builders create every substitute and return only the component; ordinary response defaults are test-only.
-- Use Refs only when observed calls/effects are asserted.
-- Small test data stays local; only nontrivial multi-suite substitutes belong in TestImplicits/Mocks.
-- Create no cross-suite fixture-holder objects.
-- Declarative codecs stay private to their adapter; do not add encode/decode helper families.
-- Domain/HTTP logic remains measured; only genuine composition shells use existing exclusions.
-- Exception: put required coverage markers on their own lines and explain the exact exclusion/invariant immediately above COVERAGE-OFF.
-- Never exclude reachable failures or widen formatter/linter/coverage exclusions to pass.
-- Respect tapir's legitimate Any type parameter; it does not authorize Any casts or widening hacks.
-- Domain terms are English; translate foreign source vocabulary at the adapter.
+- Increment one counter or set one gauge for each MetricsApi call for a historical trend.
+- Derive current-state gauges from reads, not accumulators.
+- After work and compensation without errors, record metrics.
+- Keep historical metrics without changes on edit/delete.
+- Use one transport-owned registry for HTTP RED and process/JVM USE metrics.
+- Obey the [direct-style contract](../references/local-contracts.md#direct-style) for results, imports, generated contracts and strict gates.
+- Keep framework-mandatory named bindings.
+- Use shared trait ownership for backend suites.
+- Give mandatory structural suites names for their production owners.
+- Use Vitest componentTest, seamIntegrationTest and systemIntegrationTest suffixes for the boundary under test.
+- Use the project's stable ID builders, not literal IDs.
+- Create all substitutes in builders.
+- Return only the component from a builder.
+- Keep fixed response defaults in test code only.
+- Use Refs only for observed calls/effects with assertions.
+- Keep small test data local.
+- Put only multi-suite substitutes with a shared invariant and construction responsibility in TestImplicits/Mocks.
+- Keep cross-suite fixture-holder objects out.
+- Keep declarative codecs private to their adapter, without encode/decode helper families.
+- Keep domain/HTTP logic in coverage measurement.
+- Use the project's exclusions only for composition shells without domain/HTTP logic.
+- Put mandatory coverage markers on different lines.
+- Give the exclusion/invariant immediately before COVERAGE-OFF.
+- Keep reachable failures in coverage.
+- Keep formatter/linter/coverage exclusions without changes during check repairs.
+- Keep tapir's permitted Any type parameter, without Any casts or widening bypasses.
+- Use English domain terms.
+- Translate foreign source vocabulary at the adapter.

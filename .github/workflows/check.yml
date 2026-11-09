@@ -1,4 +1,4 @@
-name: Check workflows
+name: Workflow checks
 on:
   pull_request:
   push:

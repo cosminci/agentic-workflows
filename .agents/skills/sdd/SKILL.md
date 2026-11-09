@@ -1,31 +1,36 @@
 ---
 name: sdd
-description: Use for product changes, investigations, change specs and living-document synchronization.
+description: Use for product changes, investigations, change specs and updates to living docs.
 ---
 # SDD
 
-- Follow [execution](executor.md); adapt existing patterns within authorized scope.
-- Read [the eight fundamental engineering rules](foundations.md) for all work. They govern every repository and stack; SDD and local guidance may strengthen but never weaken them.
-- Resolver fields: `project` is the Git root; `owner` contains product documentation and commands.
+- Obey [execution](executor.md) in the scope of approval. Before you use a pattern, examine its design.
+- Read [the eight engineering rules](foundations.md) for all work. Local rules can increase these obligations, but cannot decrease them.
+- Use [STE100 and high-signal writing](writing/SKILL.md) for all prose. This rule includes guidance, responses, specs and reviews.
+- In resolver output, `project` is the Git root. The `owner` directory contains product docs and commands.
 
 ## Context routing
 
 | When | Read |
 | --- | --- |
-| Starting work, including investigation or clarification | Project AGENTS, project `.agents/skills/sdd/local.md` and [execution: understand and decide](executor.md#understand-and-decide) |
-| Writing responses, proposals, documentation or reviews | [Concise writing](writing/SKILL.md) |
-| Changing domain, use cases or ports | [Principles](principles.md); use the [design decision](templates/design-map.md) when execution requires approval |
-| Implementing | [Principles](principles.md), [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); load its examples and local contracts for each changed surface |
-| Writing a proposal | [Change template](templates/change-spec.md), [principles](principles.md) and [spec gates](references/quality-gates.md#spec-and-completion); model evolution is mandatory review content |
-| Reviewing or repairing | [Principles](principles.md), applicable [conventions](conventions.md), selected profile and [quality gates](references/quality-gates.md); [review protocol](reviewer.md) and [review template](templates/review.md) for self-review and required independent review |
-| Planning Doc Sync or changing living docs | [Context policy and templates](context.md) |
+| Task start, investigation or clarification | Read the project AGENTS, the project `.agents/skills/sdd/local.md` and [execution: understand and decide](executor.md#understand-and-decide) |
+| All prose | Read [writing](writing/SKILL.md) |
+| Domain, usecase or port changes | Read [principles](principles.md). When execution makes approval mandatory, use the [design decision](templates/design-map.md) |
+| Implementation | Read [principles](principles.md), [conventions](conventions.md), the selected profile and [quality gates](references/quality-gates.md). Read examples and local contracts for each changed boundary |
+| Proposal | Read the [change template](templates/change-spec.md), [principles](principles.md) and [spec gates](references/quality-gates.md#spec-and-completion). Include model evolution in the review |
+| Review or repair | Read [principles](principles.md), [conventions](conventions.md), the selected profile, [quality gates](references/quality-gates.md), the [review protocol](reviewer.md) and [review template](templates/review.md) |
+| Doc Sync or living-doc changes | Read [strategic admission and context ownership](context.md) |
 
 ## Approvals and delivery
 
-- Approval covers only the stated scope. Spec approval, design approval and merge permission are distinct.
-- When a spec is required, merge its initial PR before implementation; amendments discovered during implementation follow execution's amendment rule. Prefer one cohesive implementation PR; split only for independently useful delivery or a maintainer request.
-- Each implementation PR works without later PRs. Include call-site migrations; resolve sequencing conflicts with the maintainer.
-- When delivery is split, keep one feature branch. After each authorized merge, fetch main and reconcile without replaying squash-merged work.
-- Preserve other agents' edits; use a separate worktree when another agent owns the checkout.
-- Production-state changes, destructive operations and rule exceptions require explicit scoped authorization.
-- Publication requires execution/local checks and review; merge requires maintainer authorization.
+- Approval gives permission only for the specified scope. Spec approval, design approval and merge permission are different decisions.
+- When a spec is mandatory, merge its first PR before implementation. Use execution's amendment rule for subsequent changes.
+- Keep the implementation in one PR.
+- For deliveries with independent value or a maintainer request, use separate PRs.
+- Make each implementation PR compile and pass gates without subsequent PRs. Include caller migrations in that PR.
+- Get a maintainer decision for delivery-order conflicts.
+- For separate deliveries, keep one feature branch. After each permitted merge, fetch main.
+- Update that branch without duplicate squash-merged work.
+- Keep other agents' edits. If a different agent controls the checkout, use a separate worktree.
+- Get maintainer approval for production-state changes, destructive actions and rule exceptions. Record the scope of that approval.
+- Before publication, complete execution/local checks and review. Get maintainer permission before a merge.

@@ -1,32 +1,66 @@
 # <Change>
 
 - **Classification:** feature | investigation
-- **Evidence:** current behavior or approved experiment findings; investigations include the established cause. Use pointers for implementation evidence; distinguish sourced requirements and approved decisions from proposed choices and unresolved questions.
+- **Evidence:** baseline behavior or experiment findings from a session with approval
+
+For investigations, include the cause with source evidence.
+
+Give links to evidence for existing behavior. Put sourced requirements, decisions with approval, proposals and open questions in different categories.
 
 ## What and why
 
-Current to intended observable behavior and reason.
+Give the change from baseline to intended observable behavior, with its reason.
 
 ## Contracts
 
-Only changed domain or boundary guarantees, transition/failure order and the responsibility enforcing them. Distinguish storage constraints from business decisions. Omit when unnecessary.
+Give changed guarantees, transition/failure order and the enforcing owner.
+
+Give storage constraints and business decisions different roles.
+
+Remove this section when it gives no necessary information.
 
 ## Model evolution
 
-The spec is the maintainer's implementation-driving review contract: observable outcomes alone leave identity, ownership and boundary decisions undisclosed. Show how the existing domain, use cases and ports evolve so architectural gaps and competing authorities surface before implementation.
+Give changed domain concepts, responsibilities and contracts for review before implementation.
 
-| Existing concept / operation / port | Proposed evolution | Invariants, inputs/results and failure semantics | Migrated suppliers / consumers |
+| Baseline concept / responsibility / boundary | Proposed evolution | Invariants, inputs/results and failure semantics | Changed suppliers / consumers |
 | --- | --- | --- | --- |
 
-Name concrete existing owners and changed types/operations; justify each new responsibility against reuse or evolution, including replaced or retired contracts. Mark unchanged surfaces and unresolved decisions explicitly; significant model choices require review rather than silent implementation discretion.
+Give baseline owners and changed responsibilities.
+
+Compare new responsibilities with contract reuse, evolution and removal.
+
+Record areas without changes and choices without decisions. Get review of important model choices before implementation.
 
 ## Acceptance
 
-Short observable criteria, including relevant failure/boundary/accessibility cases; one behavior each. Follow maintainer intent or approved requirements, with additions visibly proposed for approval in this PR.
+Give one observable behavior for each criterion with applicable failure, boundary and accessibility cases.
+
+Keep additions to baseline requirements as proposals until approval.
 
 ## Doc Sync
 
-Default to `None`. Under [context policy](../context.md), identify the strategic statement made false or the necessary strategic understanding missing, then its owning document/section and durable delta. Link authoritative details.
+Use `None` as the default. Use [strategic admission](../context.md#admission-test) before proposed text.
 
-Add existing invariants, actual tradeoffs or unresolved scope only when useful; alternatives reflect approaches meaningfully considered, and scope exclusions have a stated reason and remain proposed until agreed. A linked [design decision](design-map.md) may carry concrete shapes and signatures as committed spec review content; file layouts, diffs and test inventories remain implementation work.
-- Inspect the rendered proposal: each criterion states one observable behavior, each section adds unique information and each tradeoff names the actual cost and who bears it.
+For `None`, record examined owners and evidence that their strategic statements are correct.
+
+If the change keeps all doc owners' facts correct, give the source evidence for that conclusion.
+
+| Owning document / section | Changed or missing strategic fact | Reader decision and effect | Proposed delta |
+| --- | --- | --- | --- |
+
+Keep implementation discovery out of strategic deltas.
+
+For provided HTTP docs, give a link to OpenAPI. For consumed boundaries, show the correct protocols and exchanges.
+
+Add invariants, tradeoffs, alternatives or scope only for a necessary decision.
+
+Keep scope exclusions as proposals until agreement.
+
+Use a linked [design decision](design-map.md) for types and signatures.
+
+Keep file layouts, diffs and test inventories in implementation work.
+
+Make sure that each section adds different information.
+
+For each tradeoff, give its cost and the person or system with that cost.

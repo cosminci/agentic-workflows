@@ -1,29 +1,89 @@
 ---
 name: concise-writing
-description: Use when writing agent responses, proposals, documentation or reviews.
+description: Use for prose in guidance, responses, specs, living docs and reviews.
 ---
-# Concise writing
+# Writing
 
-STE-informed guidance, based on [ASD's overview of Simplified Technical English](https://www.asd-europe.org/standards-specifications/simplified-technical-english/): active voice, short sentences, logical structure and consistent meanings. This skill does not implement the complete ASD-STE100 rules or dictionary and does not establish STE compliance.
+Obey [ASD-STE100 Issue 9](https://doi.org/10.5281/zenodo.23666006) for all prose. This repository's guidance is part of that scope.
 
-- Lead with the answer, decision, finding or concrete proposal. Put supporting evidence after it.
-- Use the project's established terms under [domain vocabulary](../principles.md#ownership); prefer plain, literal language for explanations.
-- Use one term for each concept and keep its meaning consistent. Preserve authoritative project terms, identifiers, commands and contractual wording; simpler language must not rename or weaken them.
-- Use active voice and name the responsible actor. Make pronoun references explicit when more than one actor or value could fit.
-- Write short sentences with one main idea. Split dense clauses without losing conditions, exceptions, ordering or causality; word counts do not establish clarity.
-- State each fact once, at its owning section. Keep only sections that add distinct, necessary information.
-- Use short paragraphs; use a table for comparisons and numbered steps only for ordered actions. Present the decision without making the reader reconstruct it from background.
-- Remove announcements, filler, tangents, repeated state, recaps and closing pleasantries. End when the answer is complete; include a next action only when needed.
-- Before sending, remove sentences that add no decision, evidence or necessary explanation. Preserve requirements, guarantees, failure and edge cases, decision provenance, safety information and meaningful uncertainty.
-- Brevity changes presentation, not investigation or review coverage. Follow required templates and existing Markdown/source-wrapping rules; omit only optional sections without distinct content.
+Use the standard's writing rules and dictionary together.
+
+Use `/i-have-adhd` presentation: the answer first, short blocks and clear labels. The reader must find the decision without a long introduction.
+
+## Two checks
+
+| Check | Acceptance |
+| --- | --- |
+| Signal | Each sentence gives a necessary decision, fact, reason, guarantee or uncertainty |
+| Clarity | The reader can find each instruction and its subject without different possible interpretations |
+
+Make sure that the text has signal and clarity. A short sentence without necessary information does not have signal.
+
+## Vocabulary and grammar
+
+- Use general words only with their approved part of speech, meaning and form.
+- Use technical nouns and verbs only in the standard's permitted categories.
+- Use [domain vocabulary](../principles.md#ownership) for project terms.
+- Use an approved general word when it gives the same meaning as a technical verb.
+- Use technical terms only for their permitted subject. Use approved general words for general prose.
+- Use approved verb forms and simple tenses.
+- Use dictionary-approved `-ing` words with their approved part of speech.
+- For other `-ing` forms, use only permitted technical nouns or their modifiers.
+- Use active voice with a named actor.
+- Use passive descriptive text only when the actor is unknown.
+- Use the imperative form for instructions.
+- Give one instruction for each sentence unless the actions occur at the same time.
+- Put a necessary condition before its instruction.
+- Give causes, order, exceptions and failure behavior.
+- Use full sentences without contractions or missing articles.
+- Keep noun groups to at most three words.
+- For a longer official term, use the standard's abbreviation or hyphenation method.
+- Keep identifiers, commands, contract names and technical terms correct.
+- Use periods, not semicolons.
+- Use literal language without idioms or new phrasal verbs.
+- Use one term for each concept. Make subsequent wording agree with that term.
+
+## Structure and signal
+
+- Start with the answer, decision, finding or proposed change.
+- Put evidence after the decision.
+- Keep one topic per sentence.
+- Keep instructions to at most 20 words and descriptions to at most 25.
+- Use the standard's word-count rules for parentheses, quoted text, identifiers, names, hyphens and lists.
+- Keep each paragraph or list item to one topic and at most two sentences.
+- Use tables for comparisons and numbered steps for procedures.
+- Give each fact one owning location.
+- Remove sections without different necessary information.
+- Remove filler, announcements, tangents, recaps and closing pleasantries.
+- Include a next action only when necessary.
+- Keep evidence, decision authority, safety and uncertainty that changes a decision.
+- Keep the work necessary for correctness regardless of report length.
+- Obey mandatory templates and Markdown source-wrapping rules.
+- Remove only optional sections without information necessary for a decision.
 
 ## Documents
 
-- Procedures and runbooks: use direct instructions in execution order. Put prerequisites and conditions before the affected action; distinguish actions, expected results and failure/recovery instructions. Preserve necessary safety information.
-- Strategic/context documents: name responsibilities, interactions and guarantees in short explanations. Apply [context ownership](../context.md) before editing; clear wording does not justify misplaced implementation detail.
-- Specs: name the actor, relevant condition, observable outcome and failure behavior. Keep required behavior, proposed choices and unresolved decisions distinct; preserve required contracts and model evolution.
+- For procedures, give prerequisites, actions, expected results and recovery in execution order.
+- For living docs, use [strategic admission](../context.md#admission-test) before a draft.
+- Keep implementation detail out of strategic knowledge regardless of wording.
+- For specs, give the actor, condition, outcome and failure behavior.
+- Put requirements with approval, proposals and open choices in different categories.
+- For reviews, give the rule, source evidence, effect and necessary correction.
+- Put checklist labels and evidence in different fields.
 
-## Check
+## Writing checks
 
-- Read the result for ambiguous terms, actors, references and conditions. Verify that shortening preserved every required distinction and that each fact belongs in the document.
-- Reject a concise but incomplete spec, a clear feature walkthrough in strategic docs or an invented synonym for an existing concept. Accept precise project terminology and necessary safety or recovery detail even when they need a longer explanation.
+- Examine prose in frontmatter, headings, tables, examples and program messages.
+- Remove text without reader value before shorter wording.
+- Examine each general word against the official dictionary.
+- Examine its meaning, part of speech and form in each sentence.
+- Record each technical term's permitted category and use.
+- Examine each sentence against the writing rules.
+- Compare the result with necessary guarantees and distinctions before acceptance.
+- Use word counts and Markdown checks as partial checks, not STE100 proof.
+- Until the reviewer completes the full source review, keep the writing gate open.
+- Correct all findings before closure.
+- If the official standard is not available, get access before a compliance decision.
+- Reject incomplete specs and feature walkthroughs in living docs.
+- Remove synonyms that are not necessary.
+- Keep necessary safety or recovery detail regardless of length.

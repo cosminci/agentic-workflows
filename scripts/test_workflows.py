@@ -56,7 +56,7 @@ class WorkflowTest(unittest.TestCase):
 
     def test_should_reject_missing_shared_owner(self):
         (self.reference / workflows.SKILL / "principles.md").unlink()
-        with self.assertRaisesRegex(ValueError, "missing shared"):
+        with self.assertRaisesRegex(ValueError, "shared guidance is missing"):
             workflows.validate(None)
 
     def test_should_accept_complete_local_guidance(self):
@@ -69,12 +69,12 @@ class WorkflowTest(unittest.TestCase):
 
     def test_should_reject_invalid_local_markdown_wrapping(self):
         (self.project / "AGENTS.md").write_text("First line\ncontinued prose\n")
-        with self.assertRaisesRegex(ValueError, "invalid Markdown wrapping"):
+        with self.assertRaisesRegex(ValueError, "Markdown wrapping is not valid"):
             workflows.validate(self.project)
 
     def test_should_reject_owner_escape(self):
         (self.project / ".agents/workflows.json").write_text('{"owner":"..","profile":"typelevel"}')
-        with self.assertRaisesRegex(ValueError, "invalid workflow"):
+        with self.assertRaisesRegex(ValueError, "workflow profile or owning directory is not valid"):
             workflows.configuration(self.project)
 
     def test_should_reject_untyped_profile(self):
@@ -102,7 +102,7 @@ class WorkflowTest(unittest.TestCase):
     def test_should_reject_dirty_reference(self):
         recorded = self.git("rev-parse", "HEAD")
         (self.reference / "uncommitted").write_text("pending\n")
-        with self.assertRaisesRegex(ValueError, "dirty"):
+        with self.assertRaisesRegex(ValueError, "uncommitted changes"):
             workflows.context(self.project, None)
         resumed = json.loads(self.output(workflows.context, self.project, recorded))
         self.assertEqual(resumed["revision"], recorded)
@@ -117,12 +117,12 @@ class WorkflowTest(unittest.TestCase):
     def test_should_reject_missing_committed_execution_source(self):
         (self.reference / workflows.SKILL / "executor.md").unlink()
         self.commit()
-        with self.assertRaisesRegex(ValueError, "required source: executor"):
+        with self.assertRaisesRegex(ValueError, "mandatory source: executor"):
             workflows.context(self.project, None)
 
     def test_should_reject_missing_consumer_entrypoint(self):
         (self.project / "AGENTS.md").unlink()
-        with self.assertRaisesRegex(ValueError, "missing local entrypoint"):
+        with self.assertRaisesRegex(ValueError, "local entrypoint is missing"):
             workflows.context(self.project, None)
 
     def test_should_reject_deleted_or_extra_snapshot_sources(self):
@@ -164,7 +164,7 @@ class WorkflowTest(unittest.TestCase):
                         str(self.reference / "missing")], check=True)
         unavailable = subprocess.run(command, cwd=self.project, env=environment, capture_output=True, text=True)
         self.assertNotEqual(unavailable.returncode, 0)
-        self.assertIn("registered shared checkout is unavailable", unavailable.stderr)
+        self.assertIn("registered shared checkout is not available", unavailable.stderr)
         subprocess.run(["git", "config", "--file", str(config), "agentic.workflowsPath",
                         str(self.reference)], check=True)
         resolved = subprocess.run(command, cwd=self.project, env=environment, capture_output=True, text=True)
