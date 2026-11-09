@@ -68,10 +68,10 @@ def check(path: Path) -> list[tuple[int, str]]:
                     and FENCE.match(following) is None
                     and not is_structural(following)
                 ):
-                    errors.append((number + 1, f"list item on line {number} continues here"))
+                    errors.append((number + 1, f"The list item on line {number} continues here."))
             continue
         if previous_prose:
-            errors.append((number, f"prose continues physical line {previous_prose}"))
+            errors.append((number, f"The prose continues from physical line {previous_prose}."))
         previous_prose = number
 
     return errors

@@ -1,34 +1,83 @@
 # Living documentation
 
-| Document | What it owns |
+## Strategic purpose
+
+Living docs give project knowledge that code search cannot give. This knowledge lets a reader change or operate the application safely.
+
+High signal means that a fact changes a reader's decision. A short sentence without necessary information does not have signal.
+
+| Document | Information |
 | --- | --- |
 | README | Orientation and entrypoints |
 | Principles/conventions | Engineering rules and contribution practice |
-| Design | Domain concepts, responsibilities, lifecycles, interactions and shared guarantees |
-| Contracts | Links to authoritative boundary definitions and their necessary interpretation |
-| Testing | Risks, the tests that address them and suite naming |
-| Operations | Startup, deployment layout, stored state, recovery and available monitoring |
+| Design | Responsibility boundaries, system lifecycles, shared guarantees and decision reasons |
+| Contracts | Provided OpenAPI references, consumed protocols, message exchanges and compatibility guarantees |
+| Testing | Project risks, proof boundaries and gaps in isolated tests |
+| Operations | Supported deployment, state ownership, safe recovery and monitoring gaps |
 | Pipeline context | Pipeline design/testing/operations in `ci/specs/` |
-| Proposal and linked spec design / ignored work state | Feature criteria, reasons and reviewed domain/use-case/port evolution / test mappings, command results and approval evidence |
-| Schemas/configuration/reference data | Exact representations, inventories and values |
+| Proposal and linked spec design | Change criteria, reasons and reviewed model evolution |
+| Ignored work state | Test mappings, commands, results, approvals and review evidence |
+| Schemas/configuration/reference data | Representations, settings and catalog values |
 
-- Doc Sync defaults to `None`. Propose an edit only when delivery makes an existing strategic statement false or leaves necessary strategic understanding missing: purpose, responsibilities, interactions, lifecycles or shared guarantees and their decision-relevant rationale. Identify that statement or missing understanding before drafting; shipping a feature alone does not qualify.
-- Integrate qualifying changes into the owning section and remove obsolete explanation. A Doc Sync entry is a proposal to verify against delivered behavior, not an obligation to add text; discard entries that no longer qualify.
-- Before writing, read all affected living documents, the source establishing their facts and a current diagram-first precedent. Draft responsibility, lifecycle and deployment diagrams first. Prose adds only invariants, boundary interpretation or safe procedures that the diagrams and linked sources do not supply.
-- When evolving standards, map each replaced obligation to its retained or stronger rule; restore lost scope or evidence requirements before completion. Weakening a guardrail requires explicit scoped maintainer approval.
-- Give each fact one location across prose, diagrams and tables. Design owns flows and invariants; contracts links boundary definitions; testing maps concrete risks to proof owners; operations gives startup, recovery and monitoring instructions. Code, schemas and configuration own exact definitions and values.
-- Keep a sentence only when it answers a concrete question about this application that its diagram or linked authority cannot answer. Name the responsible actor, condition and consequence; replace general aspirations with current, source-backed facts.
-- Reject misplaced detail rather than merely shortening it. Keep accurate operational instructions and other existing document-owned obligations; strategic abstraction does not excuse removing necessary recovery, safety or contract interpretation.
-- Contracts links authoritative definitions and explains only boundary semantics necessary to interpret them. Implementation names, parsing algorithms, character-handling rules and field-state catalogs stay in their authoritative source; link that source where needed. Document a boundary guarantee only when its interpretation is necessary and not already explained by the linked definition.
-- Keep feature walkthroughs in proposals, individual test results in work state and configuration values in configuration.
-- Add a specialist document only for shared knowledge that has no existing owner. Link it from the document where a reader would need it.
-- Review the complete documents together after editing. Remove repeated facts, prose that narrates diagrams, obsolete explanations and sections without useful content. Check that a new reader can understand current operation without feature history; distinguish available behavior from recommendations.
-- Describe package responsibilities, not class inventories. Operations records each available alert's severity, meaning and runbook location.
+## Admission test
 
-## Authoring templates
+Before a Doc Sync decision, find doc owners whose facts can change with responsibilities, lifecycles, contracts or operations.
 
-- Design: purpose, boundary, domain model, important lifecycles and interactions, constraints and tradeoffs.
-- Contracts: every exposed or consumed boundary and its authoritative definition. Explain only semantics not already owned by design or schemas.
-- Testing: which risks each test boundary addresses, suite categories and any integrated or manual checks needed. Configuration owns thresholds; work state owns individual results.
-- Operations: startup and shutdown, isolation, network exposure, stored-state ownership, deployment layout, logs, health, monitoring and recovery. Link configuration and explain important gaps or capacity limits.
-- Include only relevant sections. Diagrams explain important transitions or ordering; prose adds guarantees the diagram does not show.
+Read those docs before a `None` decision.
+
+Record the decision and its source evidence in work state. For `None`, include the examined owners and the evidence that their strategic knowledge is correct.
+
+If the change keeps all doc owners' facts correct, record the source evidence for that conclusion.
+
+A document without edits does not show that its content is correct.
+
+For a proposed change, also record answers to these questions:
+
+| Question | Required answer |
+| --- | --- |
+| What changed? | The incorrect strategic statement, or the missing project knowledge |
+| Which reader decision changes? | A decision about design, integration, testing or operation |
+| Why does it belong here? | The effect of missing knowledge and the information that code search or a different authority cannot give |
+| What is the evidence? | Delivered behavior, a decision with approval or an applicable operating constraint |
+| Where does it belong? | One owning section and the incorrect or duplicate text for removal |
+
+- Use `None` as the Doc Sync default. Feature delivery alone is not sufficient for admission.
+- Accept a delta only with delivered behavior and the admission evidence.
+- Before a draft, read all docs whose facts can change, their factual sources and a diagram-first precedent.
+- Start with responsibility, lifecycle and deployment diagrams. Add prose only for information that the diagrams do not give.
+- Give project facts with the actor, condition and result. Reject general aspirations without an applicable project decision.
+- Keep feature criteria in proposals and test-case inventories in work state.
+- Keep implementation discovery in code search. Class catalogs and links to implementation symbols have no place in living docs.
+- Give each fact one location across docs, diagrams and tables.
+- For necessary detail, give a link to the owning protocol definition, schema, configuration or runbook.
+- Keep safe procedures, recovery constraints and necessary contract interpretation. Strategic scope does not decrease safety obligations.
+- Add a specialist doc only for necessary knowledge without an owner. Put its link at the reader's decision point.
+
+## Contracts are protocols
+
+- Show each provided and consumed boundary as a contract between peers. Include the correct protocol, such as HTTP/REST, SSE, WebSocket or filesystem.
+- For provided HTTP APIs, use OpenAPI as the one contract for methods, paths, credentials, headers, payloads, errors and streams.
+- If OpenAPI is missing, write the contract from its producers and consumers. For generated OpenAPI, use the project's generator.
+- Keep generated contracts and clients read-only. After changes to source definitions, use the project's generator.
+- In provided-boundary docs, give a link to that contract without a second endpoint or payload inventory.
+- For consumed boundaries, show the correct protocol, endpoints, exchanged data and handoff. A protocol table is permitted.
+- For streams, include the connection endpoint, direction, message meaning and disconnect/reconnect guarantees in the owning contract.
+- Include admission, authentication, failure meaning, ordering, caching and compatibility when they change a consumer's decisions.
+- Use JSON Schema for structured file exchanges where applicable. A Scala class or trait link is not a protocol definition.
+- Give the exchange and state guarantees for local storage boundaries. A repository implementation name gives no database or filesystem compatibility guarantee.
+- Record each protocol guarantee at one owner, without a second payload-field catalog. Put the business lifecycle in design.
+
+## Authoring and closure
+
+- In design, give system boundaries, important lifecycles and constraints. Include a tradeoff only when its reason and cost change a project decision.
+- In contracts, show peers, protocol/endpoint, exchange, failure and compatibility semantics. Include exposed and consumed boundaries.
+- In testing, give project risks and reasons for component, external-seam or integrated proof. Suite inventories and scenario results are not strategy.
+- In operations, give startup, shutdown, isolation, exposure, deployment and recovery instructions.
+- Include stored-state ownership, capacity limits and available monitoring.
+- Record each available alert's severity, meaning and runbook.
+- Give links to metric definitions with their operating meaning.
+- Include only sections with different necessary information. Put supported behavior and recommendations in different categories.
+- Examine docs together for reader decisions, duplicate content, incorrect facts and missing knowledge.
+- For standard changes, record the owner that keeps or increases each previous obligation.
+- Correct missing obligations before closure.
+- Get maintainer approval before a weaker guardrail. Record its scope.

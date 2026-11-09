@@ -1,74 +1,114 @@
 # Fundamental engineering rules
 
-These eight principles are mandatory for all work in every consuming repository, independent of language or stack. SDD, profiles, local guidance, implementation choices and reviews must enforce them. They cannot grant exceptions or weaken these obligations. More specific rules may strengthen them.
+These eight rules are mandatory for all work in each consuming repository. SDD, profiles, local guidance and reviews must include these obligations.
 
-Authority: Cosmin Ciobanu's engineering guidelines, V1 (20 March 2025), revised V2 (2 October 2026).
+More detailed rules can increase these obligations. They cannot decrease them or give exceptions.
 
 ## Purpose
 
-Keep cognitive load low and consistent, make extension and redesign straightforward, change code intentionally within its domain structure, minimize long-term maintenance and dependency risk, and support reuse and modularity. Gold plating with diminishing business or team value is not a goal.
+Keep cognitive load and maintenance risk low. Use clear domain boundaries for extension and redesign.
+
+Add complexity only for delivered value.
 
 ## 1. Ports & Adapters
 
-- Isolate core business logic from infrastructure through explicit ports for every external dependency, including databases, APIs and filesystems.
-- Define ports close to their consuming business logic, in domain terms rather than external-system terms.
-- Keep concrete adapters separate from the core. Bind implementations in composition.
-- Exhaustively unit-test business logic with substituted ports. Integration-test adapters against their real external boundaries.
+- Isolate core business logic from infrastructure through ports for all external dependencies: databases, APIs and filesystems.
+- Put ports near their consuming business logic.
+- Use domain terms for ports, not external-system terms.
+- Isolate concrete adapters from the core. Put implementation bindings in composition.
+- Use unit tests for all business logic with substituted ports.
+- Use integration tests for adapters against their external boundaries.
 
 ## 2. Domain Driven Design
 
-- Explicitly model business concepts with strong types and constrained structures, including nonempty collections and positive values where required.
-- Make invalid states unrepresentable. Avoid optional or nullable fields that permit invalid combinations; control flow must be exhaustive and explicit.
-- Keep domain logic focused, isolated and independently testable without external dependencies.
-- Use the business's ubiquitous language consistently in code, documentation and communication.
+- Use strong types and constrained structures for business concepts.
+- When necessary, use nonempty collections and positive values.
+- Use types and exhaustive control flow that exclude invalid states.
+- Keep invalid combinations out of optional or nullable fields.
+- Domain contains types and validity constraints. Usecases contain business behavior.
+- Use the owning usecase and substituted dependencies for business-rule tests. Domain types have no test suites.
+- Use the same business vocabulary in code, documentation and communication.
 
 ## 3. Fractal Design
 
-- Apply cohesive design at every scale, from the application entrypoint to individual methods.
-- Give each component, class and method one responsibility and one reason to change.
-- Keep statements within a method at the same conceptual or business abstraction level; separate orchestration from implementation detail.
-- Keep methods short and focused, typically 7-10 lines. Investigate larger units rather than disguising complexity to meet a count.
-- Let readers progressively zoom from high-level flow into lower-level components, with each level remaining simple and focused.
+- Use cohesive design at all scales, from the application entrypoint to each method.
+- Give each component, class and method one responsibility and one reason for change.
+- Keep statements in a method at the same conceptual or business abstraction level.
+- Isolate orchestration from implementation detail.
+- Keep methods short, typically 7-10 lines.
+- Examine larger units for design defects, not format changes for a specified count.
+- Give readers a clear high-level flow with clear paths to lower-level detail.
 
 ## 4. Anti-Corruption Layers
 
-- Translate external structures, terminology and semantics into internal domain models before business logic consumes them.
-- Keep external communication representations distinct from internal domain representations. External models and their changes must not dictate the core model.
-- Adapters own external interaction; translation maps external formats and concepts; validation establishes domain-valid inputs.
-- These responsibilities must be explicit, but do not require separate classes for mechanical steps. A declarative codec may implement translation without an unnecessary DTO wrapper.
+- Convert external structures, terminology and semantics to domain models before business logic receives them.
+- Isolate external communication representations from internal domain representations.
+- Keep external-model dependencies out of the core model.
+- Put external interaction and representation translation in adapters. Validation gives domain-valid inputs.
+- Make these responsibilities clear without different classes for conversion steps.
+- Use a declarative codec when translation does not make a DTO wrapper necessary.
 
 ## 5. Indirection Layers
 
-- All interactions between business components use explicit interfaces. Only pure, stateless, side-effect-free utilities are exempt.
-- Define each interface from its caller's needs: minimal, domain-relevant, consumer-driven contracts.
-- Inject business collaborators through these interfaces so tests can substitute them without exercising their implementations again.
-- Interfaces expose responsibilities and dependencies while hiding implementation details. Each interface must express a deliberate, cohesive abstraction.
+- Use interfaces for all interactions between business components.
+- Pure, stateless, side-effect-free utilities are the only exception.
+- Give each interface a domain contract with only its caller's necessary work.
+- Inject business collaborators through these interfaces for isolated tests.
+- Keep responsibilities and dependencies clear through interfaces without implementation detail.
+- Give each interface one cohesive abstraction.
 
 ## 6. Strict Build Guardrails
 
-- Require 100% test coverage as a build criterion. Difficulty testing code requires design investigation, not a weaker gate.
-- Enable comprehensive static analysis with strict rules; fail builds on warnings or issues and maintain zero warnings.
-- Use strict compiler settings to reject unsafe constructs, unused code/imports and accidental numeric widening where the language/toolchain supports these checks.
-- Automate dependency updates to address CVEs, deprecations and end-of-life risks.
-- Guardrails support modularity, quality and development speed; satisfying a metric does not excuse a poor design.
+- Keep 100% test coverage as a mandatory build criterion.
+- Before more test machinery, examine tests that are not easy for design defects.
+- Use static analysis for all applicable defect classes with strict rules.
+- Reject builds with warnings or issues. Keep zero warnings.
+- When available, use strict compiler settings for unsafe constructs, unused code/imports and accidental numeric widening.
+- Use automated dependency updates for CVEs, deprecations and end-of-life risks.
+- Guardrails help modularity, quality and development speed. A metric without errors does not show correct design.
 
 ## 7. Keeping Complexity in Check
 
-- Justify complexity by delivered value. Compare alternatives that fit the system and prefer fewer assumptions and moving parts.
-- Ask whether a much smaller design can deliver most of the value. Narrowing approved scope still requires maintainer agreement.
-- Before a spec, decide what to reuse, extend, build or split and why; revisit the decision when evidence changes.
-- Inspect implementations beyond a screenful and suites around three times their production code. Treat testing difficulty as a design signal.
-- Extract newly exposed responsibilities in the change that exposes them. Justify larger cohesive units and repair affected design defects rather than leaving broken windows.
+- Give a delivered-value reason for complexity.
+- Compare applicable alternatives with the smallest number of assumptions and components.
+- Examine a much smaller design for the same value.
+- Get maintainer agreement before a scope decrease.
+- Before a spec, record what to keep, change, add or divide, with reasons.
+- Examine the decision again when evidence changes.
+- Examine implementations larger than a screenful and suites approximately three times their production size.
+- Use testing difficulty as a design signal.
+- Put new responsibilities at their owners in the change that makes them necessary.
+- Record reasons for larger cohesive units.
+- Correct design defects in the changed responsibilities and their consumers.
 
 ## 8. Code Expresses Intent
 
-- Express intent through meaningful names, strong types, clear constructs and cohesive modules.
-- Before adding a comment, investigate whether the use case, API, model, responsibility boundary or package structure needs correction.
-- Keep related behavior together. Share knowledge only when divergence between callers would be a bug, not merely because code looks similar.
-- Keep rationale in concise, authoritative documentation. Comments are eligible only for constraints code cannot express; stricter existing comment rules remain binding.
+- Give intent through domain-fact names, strong types, clear constructs and cohesive modules.
+- Before a comment, examine the usecase, API, model, responsibility boundary and package structure for a necessary correction.
+- Keep related behavior together.
+- When different caller behavior is a bug, use the same knowledge owner.
+- Almost the same code is not sufficient for that decision.
+- Keep decision reasons concise in the owning docs.
+- Use comments only for constraints that code cannot express. Keep all project comment obligations.
 
 ## Enforcement
 
-Read these principles before investigating, proposing, implementing or reviewing changes. Check all eight against the affected work and record source-backed findings; language and task type determine applicability, not whether the principles are authoritative.
+Read these rules before investigation, proposals, implementation or review.
 
-Missing enforcement is a defect to expose and resolve, not permission to lower the standard. Existing passing tests, local precedent, convenience and maintainer approval of a feature do not establish compliance. Preserve all stricter existing safety, architecture, testing and comment rules.
+Examine all eight rules against the changed work and its consumers. Record findings with source evidence.
+
+Language and task type change applicability, not authority.
+
+Every quality gate, guardrail and linter is a diagnostic aid. Most detect symptoms, not their design causes.
+
+For each reported symptom, find its cause before repair selection.
+
+Examine responsibility boundaries, contracts, dependencies and valid states. Correct the cause at its owner and dependent callers.
+
+A format change, wrapper, suppression or smaller test suite does not correct a design defect.
+
+If the evidence shows no design defect, record that evidence. Keep mandatory gates and scoped approval rules.
+
+Correct missing enforcement without a weaker standard. Tests without errors, local precedent and feature approval do not show compliance.
+
+Keep all previous safety, architecture, testing and comment obligations. Include project obligations that increase them.

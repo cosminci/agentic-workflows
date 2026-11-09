@@ -1,32 +1,92 @@
 # Local quality contracts
 
-Read when implementing or reviewing the selected stack. These preserve the historically validated differences; project entrypoints, executable owners and scoped maintainer decisions determine applicability. The examples below are contract selectors, not a reason to apply one application's runtime settings to another.
+Read this file for implementation or review of the selected stack. Project entrypoints, executable owners and scoped maintainer decisions give applicability.
+
+Keep validated stack differences. One application's example does not give a different application's runtime settings.
 
 ## Typelevel
 
-- Both photography and Audiobookshelf use effect-polymorphic algebras and capability context bounds/accessors for Logger, Clock and identity; business ports/settings are explicit factory/private-constructor dependencies.
-- Photography trait operations, after unwrapping F/Db, use operation-owned result enums: bare success, Option, Unit and Either fail its business-operation gate. Existing enums expressing the operation completely are preserved, not mechanically replaced. Generic capability/library APIs and plain domain values are outside this gate.
-- Audiobookshelf trait business operations use per-operation sum types rather than Either. Do not invent an enum for a mechanical capability or widen a required operation result to a caller's unrelated envelope.
-- Preserve the 150-column Scala limit where its formatter owns it; inspect readable density after formatting. Cats value syntax includes `.pure[F]`, `.some`, `.asRight`, `.asLeft`, `.as` and traversal syntax; `.eitherT` uses the existing local transformer syntax where available.
-- Composition preserves the current named StructuredLogger binding: photography's historical `[Photography]` and Audiobookshelf's `[Audiobookshelf]` examples identify application loggers, not logger parameters to business methods. Verify the actual composition/configuration rather than copying another application's identity.
-- Required coverage/tooling directives carry exact site proof in review evidence under shared comment policy; local permitted glue exclusions do not justify excluding logic-bearing adapters.
-- Photography UI work reads current application/workspace styles, ChapterOutline toolbar, AlbumDialog and SpreadConfirmation. Their established content-first layout, icon grouping, focus/pending feedback and shortcut behavior remain obligations; source owns precise values/copy.
-- Audiobookshelf replacements preserve deterministic explicit evidence, suggestions rather than fuzzy auto-selection, technical output and authorized live-state verification after media operations. Queue acceptance is not completion; a source collection is not proof of one book. Operational access remains governed locally.
+- Use effect-polymorphic algebras in Photography and Audiobookshelf.
+- Use capability context bounds/accessors for Logger, Clock and identity.
+- Give factories and private constructors explicit business ports/settings.
+- Return operation-owned enums from Photography business operations after F/Db unwrapping.
+- Reject bare success, Option, Unit and Either at this gate.
+- Keep an enum that expresses the full operation.
+- Exclude generic capability/library APIs and domain types from this result gate.
+- Use per-operation sum types in Audiobookshelf business operations, not Either.
+- Add no enum to capabilities without business policy or a necessary outcome distinction.
+- Return necessary helper data, not the caller's result envelope for a different responsibility.
+- Keep the formatter-owned 150-column limit.
+- Examine density after formatting.
+- Use Cats `.pure[F]`, `.some`, `.asRight`, `.asLeft`, `.as` and traversal syntax.
+- When available, use local `.eitherT` syntax.
+- Keep the named StructuredLogger binding in composition.
+- Historical `[Photography]` and `[Audiobookshelf]` names identify application loggers, not method parameters.
+- Examine logger identity in composition/configuration.
+- Use shared effect ownership, not logs at each call site.
+- Give coverage/tooling directives site-level proof in review evidence.
+- Keep logic-bearing adapters in coverage despite permitted composition exclusions.
+- For photography UI work, read workspace styles, ChapterOutline toolbar, AlbumDialog and SpreadConfirmation.
+- Keep content-first layout, icon grouping, focus/pending feedback and shortcuts.
+- Get accurate values and wording from source.
+- Keep Audiobookshelf evidence deterministic.
+- Give suggestions, not fuzzy auto-selection.
+- Keep technical output.
+- With maintainer approval, do live-state verification after media work.
+- Queue acceptance is not completion. A source collection is not proof of one book.
+- Obey local operational-access rules.
 
 ## Direct style
 
-- Plant-journal trait business operations return per-operation ADTs, never Either; Either is internal dependent composition only. A failure subtype is accepted when only failure is possible, rather than a whole result plus unreachable success match.
-- Capabilities, including business MetricsApi ports, use `using` and existing TestImplicits; no Cats Effect/ZIO runtime is introduced. Preserve stable ID builders such as `buildUuid(index)`.
-- TypeScript named imports fit at most three names on one line; otherwise use namespace imports. Solid reactive/control-flow bindings and Dagger decorators stay named because compiler/reactivity/introspection semantics depend on them.
-- Backend behavioral suites own real runtime boundaries; structural/policy suites have plain names. Vitest componentTest, seamIntegrationTest and systemIntegrationTest suffixes reflect the boundary actually proved.
-- Existing zero-warning static analysis, compiler errors, 100% coverage and architecture-direction checks are hard gates. Generated OpenAPI/client artifacts remain read-only: use the executable generator and contract-drift check when endpoints/artifacts change.
-- HTTP logic remains measured: logic-bearing endpoints use the tapir seam interpreter, static serving a live server. Genuine composition roots use existing exclusions; narrow output-only callbacks/OpenAPI-only mappings/unreachable branches need exact proof, standalone COVERAGE-OFF/ON lines and the explanation immediately above COVERAGE-OFF.
-- Tapir's legitimate Any endpoint parameter does not license casts, untyped responses or widening hacks; preserve the configured unsafe-cast bans rather than enabling an incompatible blanket Wart.Any gate.
-- Use-case services log mutations/action/ID and meaningful transitions at Info, unexpected operation/cause at Error; successful reads are silent, adapters do not log business outcomes and composition logs startup/top-level failure. One line per record, no raw stack trace.
-- Business metrics measure historical trends one increment/gauge set per call after successful work/compensation; current-state counts are read-derived gauges. Editing/deleting recorded history does not replay its metrics. HTTP RED and JVM/process USE share the transport registry.
-- Domain vocabulary is English; translate Romanian source records at the adapter. Declarative codecs remain private to the translating adapter, not miscellaneous Helpers/Queries/StoredValues/Payload containers or encode/decode helper families.
-- Prose paragraphs have at most two sentences, with each paragraph/list item on one source line; split distinct facts into bullets rather than hard wrapping.
+- Return per-operation ADTs from Plant-journal business operations, not Either.
+- Use Either only for internal dependent composition.
+- When only failure is possible, use a failure subtype.
+- Add no full result with an unreachable success match.
+- Use `using` and the project's TestImplicits for capabilities and business MetricsApi ports.
+- Keep Cats Effect/ZIO runtimes out.
+- Use stable ID builders such as `buildUuid(index)`.
+- Keep named TypeScript imports to at most three names on one line.
+- Use namespace imports for larger sets.
+- Keep Solid reactive/control-flow bindings and Dagger decorators named.
+- Compiler, reactivity and introspection semantics depend on those bindings.
+- Use shared trait ownership for backend suites.
+- Give mandatory architecture checks names for their rule owners.
+- Use Vitest componentTest, seamIntegrationTest and systemIntegrationTest suffixes for the boundary under test.
+- Keep zero-warning analysis, compiler errors, 100% coverage and architecture-direction checks as hard gates.
+- Keep generated OpenAPI/client artifacts read-only.
+- Use the executable generator and drift check for endpoint/artifact changes.
+- Keep HTTP logic in coverage measurement.
+- Use the tapir seam interpreter for logic-bearing endpoints.
+- Use a live server for static serving.
+- Use the project's exclusions for composition roots without domain/HTTP logic.
+- Give site-level proof for output-only callbacks, OpenAPI-only mappings and unreachable branches.
+- Put COVERAGE-OFF/ON markers on different lines.
+- Put the explanation immediately before COVERAGE-OFF.
+- Keep tapir's permitted Any endpoint parameter without casts, untyped responses or widening bypasses.
+- Keep unsafe-cast bans without an incompatible blanket Wart.Any gate.
+- Use Info for mutations/action/ID and business transitions in usecases.
+- Use Error for unexpected failures with operation/cause.
+- Keep reads without errors silent.
+- Keep business-outcome logs out of adapters.
+- Put startup and top-level failure logs in composition.
+- Keep one line per log record, without a raw stack trace.
+- After work or compensation without errors, measure historical business trends with one increment/gauge set for each call.
+- Derive current-state gauges from reads.
+- Keep historical metrics without changes after history edits/deletions.
+- Use the same transport registry for HTTP RED and JVM/process USE.
+- Use English domain vocabulary.
+- Translate Romanian source records at the adapter.
+- Keep declarative codecs private to their translating adapter.
+- Keep containers without one responsibility and encode/decode helper families out.
+- Keep prose paragraphs to at most two sentences.
+- Put each paragraph/list item on one source line.
 
 ## Other owning domains
 
-Home Assistant and other home-automation domains retain their existing AGENTS, operational runbooks, deployment/reload contracts and concrete platform examples. Scala/Typelevel gates do not flatten their Python/YAML/HA requirements. Before changing an entity reference, deploy mechanism, legacy dashboard action or media output, load the relevant local contract and verify the actual supported boundary; this shared pack grants no production-state authorization.
+Keep Home-automation's AGENTS, runbooks, deployment/reload contracts and platform examples. Scala/Typelevel rules do not replace Python/YAML/HA requirements.
+
+Before entity-reference, deployment, dashboard-action or media-output changes, read the local contract.
+
+Examine the supported boundary.
+
+Get production-state approval locally. This shared pack gives no such permission.
