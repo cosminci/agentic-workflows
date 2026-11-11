@@ -2,11 +2,11 @@
 
 For spec-backed model changes, include this decision in the spec PR.
 
+For a spec, use [discovery](../discovery.md) before filling this template.
+
 Give a link from the proposal. Chat does not replace committed review content.
 
 When execution makes approval mandatory without a spec, give the decision in chat.
-
-Record approval in work state.
 
 ## Existing model
 
@@ -20,7 +20,24 @@ Give the flow or source evidence for that model.
 | --- | --- | --- | --- | --- |
 
 - Include changed guarantees, effects, lifetimes, configuration ownership or ordering only for the decision.
-- Add types, operations and ports only for a different concept or independent reason for change.
+- Give the [contract-evolution comparison](../principles.md#evolve-existing-responsibilities) for added types, operations and ports.
 - Give the reason that evolution of the baseline owner is not sufficient.
-- Give the recommendation, its cost and open questions.
-- Keep approval restricted to this decision, not subsequent changes with different responsibilities.
+- Without a spec, give the recommendation, its cost and open questions for the maintainer's decision.
+- State the decision's approval scope.
+
+For a spec, record the agreed choice and its cost.
+
+## Spec design
+
+For spec-backed work, use these surfaces in discovery and record the resulting design here.
+
+| Surface | Required design content |
+| --- | --- |
+| Usecases and ports | Responsibilities, traits, operations, signatures, inputs, results and guarantees. |
+| Service modules | Overall dependency graph, retained and changed relationships, dependency direction, composition and external adapters. |
+| Database | Schema, relationships, cardinality, constraints, indexes, transaction boundaries and migration/compatibility decisions. |
+| Existing design | Responsibilities and contracts retained, evolved or retired, with reasons and affected suppliers/consumers. |
+
+Keep behavior and acceptance in the proposal. Link each design decision from it instead of copying concrete design there.
+
+Record the applicability decision for unused surfaces.

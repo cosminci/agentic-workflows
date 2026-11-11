@@ -1,92 +1,58 @@
-# Local quality contracts
+# Application-specific contracts
 
-Read this file for implementation or review of the selected stack. Project entrypoints, executable owners and scoped maintainer decisions give applicability.
+Load only the applicable application section. Shared architecture and syntax belong to [principles](../principles.md) and [conventions](../conventions.md).
 
-Keep validated stack differences. One application's example does not give a different application's runtime settings.
+Use the selected runtime profile for stack-wide rules. Project entrypoints, executable owners and scoped decisions establish applicability.
 
 ## Typelevel
 
-- Use effect-polymorphic algebras in Photography and Audiobookshelf.
-- Use capability context bounds/accessors for Logger, Clock and identity.
-- Give factories and private constructors explicit business ports/settings.
-- Return operation-owned enums from Photography business operations after F/Db unwrapping.
-- Reject bare success, Option, Unit and Either at this gate.
-- Keep an enum that expresses the full operation.
-- Exclude generic capability/library APIs and domain types from this result gate.
-- Use per-operation sum types in Audiobookshelf business operations, not Either.
-- Add no enum to capabilities without business policy or a necessary outcome distinction.
-- Return necessary helper data, not the caller's result envelope for a different responsibility.
-- Keep the formatter-owned 150-column limit.
-- Examine density after formatting.
-- Use Cats `.pure[F]`, `.some`, `.asRight`, `.asLeft`, `.as` and traversal syntax.
-- When available, use local `.eitherT` syntax.
+These are application deltas to the [Typelevel profile](../profiles/typelevel.md), not another definition of it.
+
+Photography and Audiobookshelf retain a formatter-owned 150-column limit. Read executable configuration for changes.
+
+### Photography
+
+- Return operation-owned enums from business operations after F/Db unwrapping, not bare success, Option, Unit or Either.
+- Exclude generic capability/library APIs and domain types from that result gate.
 - Keep the named StructuredLogger binding in composition.
-- Historical `[Photography]` and `[Audiobookshelf]` names identify application loggers, not method parameters.
-- Examine logger identity in composition/configuration.
-- Use shared effect ownership, not logs at each call site.
-- Give coverage/tooling directives site-level proof in review evidence.
-- Keep logic-bearing adapters in coverage despite permitted composition exclusions.
-- For photography UI work, read workspace styles, ChapterOutline toolbar, AlbumDialog and SpreadConfirmation.
-- Keep content-first layout, icon grouping, focus/pending feedback and shortcuts.
-- Get accurate values and wording from source.
-- Keep Audiobookshelf evidence deterministic.
+- The historical `[Photography]` name identifies the application logger, not a method parameter.
+- For UI work, examine workspace styles, ChapterOutline toolbar, AlbumDialog and SpreadConfirmation as precedents.
+- Read accurate UI values and wording from source.
+
+### Audiobookshelf
+
+- Use per-operation sum types for business operations, not Either.
+- Add no enum to capabilities without business policy or a necessary outcome distinction.
+- Examine the historical `[Audiobookshelf]` logger identity in composition/configuration, not as a method parameter.
+- Keep evidence deterministic and technical output.
 - Give suggestions, not fuzzy auto-selection.
-- Keep technical output.
-- With maintainer approval, do live-state verification after media work.
+- With maintainer approval, perform live-state verification after media work.
 - Queue acceptance is not completion. A source collection is not proof of one book.
 - Obey local operational-access rules.
 
 ## Direct style
 
-- Return per-operation ADTs from Plant-journal business operations, not Either.
-- Use Either only for internal dependent composition.
-- When only failure is possible, use a failure subtype.
-- Add no full result with an unreachable success match.
-- Use `using` and the project's TestImplicits for capabilities and business MetricsApi ports.
-- Keep Cats Effect/ZIO runtimes out.
-- Use stable ID builders such as `buildUuid(index)`.
-- Keep named TypeScript imports to at most three names on one line.
-- Use namespace imports for larger sets.
-- Keep Solid reactive/control-flow bindings and Dagger decorators named.
-- Compiler, reactivity and introspection semantics depend on those bindings.
-- Use shared trait ownership for backend suites.
-- Give mandatory architecture checks names for their rule owners.
+Plant-journal adds these constraints to the [direct-style profile](../profiles/direct-style.md).
+
+- Return per-operation ADTs from business operations, not Either.
+- When only failure is possible, use a failure subtype without an unreachable success match.
+- Use stable ID builders such as `buildUuid(index)`, not literal IDs.
+- Keep named TypeScript imports to at most three names on one line. Use namespace imports for larger sets.
+- Keep Solid reactive/control-flow bindings and Dagger decorators named for their compiler, reactivity and introspection semantics.
+- Give mandatory structural/architecture suites names for their production rule owners.
 - Use Vitest componentTest, seamIntegrationTest and systemIntegrationTest suffixes for the boundary under test.
-- Keep zero-warning analysis, compiler errors, 100% coverage and architecture-direction checks as hard gates.
-- Keep generated OpenAPI/client artifacts read-only.
-- Use the executable generator and drift check for endpoint/artifact changes.
-- Keep HTTP logic in coverage measurement.
-- Use the tapir seam interpreter for logic-bearing endpoints.
-- Use a live server for static serving.
-- Use the project's exclusions for composition roots without domain/HTTP logic.
-- Give site-level proof for output-only callbacks, OpenAPI-only mappings and unreachable branches.
-- Put COVERAGE-OFF/ON markers on different lines.
-- Put the explanation immediately before COVERAGE-OFF.
+- Use the executable generator and drift check for endpoint/artifact changes under [generated-contract ownership](../context.md#contracts-are-protocols).
+- Use the tapir seam interpreter for logic-bearing endpoints and a live server for static serving.
+- Keep domain/HTTP logic and reachable failures in coverage. Limit composition exclusions to shells without that logic.
+- Give site-level exclusion proof for output-only callbacks, OpenAPI-only mappings and unreachable branches.
 - Keep tapir's permitted Any endpoint parameter without casts, untyped responses or widening bypasses.
 - Keep unsafe-cast bans without an incompatible blanket Wart.Any gate.
-- Use Info for mutations/action/ID and business transitions in usecases.
-- Use Error for unexpected failures with operation/cause.
-- Keep reads without errors silent.
-- Keep business-outcome logs out of adapters.
-- Put startup and top-level failure logs in composition.
-- Keep one line per log record, without a raw stack trace.
-- After work or compensation without errors, measure historical business trends with one increment/gauge set for each call.
-- Derive current-state gauges from reads.
-- Keep historical metrics without changes after history edits/deletions.
-- Use the same transport registry for HTTP RED and JVM/process USE.
-- Use English domain vocabulary.
-- Translate Romanian source records at the adapter.
-- Keep declarative codecs private to their translating adapter.
-- Keep containers without one responsibility and encode/decode helper families out.
-- Keep prose paragraphs to at most two sentences.
-- Put each paragraph/list item on one source line.
+- Use English domain vocabulary. Translate Romanian source records at the adapter.
 
 ## Other owning domains
 
-Keep Home-automation's AGENTS, runbooks, deployment/reload contracts and platform examples. Scala/Typelevel rules do not replace Python/YAML/HA requirements.
+For Home-automation work, read its AGENTS, runbooks, deployment/reload contracts and platform examples.
 
-Before entity-reference, deployment, dashboard-action or media-output changes, read the local contract.
+Read the applicable local owner before entity-reference, deployment, dashboard-action or media-output changes.
 
-Examine the supported boundary.
-
-Get production-state approval locally. This shared pack gives no such permission.
+Scala rules do not replace Python/YAML/HA requirements. Local production-state permission remains subject to [execution](../executor.md#approvals-and-delivery).

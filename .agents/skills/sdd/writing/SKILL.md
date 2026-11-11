@@ -52,23 +52,23 @@ Make sure that the text has signal and clarity. A short sentence without necessa
 - Use the standard's word-count rules for parentheses, quoted text, identifiers, names, hyphens and lists.
 - Keep each paragraph or list item to one topic and at most two sentences.
 - Use tables for comparisons and numbered steps for procedures.
-- Give each fact one owning location.
 - Remove sections without different necessary information.
 - Remove filler, announcements, tangents, recaps and closing pleasantries.
+- Compare scope and concision with the closest approved precedent. Apply current rules when the precedent has defects.
 - Include a next action only when necessary.
 - Keep evidence, decision authority, safety and uncertainty that changes a decision.
 - Keep the work necessary for correctness regardless of report length.
 - Obey mandatory templates and Markdown source-wrapping rules.
+- Put each Markdown prose paragraph or list item on one physical source line.
 - Remove only optional sections without information necessary for a decision.
 
 ## Documents
 
 - For procedures, give prerequisites, actions, expected results and recovery in execution order.
 - For living docs, use [strategic admission](../context.md#admission-test) before a draft.
-- Keep implementation detail out of strategic knowledge regardless of wording.
-- For specs, give the actor, condition, outcome and failure behavior.
-- Put requirements with approval, proposals and open choices in different categories.
-- For reviews, give the rule, source evidence, effect and necessary correction.
+- For spec structure, use the [change template](../templates/change-spec.md).
+- Use [discovery](../discovery.md) for spec provenance and [execution](../executor.md#understand-and-decide) for other decision categories.
+- For review findings, use the [review procedure](../reviewer.md).
 - Put checklist labels and evidence in different fields.
 
 ## Writing checks
@@ -84,6 +84,5 @@ Make sure that the text has signal and clarity. A short sentence without necessa
 - Until the reviewer completes the full source review, keep the writing gate open.
 - Correct all findings before closure.
 - If the official standard is not available, get access before a compliance decision.
-- Reject incomplete specs and feature walkthroughs in living docs.
 - Remove synonyms that are not necessary.
 - Keep necessary safety or recovery detail regardless of length.

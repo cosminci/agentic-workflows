@@ -5,42 +5,22 @@
 - Use the project's TestImplicits for capability substitutes.
 - End Either-valued names with `Result`.
 - Adapt operation results to Either only for dependent composition, not one wrap/unwrap.
-- Return narrow helper data, not the caller's public result.
 - Attach lazy compensation next to its owning step.
-- Keep the primary and compensation failures.
+- Retain compensation failures alongside the primary failure.
 - Use optics for nested immutable updates.
-- Put business-outcome logs in usecases, not adapters.
-- Put startup and top-level failure logs in composition.
+- Use [effect ownership and failure guarantees](../principles.md) for logging and compensation.
 - Use Info for mutation action/entity ID or business transitions.
 - Keep reads without errors silent.
 - Use Error for unexpected failures with operation and cause.
 - Put each log record on one line, without a raw stack trace.
-- Inject business MetricsApi ports with `using`.
+- Inject business MetricsApi ports through the profile's capability mechanism.
 - Increment one counter or set one gauge for each MetricsApi call for a historical trend.
 - Derive current-state gauges from reads, not accumulators.
 - After work and compensation without errors, record metrics.
 - Keep historical metrics without changes on edit/delete.
 - Use one transport-owned registry for HTTP RED and process/JVM USE metrics.
 - Obey the [direct-style contract](../references/local-contracts.md#direct-style) for results, imports, generated contracts and strict gates.
-- Keep framework-mandatory named bindings.
-- Use shared trait ownership for backend suites.
-- Give mandatory structural suites names for their production owners.
-- Use Vitest componentTest, seamIntegrationTest and systemIntegrationTest suffixes for the boundary under test.
-- Use the project's stable ID builders, not literal IDs.
-- Create all substitutes in builders.
-- Return only the component from a builder.
-- Keep fixed response defaults in test code only.
-- Use Refs only for observed calls/effects with assertions.
-- Keep small test data local.
-- Put only multi-suite substitutes with a shared invariant and construction responsibility in TestImplicits/Mocks.
-- Keep cross-suite fixture-holder objects out.
 - Keep declarative codecs private to their adapter, without encode/decode helper families.
-- Keep domain/HTTP logic in coverage measurement.
-- Use the project's exclusions only for composition shells without domain/HTTP logic.
 - Put mandatory coverage markers on different lines.
 - Give the exclusion/invariant immediately before COVERAGE-OFF.
-- Keep reachable failures in coverage.
-- Keep formatter/linter/coverage exclusions without changes during check repairs.
-- Keep tapir's permitted Any type parameter, without Any casts or widening bypasses.
-- Use English domain terms.
-- Translate foreign source vocabulary at the adapter.
+- Use [guardrails](../principles.md#guardrails) for permitted coverage exclusions.

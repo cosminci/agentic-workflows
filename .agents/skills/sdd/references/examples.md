@@ -1,10 +1,6 @@
 # Concrete quality examples
 
-Read this file with [quality gates](quality-gates.md) for the changed boundary.
-
-Examine ownership and behavior, not symbol spelling.
-
-These examples show defects and valid designs. Examine the project before use of an example.
+These are illustrative cases, not rule definitions. Read only the changed boundary after its owner from [review evidence](quality-gates.md).
 
 ## Meaningful intermediates and whitespace
 
@@ -20,9 +16,7 @@ Different `PlantId`/`AlbumId` types show roles without labels. A raw string or l
 
 `AcceptedIntent` expanded across lines because metadata contained a refinement and an additional constructor.
 
-Examine input cohesion before a layout repair.
-
-Give the full metadata value a name. Use named arguments for absent fields.
+The [syntax owner](../conventions.md#syntax) applies to both the bulky value and absent fields.
 
 A factory alias only conceals the same construction.
 
@@ -31,7 +25,7 @@ val readyMetadata = ImportReadyMetadata(metadata.refineUnsafe[ImportReadyMetadat
 val intent = AcceptedIntent(candidate, readyMetadata, maybeRuntimeMinutes = None, maybeCover = None, original = measurements, maybeRecording = None)
 ```
 
-When one nested result expands an assertion, use the same repair.
+An assertion with one nested result illustrates [assertion layout](../conventions.md#suites-and-assertions).
 
 ```scala
 val hasCreationConflict = existingNames.contains(requestedName)
@@ -44,7 +38,7 @@ assertEquals(actualResult, expectedResult)
 
 The condition gives a business fact and the expected value gives the full outcome. A `makeConflict()` wrapper adds no responsibility.
 
-Put Arrange/Act/Assert blank lines between phases, not effect generators.
+This dependent sequence illustrates [sequencing](../conventions.md#sequencing).
 
 ```scala
 for
@@ -53,19 +47,13 @@ for
 yield savedAlbum
 ```
 
-Keep dependent generators together without gaps. If `updatedAlbum` conceals an independent lifecycle rule, put the rule in its deciding usecase.
-
-A cohesive same-level mapping can stay private. A multiline call makes API/cohesion inspection necessary before a layout repair.
+If `updatedAlbum` conceals an independent lifecycle rule, the example needs an ownership correction, not whitespace.
 
 For Typelevel, `albums.find(albumId).map(renderAlbum)` gives one effect and a pure result. Use a comprehension for multiple dependent effects.
 
 `.pure[F]` can lift a branch in an effectful workflow. It is not a reason for an effectful API on a pure classifier.
 
-Before a name for a bulky SQL expression, examine its owner.
-
-Give a repository dependency persistence responsibility, not only a shorter call.
-
-Use braces/colon for multiline lambdas. Where scala3future makes braces mandatory, use `traverse_ { item => ... }`, not `traverse_: item =>`.
+Under the [Typelevel profile](../profiles/typelevel.md), scala3future can require `traverse_ { item => ... }` rather than colon syntax.
 
 ## Cohesive APIs and states
 
@@ -85,13 +73,11 @@ This type excludes confirmation without an ID and keeps review evidence. A domai
 
 A request type groups facts for one operation. `Request(album, services, flags, settings)` conceals unrelated inputs and lifetimes.
 
-Examine more than five fields for cohesion/state defects. Keep cohesive facts together.
-
-Give the caller necessary identity and measurements, not `LookupResult` with unrelated failures.
+`LookupResult` with unrelated failures gives the caller more than the identity and measurements it needs.
 
 A persistence helper returns saved data. Its caller assembles the workflow result.
 
-Give a no-op without errors an explicit result. It is not an error for an Either short-circuit.
+The following operation illustrates [module/result conventions](../conventions.md#modules-and-results).
 
 ```scala
 trait UserRepository:
@@ -112,11 +98,7 @@ object UserRepository:
     case Unavailable
 ```
 
-Use `LiveUserRepository`, not the shortened `LiveUser`. Keep trait, factory and results together.
-
-The storage contract must give the operation's domain-valid outcomes.
-
-Use the selected profile's effects and capability injection.
+This direct-style example keeps the full implementation name, factory and results together. A Typelevel variant uses its profile's effects.
 
 ## Library integration
 
@@ -124,17 +106,13 @@ In http4s/Circe/Iron, use middleware for shared HTTP concerns and declarative de
 
 When its quantity model gives the necessary units, use Squants.
 
-Add custom types only for a missing capability, not a preference for custom validation.
-
-Put business policy in usecases.
-
-Keep the boundary's error contract through library integration.
+The [library policy](../principles.md#libraries-and-tooling) determines whether custom conversion has a necessary role.
 
 ## Intelligible table scenarios
 
 `s"should return ${WateringAttention.Current} ..."` uses the domain variant to prevent stale wording after a rename.
 
-Use table fields for explicit scenario roles:
+This table illustrates [suite setup](../conventions.md#suites-and-assertions):
 
 ```scala
 final case class Scenario(attention: WateringAttention, expectsWarning: Boolean)
@@ -156,9 +134,7 @@ scenarios.foreach { case Scenario(attention, expectsWarning) =>
 }
 ```
 
-Use the project's scenario type/builder. `(true, false, true)` and a named-tuple annotation do not show call-value roles.
-
-Use named fields at construction and named observations for calls.
+`(true, false, true)` and a named-tuple annotation do not show the construction roles that `Scenario` names here.
 
 Give fixed responses directly: `buildX(response = scenarioResponse)`.
 
@@ -172,15 +148,13 @@ Use `buildX(findResult = arrangedResult)`. Record the requested ID in Refs.
 
 A controlled pause or repeated-call scenario can make an effectful substitute necessary.
 
-Record that requirement. Keep response selection separate from observations.
+The pause is an example of a scenario reason for an effectful substitute.
 
 ### Named setup controls
 
 `(buildOwner(), Deferred[IO, Unit], expected).tupled` mixes construction, synchronization and assertion data. Its reader must examine machinery for the tuple's meaning.
 
-Keep expected data local.
-
-Allocate each effect by role:
+Named local allocations make these roles visible:
 
 ```scala
 val expectedResult = ImportResult.Completed(original)
@@ -194,17 +168,11 @@ yield assertEquals(actualResult, expectedResult)
 
 `Map[ReadResult, ImportProblem]` gives one association. It is not a reason for `(owner, input, release, expected)` or a fixture record with unrelated values.
 
-Before Act, assemble domain inputs and substituted responses with checked refinements.
-
-Use those values in the full expected result.
-
-Use strings and safely widened actual values for standalone expected text catalogs.
-
-Keep boundary-rejection scenarios for invalid inputs.
+For checked values versus underlying expected catalogs, use [refinement conventions](../conventions.md#codecs-and-refinements).
 
 ## Strategic contracts
 
-For provided HTTP APIs, OpenAPI contains the methods, paths, representations, errors and stream guarantees. Living docs link this contract.
+These cases illustrate [protocol ownership](../context.md#contracts-are-protocols).
 
 The Audiobookshelf OpenAPI defines `GET /api/audiobooks` and its JSON/SSE `Accept` selection. It includes payloads, `subscribed`/`changed` framing and reconnect/read guarantees.
 
@@ -212,15 +180,12 @@ A consumed-protocol table can give endpoints, exchanged data and handoff. Its fa
 
 An `EventsApi.scala` link gives no protocol contract. A WebSocket contract is incorrect when the service emits SSE.
 
-If OpenAPI is missing, write it, not a prose inventory. Design contains the business lifecycle, not a duplicate wire contract.
 
 ## Frontend behavior
 
 A disabled Save control gives its reason through `aria-describedby` from the same predicate. Duplicate predicates can give a reason inconsistent with disabling.
 
-Use frontend validation tables for the predicate.
-
-Use component scenarios for accessible Save behavior and feedback.
+These cases illustrate [frontend conventions](../conventions.md#solidjs--typescript) and [presentation guarantees](../principles.md#presentation).
 
 A chapter rename shows its authoritative saved name, not a title rebuilt from an ID.
 
@@ -228,25 +193,13 @@ After a dialog failure or collapse, keep focus on a persistent control/status.
 
 A toolbar groups related thin-stroke actions. Each action has hover text and an equivalent accessible name.
 
-Use For for keyed chapter identity and Index for positional page-number rows.
-
-Use Show for conditional rendering.
-
-Put keyboard deletion with its interaction.
-
-Keep text-entry and native-control keys unchanged.
-
-Use `/* v8 ignore next */` only for an unreachable guarded callback with site-level proof.
-
-Use real events for reachable-failure tests.
+`/* v8 ignore next */` is an example directive, not proof that its branch is unreachable.
 
 ## Review replays
 
-For each changed gate, record the specified candidate, result, rule and effect.
+Use [the review procedure](../reviewer.md#reported-misses) to run these candidate/control pairs.
 
-After `Discuss`, give analysis with a defect-backed `Block` or evidence-backed `Pass`.
-
-A signal alone does not give a verdict. A hard-rule exception makes explicit scoped approval mandatory.
+`Discuss` means the fixture lacks enough evidence for a verdict. Its next step is source examination, not an automatic block or pass.
 
 | Candidate | Mandatory verdict | Rule and effect |
 | --- | --- | --- |
@@ -329,12 +282,6 @@ Photography `ec6a0ba` rebuilt living docs.
 
 These commits give reported failure classes, not perfect precedents.
 
-Subsequent maintainer decisions make protocol contracts and trait-owned suites mandatory, not class links or domain suites.
-
 Previous rounds, copied checklists, universal spikes, fixed slicing and verbatim Doc Sync were workflow mechanisms, not quality obligations.
 
-Execution keeps scoped review, approvals, independent repair verification, archive-phase Doc Sync and strategic living docs.
-
-Keep safety, ownership, no-explanatory-comment policy and full Live naming.
-
-Keep the profile-owned exceptions for tooling directives and coverage explanations.
+Current obligations belong to the owners in [SDD routing](../SKILL.md), not these historical sources.

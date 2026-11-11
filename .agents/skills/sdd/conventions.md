@@ -14,20 +14,14 @@
 - Put blank lines between Arrange, Act and Assert.
 - Put test data in semantic scenario order.
 - Use table tests for cases with only input differences.
-- Change owning scenarios before more coverage-only tests.
 - Give suites names for their production boundaries.
 - Start case names with `should`, after the runner prefix when necessary.
-- Use multi-suite setup only for construction with the same shared invariant.
-- Keep fixture data local. Use each contract's owner for its proof.
-- Put each Markdown prose paragraph or list item on one source line.
-- Remove empty or duplicate sections.
+- Use each contract's owner for its proof. For Scala fixture sharing, use [suite conventions](#suites-and-assertions).
 - Use imperative commit subjects with at most 72 characters and no issue/ticket identifiers.
 - When the diff does not give the reason, give it in the commit body. Keep issue references out.
 - Keep commit signing and repository identity.
 - Keep secrets and credentials out of commits, embedded text and printed output.
 - Read setup and gate commands from their executable owners and local guidance.
-- Keep gates mandatory during repairs.
-- Give observable guarantees in positive statements.
 
 ## Scala
 
@@ -87,6 +81,7 @@
 
 ### Codecs and refinements
 
+- Use declarative codecs for boundary representations.
 - Use the same codec only for two or more consumers and one shared representation invariant.
 - Keep shared codecs as pure bidirectional mappings.
 - Use a DTO only when a direct codec cannot express the format.
@@ -100,6 +95,9 @@
 - Widen actual refined outputs safely for comparison.
 - Keep full outcomes, identity and order with checked test values.
 - Decrease duplicate proof sites without casts, assumptions or fixture frameworks.
+- Count construction/conversion sites, not aliases or runtime records, when measuring duplicate proofs.
+- Keep boundary rejection proof, constraints and full assertions when reducing duplicate construction.
+- Record changed refinement declarations and explicit/implicit proof sites with `file:symbol` reasons.
 - Give suppressions site-specific safety proof, smallest scope and the full rule identifier.
 - Put the reason in review evidence, not an explanatory comment.
 
@@ -107,10 +105,6 @@
 
 - Use [trait-owned testing](principles.md#tests) for each trait's operation scenarios.
 - Use `<Trait>ComponentTest` for usecase suites and `<Trait>SeamIntegrationTest` for port suites.
-- Cross the adapter's external boundary in port suites.
-- Substitute all business collaborators in usecase suites.
-- Record approval for other backend suite owners.
-- Keep mandatory architecture checks.
 - Put architecture rules in one ArchitectureTest with one test.
 - Give suite-local `buildX` helpers scenario-variable responses.
 - Use fixed response values as the default, not input-dependent lambdas.
@@ -118,6 +112,8 @@
 - Keep dependency policy out of substitutes.
 - Put observation Refs first in builder arguments.
 - Use at most one suite-local Refs for call records, not stub responses.
+- Remove Refs when no scenario asserts observations.
+- Give responses, failures and clocks as builder inputs.
 - Keep named argument roles in captured call observations.
 - Give each control flag's state in its scenario.
 - Use named local values for test setup.
@@ -129,6 +125,10 @@
 - Named-tuple annotations do not label positional call values.
 - Keep resource controls and fixture data with different responsibilities out of the row.
 - Use suite order: shared scenario data, scenarios, Refs and builders.
+- Create substitutes in builders. Return only the component from a builder.
+- Keep fixed response defaults in test code only.
+- Keep cross-suite fixture-holder objects out.
+- Use TestImplicits/Mocks only for nontrivial multi-suite construction with a shared invariant, not constructor aliases.
 - Keep assertions on one line by default.
 - If one operand is complex, give it a name before the single-line assertion.
 - If both operands have large constructions, compare a short multiline assertion with two extracted values.
@@ -136,8 +136,7 @@
 - Interpolate the actual domain variant in test names.
 - Use the examined setup precedent.
 - Keep integration resources directly in suites, not callback setup frameworks.
-- Use the project's logging/runtime composition and coverage exclusions.
-- If composition coverage is not easy, get the owning design and coverage decision.
+- Use the selected profile for runtime composition and [guardrails](principles.md#guardrails) for coverage decisions.
 
 ## SolidJS / TypeScript
 
@@ -160,6 +159,7 @@
 - Obey the selected profile's import convention.
 - Keep framework-mandatory compiler/reactivity bindings.
 - Use plain-logic tests for frontend validation/derivation/formatting.
+- Export that logic as plain functions and use direct branch-table tests.
 - Use component tests for rendering and wiring without duplicate branch tables.
 - Use accessors/createMemo for derived state.
 - Use Show for conditional rendering.
@@ -167,6 +167,7 @@
 - Use the disabling predicate for disabled-control explanations.
 - Connect those explanations with `aria-describedby`.
 - Make UI invariants agree with backend contracts and fail-closed behavior.
+- Reject invalid input without silent repair.
 - Use accessible roles/names and user-event interfaces in tests, not classes, structure or test IDs.
 - Use mandatory coverage directives only for guarded unreachable branches with evidence.
 - Use user-path tests for reachable branches.

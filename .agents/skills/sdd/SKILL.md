@@ -4,33 +4,34 @@ description: Use for product changes, investigations, change specs and updates t
 ---
 # SDD
 
-- Obey [execution](executor.md) in the scope of approval. Before you use a pattern, examine its design.
-- Read [the eight engineering rules](foundations.md) for all work. Local rules can increase these obligations, but cannot decrease them.
-- Use [STE100 and high-signal writing](writing/SKILL.md) for all prose. This rule includes guidance, responses, specs and reviews.
-- In resolver output, `project` is the Git root. The `owner` directory contains product docs and commands.
+Read the applicable owners below. Follow their conditional links for the changed boundary, not every document in this pack.
+
+Each subject has one rule owner. Other documents link to it or supply a different artifact, application-specific constraint or concrete example.
+
+When guidance changes, edit its owner. Move unique obligations before replacing another definition with a pointer.
+
+Use foundations for universal minimums and execution for scoped approval and exception decisions.
 
 ## Context routing
 
 | When | Read |
 | --- | --- |
-| Task start, investigation or clarification | Read the project AGENTS, the project `.agents/skills/sdd/local.md` and [execution: understand and decide](executor.md#understand-and-decide) |
-| All prose | Read [writing](writing/SKILL.md) |
-| Domain, usecase or port changes | Read [principles](principles.md). When execution makes approval mandatory, use the [design decision](templates/design-map.md) |
-| Implementation | Read [principles](principles.md), [conventions](conventions.md), the selected profile and [quality gates](references/quality-gates.md). Read examples and local contracts for each changed boundary |
-| Proposal | Read the [change template](templates/change-spec.md), [principles](principles.md) and [spec gates](references/quality-gates.md#spec-and-completion). Include model evolution in the review |
-| Review or repair | Read [principles](principles.md), [conventions](conventions.md), the selected profile, [quality gates](references/quality-gates.md), the [review protocol](reviewer.md) and [review template](templates/review.md) |
-| Doc Sync or living-doc changes | Read [strategic admission and context ownership](context.md) |
+| Every task | Project AGENTS, project `.agents/skills/sdd/local.md`, [engineering foundations](foundations.md) and [execution](executor.md) |
+| All prose | [Writing rules](writing/SKILL.md) |
+| Design or implementation | [Design principles](principles.md) |
+| Code changes | [Code conventions](conventions.md) and the selected [direct-style](profiles/direct-style.md) or [Typelevel](profiles/typelevel.md) profile |
+| Pre-spec discovery or spec amendment | [Discovery and decision process](discovery.md) |
+| Spec draft | [Change template](templates/change-spec.md) and linked [design template](templates/design-map.md) |
+| Review or repair | [Review procedure](reviewer.md), which selects rule owners and evidence |
+| Doc Sync or living-doc changes | [Knowledge admission and document ownership](context.md) |
 
-## Approvals and delivery
+## Specialized owners
 
-- Approval gives permission only for the specified scope. Spec approval, design approval and merge permission are different decisions.
-- When a spec is mandatory, merge its first PR before implementation. Use execution's amendment rule for subsequent changes.
-- Keep the implementation in one PR.
-- For deliveries with independent value or a maintainer request, use separate PRs.
-- Make each implementation PR compile and pass gates without subsequent PRs. Include caller migrations in that PR.
-- Get a maintainer decision for delivery-order conflicts.
-- For separate deliveries, keep one feature branch. After each permitted merge, fetch main.
-- Update that branch without duplicate squash-merged work.
-- Keep other agents' edits. If a different agent controls the checkout, use a separate worktree.
-- Get maintainer approval for production-state changes, destructive actions and rule exceptions. Record the scope of that approval.
-- Before publication, complete execution/local checks and review. Get maintainer permission before a merge.
+| Subject | Owner and load condition |
+| --- | --- |
+| Review evidence | [Quality gates](references/quality-gates.md), selected by the review procedure |
+| Review output | [Review record](templates/review.md), when recording a review |
+| Application-specific differences | [Local contracts](references/local-contracts.md), only the applicable application section |
+| Worked cases and replay fixtures | [Examples](references/examples.md), only the changed boundary or reported failure class |
+
+Resolver output uses `project` for the Git root and `owner` for the directory with product docs and commands.

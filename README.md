@@ -2,11 +2,7 @@
 
 This repository contains shared SDD and engineering rules for home-automation, photography and plant-journal. [SDD](.agents/skills/sdd/SKILL.md) gives the applicable rules for each task.
 
-Living docs give strategic project knowledge that code search cannot give.
-
-Reviews must include source evidence and analysis of design signals. A format change does not correct a design defect.
-
-All prose must obey [STE100 and high-signal writing](.agents/skills/sdd/writing/SKILL.md). Short text must also give information necessary for a decision.
+Use SDD's context routing to find each subject's owner. Templates define artifact structure, review gates request evidence, and examples illustrate the owning rules.
 
 ## Resolve guidance
 

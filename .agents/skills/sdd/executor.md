@@ -3,12 +3,14 @@
 ## Start
 
 - Read project entrypoints and applicable sources.
+- Use living knowledge as authority, not archived proposals unless explicitly designated.
 - On resumption, use recorded decisions and results. Read changed sources and sources necessary for a new question.
 - Do the work directly. Use a subagent for mandatory independent review.
 - For other delegation, get maintainer approval for a specified correctness blocker before launch.
 - Convenience, speed, parallelism and task size are not blockers.
 - Keep mandatory independent review when the maintainer requests direct implementation.
 - Record scope, baseline, workflow revision, decisions, test mapping and check results in ignored `.agent-work/<slug>/state.md`.
+- For a new branch, record classification and matching branch naming.
 - For an investigation, find the cause before repair selection.
 - Accept no-change and inconclusive reports. These reports do not give repair authority.
 - Put observations, hypotheses and conclusions in different categories.
@@ -19,20 +21,19 @@
 
 ## Understand and decide
 
+- For spec discovery, preparation or amendment, use [discovery](discovery.md) instead of the non-spec decision rule below.
 - The maintainer has authority over intent, requirements, scope, acceptance and important design decisions.
 - Examine facts independently before a recommendation.
 - Put requirements with approval, proposals and decisions with approval in different categories.
-- Before a draft, read each changed boundary's implementation, callers, tests and previous decisions.
 - Use [contract evolution](principles.md#evolve-existing-responsibilities) before implementation selection.
-- Get a maintainer decision only for intent or important choices that evidence cannot answer.
+- Outside spec discovery and preparation, get a maintainer decision only for intent or important choices that evidence cannot answer.
 - Stop only the work that depends on the missing decision.
 - Keep supplied decisions unless contrary evidence makes a new decision necessary.
-- For domain work, examine baseline concepts, valid states, transitions and usecases through their consumers.
-- Use the evolution rules in principles.
 - When precedent agrees, continue with additions in the scope of approval that keep responsibilities and guarantees.
 - Before responsibility additions/moves, guarantee changes, product tradeoffs without decisions or rule exceptions, get approval.
 - Use [the design template](templates/design-map.md) for that decision.
 - Examine the specified behavior, ownership or feasibility question. Stop when the evidence answers it.
+- Record observed findings or a checkable reason that no experiment was necessary.
 - Open a decision again only for contrary evidence.
 - For diagnosis, examine the baseline model.
 - Select a repair only with source evidence for the cause and known expected behavior.
@@ -50,47 +51,39 @@
 
 ## Spec
 
-- Use [the change template](templates/change-spec.md), applicable living docs and source evidence.
-- Include model evolution with observable behavior and guarantees in the review.
-- Include the recommendation and choices without decisions in the spec PR. Spec approval includes behavior and the linked design decision.
+- Use [discovery](discovery.md) for the pre-draft decision gate and the [change template](templates/change-spec.md) for the artifact.
+- Spec approval includes behavior and the linked design decision.
 - Start implementation only after the permitted spec merge.
-- Use tables or diagrams for contracts and transitions. Add prose only for missing information.
-- Before publication, examine acceptance, model evolution and Doc Sync admission.
 - Use the amendment rule for subsequent model changes.
+
+## Approvals and delivery
+
+- Approval gives permission only for the specified scope. Spec approval, design approval and merge permission are different decisions.
+- Keep the implementation in one PR.
+- For deliveries with independent value or a maintainer request, use separate PRs.
+- Make each implementation PR compile and pass gates without subsequent PRs. Include caller migrations in that PR.
+- Get a maintainer decision for delivery-order conflicts.
+- For separate deliveries, keep one feature branch. After each permitted merge, fetch main.
+- Update that branch without duplicate squash-merged work.
+- Keep other agents' edits. If a different agent controls the checkout, use a separate worktree.
+- Get maintainer approval for production-state changes, destructive actions and rule exceptions. Record the scope of that approval.
+- Before publication, complete the checks and review below. Get maintainer permission before a merge.
 
 ## Implement and check
 
-- When a pattern's design is applicable to the task, use that pattern.
+- Examine a pattern's design before use. Use it when applicable to the task.
 - Complete [design-signal analysis](principles.md#guardrails) before edits.
-- Record suspected defects and kept signals in the [design-signal record](templates/review.md#design-signals).
-- Remove machinery without a necessary function. Use tests to show that the result keeps necessary invariants.
 - For new behavior, add its tests as one group before production changes.
 - Make sure that the tests reject the intended missing behavior.
 - Complete a related code-and-test change before targeted validation.
 - Use a previous check only for a specified compiler or type uncertainty.
-- Add changed behavior to the owning scenarios.
-- Include failures and edges at the boundary that enforces the guarantee.
-- Use the [trait ownership rule](principles.md#tests) for backend suites.
-- Use frontend suites for behavior and accessibility.
+- Use [test ownership and proof boundaries](principles.md#tests) for changed behavior.
 - Start with the smallest available checks for the change. Then do the other mandatory publication checks.
 - While their code and dependencies have no changes, keep results.
-- Examine the candidate after its last edit with [the review protocol](reviewer.md).
-- Examine source against each applicable gate, not implementation reasoning or previous pass labels.
-- Correct findings before the next set of checks for the repair.
-- After repairs or subsequent edits, examine conclusions whose source or dependencies changed.
-- Keep results from checks whose source and dependencies have no changes.
-- Fill the [gate evidence record](templates/review.md#gate-evidence) from source declarations, calls, traits and suites.
-- Record source evidence for the [Doc Sync decision](context.md#admission-test), with `None` when applicable.
-- Examine living-doc owners whose facts can change, not only changed candidate files.
-- Read examples and local contracts for the selected boundary.
-- Record each criterion and edge case with its test evidence.
+- Complete [review and closure](reviewer.md) after the last edit.
 - Use independent review for new/moved responsibilities, changed guarantees, concurrency/resource safety, rule exceptions and local/maintainer requirements.
 - Use self-review for other additions in the scope of approval that keep guarantees.
-- Keep mandatory independent review.
-- If that review is not available, complete permitted work.
-- If that review is not available, report the review blocker.
-- If the maintainer or local rules prohibit mandatory review, complete permitted work.
-- If the maintainer or local rules prohibit mandatory review, report the review blocker.
+- If mandatory review is unavailable or prohibited, complete permitted work and report the review blocker.
 - Give a demonstration only for a specified journey risk without test evidence or a maintainer request.
 - Get agreement on the scenario before the demonstration.
 - Get confirmation before publication.
@@ -98,14 +91,10 @@
 - Update affected spec criteria before tests or code.
 - After amendment approval, start implementation without a second spec-only merge unless local policy or the maintainer makes that merge mandatory.
 - Include the amended spec in the implementation PR.
-- Complete mandatory review of changed decisions and their dependent checks.
 - For spec-backed work, keep Doc Sync accurate during implementation.
 - Put deltas with admission evidence in living docs during archive.
 - Without a spec, include directly related doc updates with implementation.
-- Use [strategic admission](context.md#admission-test) for each living-doc edit.
-- Complete the task only with all candidate files examined, corrected findings and mandatory checks without errors.
-- Keep gates without source examination and design concerns without answers open.
-- Do more verification only for a new question or changed evidence.
+- Use [strategic admission](context.md#admission-test) for Doc Sync and directly related doc edits.
 
 ## Complete
 
