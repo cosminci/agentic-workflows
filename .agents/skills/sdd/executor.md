@@ -52,7 +52,7 @@
 ## Spec
 
 - Use [discovery](discovery.md) for the pre-draft decision gate and the [change template](templates/change-spec.md) for the artifact.
-- Spec approval includes behavior and the linked design decision.
+- Spec approval includes behavior and design decisions in `proposal.md`.
 - Start implementation only after the permitted spec merge.
 - Use the amendment rule for subsequent model changes.
 
@@ -102,8 +102,7 @@
 - Use the same demonstration rule.
 - After all spec implementation merges, compare Doc Sync with delivery and doc owners whose facts can change.
 - Include a previous `None` in that comparison.
-- Put qualifying knowledge at its owner.
-- Remove incorrect text. When strategic knowledge has no changes, use `None`.
+- Apply [strategic admission](context.md#admission-test) to the final doc changes or `None`.
 - Archive at `specs/changes/archive/YYYY-MM-DD-<slug>/` in the same doc PR. Archival adds no behavior.
 - Record the candidate after its last edit, results, approvals and open work.
 - For independent review, keep its ID and report path.

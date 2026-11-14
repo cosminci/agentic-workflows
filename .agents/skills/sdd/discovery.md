@@ -2,9 +2,9 @@
 
 Use this process before a spec or its amendment. Execution determines when a spec is necessary.
 
-Use [execution](executor.md#understand-and-decide) for general decision authority and [experiment rules](executor.md#understand-and-decide).
+Use [execution](executor.md#understand-and-decide) for decision authority and experiment rules.
 
-The agent gathers evidence, explains options and recommends decisions. The maintainer makes the decisions, including when asked to delegate judgment.
+The agent collects evidence, explains options and recommends decisions. The maintainer makes the decisions, including when asked to delegate judgment.
 
 ## Discovery and decisions
 
@@ -22,12 +22,12 @@ flowchart TD
     Direct["Clarify directly"]
     Findings["Discuss findings, alternatives and tradeoffs"]
     Review["Review the proposal and design surfaces"]
-    Decisions{"All required facts discussed<br/>and decisions confirmed?"}
-    More["Gather evidence or request missing decision"]
-    Draft["Draft spec and linked design<br/>from covered information"]
+    Decisions{"Behavior and design<br/>confirmed?"}
+    More["Collect evidence or request missing decision"]
+    Draft["Draft proposal.md<br/>from the decision record"]
     Check{"Maintainer review"}
     Correct["Correct document"]
-    Ready(["Approved spec package"])
+    Ready(["Approved proposal.md"])
     Report(["No change or inconclusive report"])
 
     Start --> Read --> Evidence --> Need
@@ -46,8 +46,6 @@ flowchart TD
 
 Ask one focused question at a time. Give a recommendation with its reason and cost, not an assumed decision.
 
-Routine evidence-gathering choices remain with the agent.
-
 | Supporting activity | When it helps |
 | --- | --- |
 | Focused grilling | Challenge assumptions, failure cases or choices during design review. |
@@ -55,72 +53,32 @@ Routine evidence-gathering choices remain with the agent.
 | Brainstorming | Explore an unclear problem or several plausible approaches. |
 | Prototype or spike | Resolve a concrete behavior or feasibility question through an agreed experiment. |
 
-These activities are optional, not a sequence. Supporting skills must preserve the ownership and approval rules here.
-
-If the maintainer declines an activity, clarify directly or continue with sufficient evidence and explicit decisions.
-
-A working experiment does not establish production readiness.
-
-### Required design review
-
-Present every applicable section of the [change](templates/change-spec.md) and [design](templates/design-map.md) templates for explicit confirmation.
-
-Get confirmation when a surface does not apply. Evidence or precedent supplies facts, not permission to omit confirmation.
-
-Retained design can receive grouped confirmation. Reuse prior approvals after discussing their source and continued applicability.
+An experiment that operates correctly is not sufficient to make sure of production readiness.
 
 ### Completion before a draft
 
-Every spec fact must have been explicitly discussed with the maintainer. Give source evidence for technical facts.
+Get explicit maintainer confirmation for each [proposal section](templates/change-spec.md) and each design surface.
 
-Every requirement and design choice must have a maintainer decision or an applicable prior approval covered in that discussion.
+Cover APIs/domain types, dependency direction/composition/external boundaries, storage/migrations, and retained/changed/retired responsibilities and contracts.
 
-Record discussion coverage, sources, decisions and approval scope in work state. Keep recommendations and unresolved questions there until decided.
+Record decisions, source evidence, approval scope and confirmed non-applicability in work state. Evidence alone does not supply confirmation.
+
+Keep rejected and superseded choices in that record.
+
+Reuse prior approvals only after discussing their source and continued applicability with the maintainer. Retained design can receive grouped confirmation.
+
+Reused contracts keep their existing behavior. Missing confirmations or unresolved requirements and design choices block drafting.
 
 Use execution's [investigation outcomes](executor.md#start) when the evidence supports no change or remains inconclusive.
 
 ## Spec preparation
 
-Use the change template and linked design decision as one spec package.
+Use the change template to write the confirmed design, including its technical choices, in one `proposal.md`.
 
-Apply the pre-draft gate above to alternatives, exclusions and acceptance as well as the main design.
+Keep discovery evidence, rejected options and unchanged-surface findings in work state.
 
-Populate required sections from that material. If necessary information is missing, return to discovery instead of inventing content.
+Source facts describe existing behavior. A proposed API, guarantee or migration requires a confirmed design decision, including for safety.
 
 Get maintainer review of the draft. Separate document corrections from questions that require another design decision.
 
 Use execution for [approval and delivery](executor.md#approvals-and-delivery).
-
-### Implementation handoff
-
-This diagram is a navigation map for [execution](executor.md#implement-and-check), not another rule owner.
-
-```mermaid
-flowchart TD
-    Start(["Implementation"])
-    Read["Read approved spec, linked design and current source"]
-    Ready{"Execution prerequisites satisfied?"}
-    Missing["Request missing decision or permission"]
-    Design["Return to discovery and execution's amendment path"]
-    Tests["Follow execution's test-first step"]
-    Implement["Follow implementation and Doc Sync steps"]
-    Question{"New design decision needed?"}
-    Check["Run applicable checks and required review"]
-    Fix["Correct implementation defects within approval"]
-    Publish["Follow publication approval"]
-    Merge["Follow merge approval"]
-    Merged["Complete execution's deliveries"]
-    Docs["Follow execution's completion and archive steps"]
-    Done(["Complete"])
-
-    Start --> Read --> Ready
-    Ready -->|No| Missing
-    Missing -->|Design decision| Design --> Read
-    Missing -->|Permission supplied| Read
-    Ready -->|Yes| Tests --> Implement --> Question
-    Question -->|Yes| Design
-    Question -->|No| Check
-    Check -->|Implementation defect| Fix --> Implement
-    Check -->|Design defect| Design
-    Check -->|Checks and review complete| Publish --> Merge --> Merged --> Docs --> Done
-```

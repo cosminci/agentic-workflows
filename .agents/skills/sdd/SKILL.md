@@ -16,12 +16,13 @@ Use foundations for universal minimums and execution for scoped approval and exc
 
 | When | Read |
 | --- | --- |
-| Every task | Project AGENTS, project `.agents/skills/sdd/local.md`, [engineering foundations](foundations.md) and [execution](executor.md) |
+| Every task | Project AGENTS, [engineering foundations](foundations.md) and [execution](executor.md) |
+| Work in a consuming repository | Project `.agents/skills/sdd/local.md` |
 | All prose | [Writing rules](writing/SKILL.md) |
 | Design or implementation | [Design principles](principles.md) |
 | Code changes | [Code conventions](conventions.md) and the selected [direct-style](profiles/direct-style.md) or [Typelevel](profiles/typelevel.md) profile |
 | Pre-spec discovery or spec amendment | [Discovery and decision process](discovery.md) |
-| Spec draft | [Change template](templates/change-spec.md) and linked [design template](templates/design-map.md) |
+| Spec draft | [Change template](templates/change-spec.md) for the single `proposal.md` |
 | Review or repair | [Review procedure](reviewer.md), which selects rule owners and evidence |
 | Doc Sync or living-doc changes | [Knowledge admission and document ownership](context.md) |
 

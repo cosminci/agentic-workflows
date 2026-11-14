@@ -45,8 +45,8 @@ Use [the review procedure](../reviewer.md) for scope, statuses and closure, and 
 | Rule owner | Evidence to examine |
 | --- | --- |
 | [Discovery](../discovery.md) | Discussion coverage, sources, explicit decisions, applicable prior approvals and unresolved questions, compared with every spec statement. |
-| [Change template](../templates/change-spec.md) | Classification, baseline-to-intended behavior, model evolution, criteria, failure/boundary/accessibility cases, flow and deferred owners. |
-| [Design template](../templates/design-map.md) | Every required design surface and its confirmed applicability, with concrete design in the linked artifact. |
+| [Change template](../templates/change-spec.md) | One `proposal.md` with behavior, criteria, applicable design decisions and only new or changed APIs in design evolution. |
+| [Design template](../templates/design-map.md) | Design decisions in chat when execution requires approval without a spec. |
 | [Execution](../executor.md) | Cause/expected behavior, hypothesis evidence, approvals, amendment scope, permitted merge order, completed checks and delivery state. |
 | [Strategic admission](../context.md#admission-test) | Affected living-doc owners from final source, including unchanged owners behind `None`, and each admission answer. |
 | [Protocols](../context.md#contracts-are-protocols) | Actual producer/consumer exchange, authoritative definitions, generated artifacts and protocol accuracy across prose, tables and diagrams. |

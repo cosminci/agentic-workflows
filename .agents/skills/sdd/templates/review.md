@@ -29,7 +29,7 @@ Use [the review procedure](../reviewer.md) to fill this record.
 
 ## Living-doc admission
 
-| Examined owner / section | Edit or None | Changed fact / evidence of correct retained facts | Reader decision and authority |
+| Examined owner / section | Edit or None | Changed fact / evidence that kept facts are correct | Reader decision and authority |
 | --- | --- | --- | --- |
 
 ## Findings and closure

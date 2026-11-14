@@ -6,7 +6,7 @@
 - End Either-valued names with `Result`.
 - Adapt operation results to Either only for dependent composition, not one wrap/unwrap.
 - Attach lazy compensation next to its owning step.
-- Retain compensation failures alongside the primary failure.
+- Keep compensation failures with the primary failure.
 - Use optics for nested immutable updates.
 - Use [effect ownership and failure guarantees](../principles.md) for logging and compensation.
 - Use Info for mutation action/entity ID or business transitions.

@@ -1,42 +1,56 @@
 # <Change>
 
+Write only `proposal.md`. Replace instructions with confirmed changes.
+
+Keep What and why, Acceptance and Doc Sync. Include other sections only when they contain agreed content.
+
 - **Classification:** feature | investigation
-- **Evidence:** baseline behavior or experiment findings from a session with approval
-
-For investigations, include the cause with source evidence.
-
 Before a draft, complete [engineer-owned discovery and design review](../discovery.md).
 
-Give links to evidence for existing behavior and the source authority for intended behavior.
+Before drafting, select an approved proposal of comparable scope. Record the reference and a word limit of 125% of its count in work state.
+
+Count the complete Markdown source, including tables, diagrams and code, with `len(re.findall(r"\b[\w]+(?:[-'][\w]+)*\b", text))`.
+
+Before presentation and after each correction, run the count and record the result. A proposal above the limit is not ready for review.
+
+Shorten repetition while preserving confirmed requirements and the required structure. If no comparable reference exists or necessary content cannot fit, get maintainer approval for a numeric limit.
 
 ## What and why
 
-Give the change from baseline to intended observable behavior, with its reason.
+Give the agreed behavior change and its reason.
 
-Keep what/why and acceptance nonempty.
+For investigations, include the cause with source evidence.
 
 ## Contracts
 
-Give changed guarantees, valid states, transition/failure order and the enforcing owner.
+Give changed system guarantees, states and failure order. Include unchanged context only when necessary to interpret the change.
 
-Show the trigger-to-committed-state flow, including UI delivery where applicable.
+Name the enforcing owner and show the trigger-to-result flow, including UI delivery where applicable.
 
-Give storage constraints and business decisions different roles.
+For writes, include the committed state.
 
-Remove this section when it gives no necessary information.
+Give required supplier and caller adaptations here.
 
-## Model evolution
+Give compatibility requirements for changed APIs.
 
-Give changed domain concepts, responsibilities and contracts for review before implementation.
+For changed service relationships, show dependency direction, composition and external boundaries without a module inventory.
 
-| Baseline concept / responsibility / boundary | Agreed evolution | Invariants, inputs/results and failure semantics | Changed suppliers / consumers |
-| --- | --- | --- | --- |
+For database changes, give schema relationships, cardinality, constraints, indexes, transaction boundaries and migration/compatibility decisions.
 
-Give baseline owners and changed responsibilities.
+For each agreed tradeoff, give its cost and the person or system with that cost.
 
-Compare new responsibilities with contract reuse, evolution and removal.
+Use tables or diagrams for contracts and transitions. Add prose only for missing information.
 
-Record areas without changes.
+## Design evolution
+
+Give only new or changed signatures and type definitions for ports, usecases and domain types.
+
+| API | Before | After |
+| --- | --- | --- |
+
+For additions, put `New` in Before.
+
+When no APIs change, omit this heading and section.
 
 ## Acceptance
 
@@ -48,19 +62,6 @@ Give deferred slice criteria explicit owners.
 
 ## Doc Sync
 
-Apply [strategic admission](../context.md#admission-test), including its `None` evidence rule.
+Replace `None` only with a `Document / section | Required edit` table of edits that pass [strategic admission](../context.md#admission-test).
 
-| Owning document / section | Changed or missing strategic fact | Reader decision and effect | Proposed delta |
-| --- | --- | --- | --- |
-
-## Supporting decisions
-
-Include invariants, tradeoffs, alternatives or scope only when necessary to understand the design.
-
-Use a linked [design decision](design-map.md#spec-design) for concrete design.
-
-Keep file layouts, diffs and test inventories in implementation work.
-
-Use tables or diagrams for contracts and transitions. Add prose only for missing information.
-
-For each tradeoff, give its cost and the person or system with that cost.
+None

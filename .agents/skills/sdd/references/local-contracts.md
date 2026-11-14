@@ -2,13 +2,15 @@
 
 Load only the applicable application section. Shared architecture and syntax belong to [principles](../principles.md) and [conventions](../conventions.md).
 
-Use the selected runtime profile for stack-wide rules. Project entrypoints, executable owners and scoped decisions establish applicability.
+Use the selected runtime profile for stack-wide rules.
+
+Use project entrypoints, executable owners and scoped decisions to find which rules are applicable.
 
 ## Typelevel
 
 These are application deltas to the [Typelevel profile](../profiles/typelevel.md), not another definition of it.
 
-Photography and Audiobookshelf retain a formatter-owned 150-column limit. Read executable configuration for changes.
+Photography and Audiobookshelf keep a formatter-owned 150-column limit. Read executable configuration for changes.
 
 ### Photography
 

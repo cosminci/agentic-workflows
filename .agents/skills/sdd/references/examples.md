@@ -148,8 +148,6 @@ Use `buildX(findResult = arrangedResult)`. Record the requested ID in Refs.
 
 A controlled pause or repeated-call scenario can make an effectful substitute necessary.
 
-The pause is an example of a scenario reason for an effectful substitute.
-
 ### Named setup controls
 
 `(buildOwner(), Deferred[IO, Unit], expected).tupled` mixes construction, synchronization and assertion data. Its reader must examine machinery for the tuple's meaning.

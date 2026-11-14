@@ -24,7 +24,6 @@ Use these refinements with the [engineering foundations](foundations.md), which 
 - Put business decisions, aggregate construction and lifecycle transitions in usecases.
 - Put decision composition in orchestrating usecases.
 - Use [module conventions](conventions.md#modules-and-results) for factory and result placement.
-- Bind concrete interpreters only in composition.
 - The supplying adapter gets and assembles source data. It parses, normalizes and validates the representation into domain values.
 - Keep business selection, fallback and lifecycle policy in the consuming usecase also when adapter execution costs less.
 - Use port domain-valid guarantees without duplicate validation.
@@ -65,7 +64,7 @@ Use these refinements with the [engineering foundations](foundations.md), which 
 - Before API changes, read the full trait, implementations and callers.
 - For domain work, examine baseline concepts, valid states, transitions and usecases through their consumers.
 - Follow trigger, authoritative state, acquisition, transformations, kept result and publication through every consumer.
-- Examine validity, failure and lifetime throughout that trace.
+- Examine validity, failure and lifetime during all parts of that trace.
 - First use a sufficient contract. If it is not sufficient, change the contract with its callers.
 - Add a complementary operation only for a different decision or guarantee.
 - A different input shape for the same work is not sufficient.

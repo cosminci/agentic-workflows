@@ -13,21 +13,19 @@ Living docs give project knowledge that code search cannot give. This knowledge 
 | Testing | Project risks, reasons for component/external-seam/integrated proof and gaps in isolation. Keep suite inventories and scenario results in work state. |
 | Operations | Supported startup, shutdown, deployment, isolation, exposure, state ownership, capacity and safe recovery. Give monitoring gaps and available alerts with severity, meaning, runbooks and metric definitions/interpretation. |
 | Pipeline context | Pipeline design/testing/operations in `ci/specs/` |
-| Proposal and linked spec design | Change criteria, reasons and reviewed model evolution |
+| Proposal | Change criteria, reasons, reviewed design evolution and supporting design decisions |
 | Ignored work state | Test mappings, commands, results, approvals and review evidence |
 | Schemas/configuration/reference data | Representations, settings and catalog values |
 
 ## Admission test
 
-Before a Doc Sync decision, find doc owners whose facts can change with responsibilities, lifecycles, contracts or operations.
+Start Doc Sync with the changed strategic fact, not a document checklist.
 
-Read those docs before a `None` decision.
+Find its owning section and read it with the factual source. Examine other owners only when their statements depend on that fact.
 
-Record the decision and its source evidence in work state. For `None`, include the examined owners and the evidence that their strategic knowledge is correct.
+Keep admission evidence, examined owners and no-change findings only in work state.
 
-A document without edits does not show that its content is correct.
-
-For a proposed change, also record answers to these questions:
+For `None`, record why the relevant strategic facts remain correct. For an edit, record these answers:
 
 | Question | Required answer |
 | --- | --- |
@@ -38,9 +36,11 @@ For a proposed change, also record answers to these questions:
 | Where does it belong? | One owning section and the incorrect or duplicate text for removal |
 
 - Use `None` as the Doc Sync default. Feature delivery alone is not sufficient for admission.
-- Accept a delta only with delivered behavior and the admission evidence.
-- Before a draft, read all docs whose facts can change, their factual sources and a diagram-first precedent.
-- Start with responsibility, lifecycle and deployment diagrams. Add prose only for information that the diagrams do not give.
+- For a proposal, use the confirmed design as evidence. At archive, use delivered behavior.
+- Each admitted fact authorizes an edit only at its owning section. Leave other living docs unchanged unless they contain a dependent incorrect statement.
+- Before a draft, read the admitted fact's owner and its factual sources.
+- For responsibility, lifecycle or deployment changes, draw the relevant diagrams first. Use an applicable diagram-first precedent.
+- Add prose only for facts those diagrams do not express.
 - Give project facts with the actor, condition and result. Reject general aspirations without an applicable project decision.
 - Keep feature criteria in proposals and test-case inventories in work state.
 - Keep implementation discovery in code search. Class catalogs and links to implementation symbols have no place in living docs.
@@ -66,7 +66,7 @@ For a proposed change, also record answers to these questions:
 ## Authoring and closure
 
 - Include only sections with different necessary information. Put supported behavior and recommendations in different categories.
-- Examine docs together for reader decisions, duplicate content, incorrect facts and missing knowledge.
+- Examine affected sections together for reader decisions, duplicate content, incorrect facts and missing knowledge.
 - For standard changes, record the owner that keeps or increases each previous obligation.
 - Correct missing obligations before closure.
 - Use [execution](executor.md#approvals-and-delivery) for approval of any proposed weaker guardrail.

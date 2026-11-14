@@ -27,7 +27,7 @@ Keep tests, formatter results and precedent separate from architecture and desig
 - Examine all eight foundations, even when no automation enforces a rule.
 - Use [design-signal analysis](principles.md#guardrails) for suspected defects and evidence-backed kept signals.
 - Record every acceptance criterion and edge case with a named scenario and test evidence at its enforcing boundary.
-- Examine spec artifacts through the spec evidence rows, including model evolution and the linked design.
+- Examine `proposal.md` through the spec evidence rows, including design evolution and supporting decisions.
 - Examine source, diagrams and tables together for contradictory facts or duplicated ownership.
 - Examine writing through its own source and dictionary, not wrapping results alone.
 - Correct findings before checks for the repair.
