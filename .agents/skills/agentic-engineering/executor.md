@@ -15,18 +15,18 @@
 - Accept no-change and inconclusive reports. These reports do not give repair authority.
 - Put observations, hypotheses and conclusions in different categories.
 - Record tested hypotheses, evidence for and against them, confidence and unknowns.
-- Use a spec for new user-visible capability, changed supported contracts/lifecycles or product behavior without a decision.
-- Repairs of behavior with approval, internal refactoring and documentation corrections do not make a spec necessary.
+- Use a spec for important features or significant design changes with consequential decisions.
+- Implement bugs, refactors, improvements, usability changes and small features directly when intent is settled; Doc Sync alone does not require a spec.
 - Without a spec, examine the candidate against baseline behavior, contracts and engineering rules.
 
 ## Understand and decide
 
-- For spec discovery, preparation or amendment, use [discovery](discovery.md) instead of the non-spec decision rule below.
+- Use [discovery](discovery.md) for unsettled intent, consequential design and spec amendments.
 - The maintainer has authority over intent, requirements, scope, acceptance and important design decisions.
-- Examine facts independently before a recommendation.
+- Challenge the preferred approach against facts before recommending it; investigate credible external alternatives when local precedent is questionable.
 - Put requirements with approval, proposals and decisions with approval in different categories.
 - Use [contract evolution](principles.md#evolve-existing-responsibilities) before implementation selection.
-- Outside spec discovery and preparation, get a maintainer decision only for intent or important choices that evidence cannot answer.
+- Resolve dependent decisions in dependency order; outside spec discovery, get maintainer decisions for intent or important choices evidence cannot answer.
 - Stop only the work that depends on the missing decision.
 - Keep supplied decisions unless contrary evidence makes a new decision necessary.
 - When precedent agrees, continue with additions in the scope of approval that keep responsibilities and guarantees.
@@ -51,7 +51,7 @@
 
 ## Spec
 
-- Use [discovery](discovery.md) for the pre-draft decision gate and the [change template](templates/change-spec.md) for the artifact.
+- When warranted, use the [change template](templates/change-spec.md) to record agreed discovery results, not to discover the design.
 - Spec approval includes behavior and design decisions in `proposal.md`.
 - Start implementation only after the permitted spec merge.
 - Use the amendment rule for subsequent model changes.

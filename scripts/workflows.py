@@ -6,7 +6,7 @@ from pathlib import Path
 from check_markdown_wrapping import check
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = Path(".agents/skills/sdd")
+SKILL = Path(".agents/skills/agentic-engineering")
 PROFILES = {"typelevel", "direct-style"}
 CORE_FILES = ("SKILL.md", "executor.md", "reviewer.md", "foundations.md", "principles.md", "conventions.md",
               "context.md", "templates/change-spec.md", "templates/design-map.md",
@@ -85,14 +85,15 @@ def context(project: Path, revision: str | None) -> None:
     if revision is None and git("status", "--porcelain"):
         raise ValueError("The shared checkout has uncommitted changes. Before a new task, commit or resolve those changes.")
     revision = git("rev-parse", "--verify", f"{revision or 'HEAD'}^{{commit}}")
+    source = SKILL if git("ls-tree", revision, str(SKILL)) else Path(".agents/skills/sdd")
     contents = {}
-    for name in git("ls-tree", "-r", "--name-only", revision, str(SKILL)).splitlines():
+    for name in git("ls-tree", "-r", "--name-only", revision, str(source)).splitlines():
         relative = Path(name)
         if relative.suffix != ".md" or ("profiles" in relative.parts and relative.stem != profile):
             continue
         result = subprocess.run(["git", "-C", str(ROOT), "show", f"{revision}:{relative}"],
                                 text=True, capture_output=True, check=True)
-        contents[relative] = result.stdout
+        contents[SKILL / relative.relative_to(source)] = result.stdout
     for name in CORE_FILES + (f"profiles/{profile}.md",):
         if SKILL / name not in contents:
             raise ValueError(f"The shared revision has no mandatory source: {name}")

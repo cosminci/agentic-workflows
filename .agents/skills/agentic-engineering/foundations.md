@@ -1,6 +1,6 @@
 # Fundamental engineering rules
 
-These eight rules are mandatory for all work in each consuming repository. SDD, profiles, local guidance and reviews must include these obligations.
+These eight rules are mandatory for all work in each consuming repository. Agentic engineering, profiles, local guidance and reviews must include these obligations.
 
 More detailed rules can increase these obligations. They cannot decrease them or give exceptions.
 

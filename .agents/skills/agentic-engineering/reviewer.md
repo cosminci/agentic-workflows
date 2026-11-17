@@ -7,7 +7,7 @@ This file owns review procedure and closure. [Quality gates](references/quality-
 ## Scope and preparation
 
 1. Identify the baseline and final candidate, including every changed/untracked file and affected consumers outside the diff.
-2. Read applicable owners through SDD routing and the boundary rows in quality gates.
+2. Read applicable owners through agentic-engineering routing and the boundary rows in quality gates.
 3. Use approved requirements and final source, not previous pass labels or implementation reasoning, for conclusions.
 4. Record evidence in the [review template](templates/review.md).
 
@@ -27,7 +27,7 @@ Keep tests, formatter results and precedent separate from architecture and desig
 - Examine all eight foundations, even when no automation enforces a rule.
 - Use [design-signal analysis](principles.md#guardrails) for suspected defects and evidence-backed kept signals.
 - Record every acceptance criterion and edge case with a named scenario and test evidence at its enforcing boundary.
-- Examine `proposal.md` through the spec evidence rows, including design evolution and supporting decisions.
+- When a spec is warranted, examine `proposal.md` through the spec evidence rows, including design evolution and supporting decisions.
 - Examine source, diagrams and tables together for contradictory facts or duplicated ownership.
 - Examine writing through its own source and dictionary, not wrapping results alone.
 - Correct findings before checks for the repair.

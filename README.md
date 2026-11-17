@@ -1,8 +1,8 @@
 # Agentic workflows
 
-This repository contains shared SDD and engineering rules for home-automation, photography and plant-journal. [SDD](.agents/skills/sdd/SKILL.md) gives the applicable rules for each task.
+This repository contains shared [agentic-engineering rules](.agents/skills/agentic-engineering/SKILL.md) for home-automation, photography and plant-journal.
 
-Use SDD's context routing to find each subject's owner. Templates define artifact structure, review gates request evidence, and examples illustrate the owning rules.
+Use context routing to find each subject's owner. Implement settled work directly; use specs for important features and significant design changes. Living-doc updates are independent.
 
 ## Resolve guidance
 

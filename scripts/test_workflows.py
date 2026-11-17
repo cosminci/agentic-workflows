@@ -29,7 +29,7 @@ class WorkflowTest(unittest.TestCase):
         self.project = (base / "project").resolve()
         (self.project / workflows.SKILL).mkdir(parents=True)
         for name in ("AGENTS.md", "CONTRIBUTING.md", "DESIGN-PRINCIPLES.md",
-                     ".agents/skills/sdd/local.md"):
+                     ".agents/skills/agentic-engineering/local.md"):
             (self.project / name).write_text("# Local\n")
         (self.project / ".agents/workflows.json").write_text('{"owner":".","profile":"typelevel"}')
         self.root_patch = patch.object(workflows, "ROOT", self.reference)
@@ -98,6 +98,20 @@ class WorkflowTest(unittest.TestCase):
         (self.reference / workflows.SKILL / "new.md").write_text("# New\n")
         self.commit()
         self.assertEqual(original, self.output(workflows.context, self.project, previous))
+
+    def test_should_resume_revision_before_skill_rename(self):
+        legacy = Path(".agents/skills/sdd")
+        (self.reference / workflows.SKILL).rename(self.reference / legacy)
+        self.commit()
+        previous = self.git("rev-parse", "HEAD")
+        (self.reference / legacy).rename(self.reference / workflows.SKILL)
+        self.commit()
+
+        manifest = json.loads(self.output(workflows.context, self.project, previous))
+
+        self.assertEqual(manifest["revision"], previous)
+        self.assertTrue(Path(manifest["entrypoint"]).is_file())
+        self.assertTrue(Path(manifest["localGuidance"]).is_file())
 
     def test_should_reject_dirty_reference(self):
         recorded = self.git("rev-parse", "HEAD")

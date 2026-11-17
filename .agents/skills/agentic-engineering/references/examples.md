@@ -282,4 +282,4 @@ These commits give reported failure classes, not perfect precedents.
 
 Previous rounds, copied checklists, universal spikes, fixed slicing and verbatim Doc Sync were workflow mechanisms, not quality obligations.
 
-Current obligations belong to the owners in [SDD routing](../SKILL.md), not these historical sources.
+Current obligations belong to the owners in [agentic-engineering routing](../SKILL.md), not these historical sources.
