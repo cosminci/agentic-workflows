@@ -24,9 +24,9 @@ Use [the review procedure](../reviewer.md) for scope, statuses and closure, and 
 | --- | --- |
 | [Design signals](../principles.md#guardrails) | Baseline/current owner and suite size, wide APIs, bulky operands, sequencing, fixture dependencies, suspected defect and caller effect. |
 | [Shared conventions](../conventions.md#shared) | Names, argument roles, scenario order and complete observable assertions after formatting. |
-| [Scala syntax](../conventions.md#syntax) | Constructors, private/captured calls, literals/options, return types, imports, block/lambda syntax and tuple patterns. |
+| [Scala syntax](../conventions.md#syntax) | Every applicable declaration, expression and call, including constructors and private/captured calls. Examine argument roles, return types, imports, block/lambda syntax and construction syntax. Compare fields consumed by each pattern-match/callback branch with its destructuring or named field access. |
 | [Modules and results](../conventions.md#modules-and-results) | Trait/factory/implementation/result declarations, public helpers and operation outcome distinctions. |
-| [Sequencing](../conventions.md#sequencing) | Changed comprehensions, nested levels, multiline statements and recorded reasons for kept mixed bindings. |
+| [Sequencing](../conventions.md#sequencing) | Every statement in changed comprehensions, its physical line span, dependent steps, gaps, nested levels and pure bindings. Give locations for multiline statements and the reason and scoped approval for kept mixed bindings. |
 | [Codecs and refinements](../conventions.md#codecs-and-refinements) | Declarations, callers, consumers, explicit/implicit construction sites, safety proof and suppressions. |
 | [Suites and assertions](../conventions.md#suites-and-assertions) | Existing scenario changes, setups, builder returns, Refs, resource controls, table rows, full expected results and suite owner. |
 | Selected [direct-style](../profiles/direct-style.md) or [Typelevel](../profiles/typelevel.md) profile | Runtime/effect declarations, result composition, imports, logging/metrics and profile exceptions in changed source. |

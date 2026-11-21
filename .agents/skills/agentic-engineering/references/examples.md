@@ -224,13 +224,19 @@ Use [the review procedure](../reviewer.md#reported-misses) to run these candidat
 | A cohesive trait gives complementary same-level operations to an injected caller | Pass | Composition keeps a small vocabulary without artificial layers or one-method traits. |
 | A new near-duplicate API accepts a variant that the previous contract cannot express | Block | Contract evolution: overlapping paths can diverge. Examine the original API with its callers. |
 | A contract changes with its callers and keeps necessary guarantees | Pass | The building block changes without additional competing APIs. |
-| A shallow method has many parameters or a comprehension statement spans lines | Discuss | Find the responsibility or abstraction-level defect. A cohesive same-level operation can stay unchanged. |
+| A shallow method has many parameters | Discuss | Complete responsibility and abstraction-level analysis. A cohesive operation can stay when it obeys the applicable conventions. |
+| A comprehension statement spans physical lines | Block | Sequencing: identify the statement and examine its design cause before repair. Cohesion does not satisfy the single-line rule. |
+| Each comprehension statement occupies one physical line, with cohesive dependent operations | Pass | Sequencing and design both obey their owners. |
+| A pattern-match branch binds a case-class or enum value and accesses all its fields | Block | Destructuring: the branch conceals its consumed facts behind field access. Bind the fields in the pattern. |
+| A pattern-match branch destructures and uses all fields | Pass | The branch gives its consumed facts names in the pattern. |
+| A pattern-match branch binds a value and accesses only its necessary fields by name | Pass | Partial consumption keeps unused fields out of the pattern. |
 | A 40-line owner has a 160-line suite | Discuss | Examine scenario responsibilities, dependency isolation and fixtures. Size without other evidence does not show a defect. |
 | That suite uses the real planner and duplicates its policy cases | Block | Test isolation: the suite exercises owner and planner despite their injectable boundary. |
 | The suite substitutes the planner with cases for only the owner's decisions, failures and cancellation | Pass | Full contract proof can give a reason for the kept size without additional responsibility. |
 | A pass-through helper conceals the same wide call as a claimed design repair | Block | Parameter relocation keeps the demonstrated defect. |
 | Two substantial assertion operands stay inline in a compact multiline assertion | Pass | Two extracted values only for one fewer line add no clarity. |
-| Mixed generators and pure bindings have a demonstrated same-level reason | Pass | Same-level data preparation makes no new service or effect-lifted pure helper necessary. |
+| Mixed generators and pure bindings have a demonstrated same-level reason but no scoped approval | Block | The design reason does not approve the sequencing exception. |
+| Mixed generators and pure bindings have a demonstrated same-level reason and scoped maintainer approval | Pass | The approved exception keeps necessary data preparation without a new service or effect-lifted pure helper. |
 | Nested comprehensions mix acquisition, business selection and external encoding | Discuss | Examine ownership and conceptual depth. Less indentation does not correct a mixed-responsibility defect. |
 | Fixed mock responses use lambdas that rebuild dependency results from recorded input | Block | Test design: response selection and observation are mixed. The caller's suite includes dependency behavior. |
 | Fixed mock values use Refs only for requested input/effects | Pass | Dependency responses and explicit observations stay independent. |

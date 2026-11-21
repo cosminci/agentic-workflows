@@ -1,5 +1,15 @@
 # Contribution conventions
 
+## Authority
+
+Obey every applicable convention in this file, the selected profile and local contracts in production code and tests.
+
+These are mandatory checks, including checks for design signals. Use [design analysis](principles.md#guardrails) to find the cause and select the repair.
+
+Keep source compliance separate from design conclusions. A cohesive design does not give permission for a convention violation.
+
+Use only exceptions specified by the rule owner or approved through [execution](executor.md#approvals-and-delivery). Record the applicable condition or scoped approval.
+
 ## Shared
 
 - Use action or predicate names for functions and helpers.
@@ -51,7 +61,8 @@
 - Examine the cause in constructors, generators and assertions before a layout change.
 - A wrapper or parameter bag does not correct decomposition.
 - Obey configured line limits.
-- Destructure only when all fields are necessary.
+- When a branch uses all fields, destructure case classes, enum cases and tuples in pattern matches and callbacks.
+- When the branch uses only some fields, bind the value and access those fields by name.
 - Use named pattern matching for tuple callbacks, not positional selectors.
 
 ### Modules and results
@@ -72,10 +83,10 @@
 
 - Use comprehensions for more than one dependent step.
 - Keep comprehension generators together without gaps.
-- When possible, use one physical line for each statement.
+- Put each comprehension statement on one physical line.
 - Keep pure bindings out of effect-generator sequences by default.
 - Examine multiline statements, nested blocks and mixed `<-`/`=` with [design discussion](principles.md#guardrails).
-- Keep mixed sequencing only with a recorded same-level reason.
+- Keep mixed sequencing only with a recorded same-level reason and scoped maintainer approval.
 - A helper with the same nested operations is not that reason.
 - Give constructed dependencies responsibility names, not names only for shorter calls.
 

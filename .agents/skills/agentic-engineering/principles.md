@@ -197,12 +197,12 @@ Use these refinements with the [engineering foundations](foundations.md), which 
 - Compare a structural repair with the design before the repair.
 - Correct a demonstrated defect at its necessary scope.
 - If necessary for that defect, refactor its callers.
-- Keep a signal only with source evidence of cohesion.
+- Keep a design signal only with source evidence of cohesion.
 - A purpose statement or compliant line count is not that evidence.
 - Wrappers, parameter bags, forced lines and trimmed tests do not correct defects.
 - A signal alone does not make approval or independent review mandatory.
 - Use [execution](executor.md#understand-and-decide) for undecided choices and [approval scope](executor.md#approvals-and-delivery) for gate changes and exceptions.
-- Keep mandatory conventions after design analysis.
+- Use [convention authority](conventions.md#authority) for compliance and exceptions after design analysis.
 - Examine the full design, not only each compliant piece.
 - At each coverage gate, find the missing observable guarantee. The 100% threshold does not change this analysis.
 - For composition or unreachable code, give evidence for a repository-permitted exclusion.

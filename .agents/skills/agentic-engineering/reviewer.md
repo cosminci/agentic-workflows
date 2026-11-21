@@ -7,11 +7,13 @@ This file owns review procedure and closure. [Quality gates](references/quality-
 ## Scope and preparation
 
 1. Identify the baseline and final candidate, including every changed/untracked file and affected consumers outside the diff.
-2. Read applicable owners through agentic-engineering routing and the boundary rows in quality gates.
+2. Read applicable owners through agentic-engineering routing and the boundary rows in quality gates. For code review, read conventions, the selected profile and applicable local contracts before source examination.
 3. Use approved requirements and final source, not previous pass labels or implementation reasoning, for conclusions.
 4. Record evidence in the [review template](templates/review.md).
 
 For architecture or code review, examine changed traits, implementations, callers and owning suites in full.
+
+After context loss, read the applicable rule owners again before further verdicts. Use recorded evidence for completed checks whose source remains unchanged.
 
 For documentation review, examine affected owners without edits as well as candidate files. Use context's admission test for `None`.
 
@@ -21,11 +23,14 @@ Keep tests, formatter results and precedent separate from architecture and desig
 
 ## Examination and closure
 
-- Apply each relevant rule against source. Record its guarantee or concern and the scope reason for any exclusion.
+- Examine source against each applicable rule, including every convention in the applicable sections. Record the examined scope and the scope reason for any exclusion.
+- Record the observed source condition before the compliance verdict and design analysis. Give violations their source locations, even when the design appears cohesive.
+- Use [convention authority](conventions.md#authority) for rule conditions and approved exceptions. Keep a violation without approval failed while its design cause or repair remains open.
+- Give each applicable rule a verdict. Group rules only when the evidence answers each rule in the group.
 - Give each gate `pass`, `fail`, `blocked` or `not applicable`.
 - Keep unread source, missing access/checks and unanswered design concerns open, not passed or inapplicable.
 - Examine all eight foundations, even when no automation enforces a rule.
-- Use [design-signal analysis](principles.md#guardrails) for suspected defects and evidence-backed kept signals.
+- Use [design-signal analysis](principles.md#guardrails) for suspected defects and evidence-backed kept signals. Complete the analysis even when no defect is found.
 - Record every acceptance criterion and edge case with a named scenario and test evidence at its enforcing boundary.
 - When a spec is warranted, examine `proposal.md` through the spec evidence rows, including design evolution and supporting decisions.
 - Examine source, diagrams and tables together for contradictory facts or duplicated ownership.

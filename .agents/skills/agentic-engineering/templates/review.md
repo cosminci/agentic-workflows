@@ -14,7 +14,7 @@ Use [the review procedure](../reviewer.md) to fill this record.
 
 ## Gate evidence
 
-| Rule owner / gate | Examined source / declarations / calls / suites | Verdict | Guarantee, concern or exclusion reason |
+| Rule owner / rule | Examined scope / observed source condition | Verdict | Guarantee, violation or permitted exception |
 | --- | --- | --- | --- |
 
 ## Design signals
