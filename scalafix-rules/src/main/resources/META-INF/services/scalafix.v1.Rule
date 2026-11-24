@@ -1,0 +1,8 @@
+agentic.RuntimeDefaults
+agentic.MultilineComprehensionStep
+agentic.SingleStepMap
+agentic.MultilineParentheses
+agentic.OutcomeNames
+agentic.MultilineAssertion
+agentic.OpaqueArguments
+agentic.AdapterCodecVisibility
