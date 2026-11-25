@@ -10,7 +10,8 @@ class OpaqueArguments extends SemanticRule("OpaqueArguments") {
       case call: Term.Apply if call.argClause.values.size > 1 &&
           root.exists(prefix => call.fun.symbol.value.startsWith(s"$prefix/")) =>
         call.argClause.values.filter(opaque).map { argument =>
-          DesignSignal.error(argument, "Positional value hides its role at the call site.")
+          DesignSignal.error(argument,
+            "Positional empty or zero value hides its parameter role; this often signals interchangeable primitive or optional fields. Name the argument or model the role with a domain type.")
         }.asPatch
     }.asPatch
 
@@ -18,11 +19,13 @@ class OpaqueArguments extends SemanticRule("OpaqueArguments") {
 
   private def opaque(argument: Term)(implicit doc: SemanticDocument): Boolean =
     argument match {
-      case _: Lit => true
+      case Lit.Int(0) | Lit.Long(0L) | Lit.String("") => true
+      case value: Lit.Float => value.syntax.stripSuffix("f").stripSuffix("F").toFloat == 0.0f
+      case value: Lit.Double => value.syntax.toDouble == 0.0
       case typed: Term.ApplyType => opaque(typed.fun)
       case _ =>
         val symbol = argument.symbol.value
-        symbol == "scala/None." || symbol == "scala/collection/immutable/Nil." ||
+        symbol == "scala/None." || symbol == "scala/package.Nil." ||
           symbol.startsWith("scala/Option.empty(")
     }
 }
