@@ -3,6 +3,7 @@ package fixture
 final case class Item(name: String, quantity: Long)
 
 object OpaqueArgumentsFixture:
+  def measure(duration: Float, distance: Double) = duration -> distance
   def build(name: String, quantity: Long, tags: List[String], maybeOwner: Option[String], note: String): Item =
     Item(name, quantity)
 
@@ -10,3 +11,5 @@ object OpaqueArgumentsFixture:
   val passing = build(name = "", quantity = 0L, tags = Nil, maybeOwner = Option.empty[String], note = "")
   val meaningful = build("journal", 12L, List("primary"), Some("owner"), "created")
   val domainValue = Item("journal", 12L)
+  val formattedNumbers = measure(1_000.0f, 2_000.0)
+  val zeroNumbers = measure(0.0f, 0.0)
