@@ -3,6 +3,17 @@ package agentic
 import scala.meta._
 import scalafix.v1._
 
+final class MultilineEitherCond extends SemanticRule("MultilineEitherCond") {
+  private val cond = SymbolMatcher.exact("scala/util/Either.cond().")
+
+  override def fix(implicit doc: SemanticDocument): Patch =
+    doc.tree.collect {
+      case call: Term.Apply if DesignSignal.multiline(call) && cond.matches(call.fun.symbol) =>
+        DesignSignal.error(call,
+          "Either.cond spans multiple lines. Check whether the call combines decisions or hides a branch's work. Preserve lazy branch evaluation.")
+    }.asPatch
+}
+
 class OpaqueArguments extends SemanticRule("OpaqueArguments") {
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {

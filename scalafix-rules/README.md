@@ -2,6 +2,10 @@
 
 Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDependencies`. Set `scalafixResolvers` to the Maven repository at `https://raw.githubusercontent.com/cosminci/agentic-workflows/<artifact-commit>/`. Pin the full artifact commit and version. Select rules in the project's Scalafix configuration.
 
+## MultilineEitherCond
+
+`MultilineEitherCond` reports calls to `scala.util.Either.cond` that span multiple physical lines. It checks the call, not subsequent operations. Review what the condition and branches own before changing the code. Preserve lazy branch evaluation.
+
 ## OpaqueArguments
 
 `OpaqueArguments` checks calls owned by the current root package when a call has multiple arguments. It reports a positional numeric zero, empty string, `None`, `Nil`, `Option.empty` or `()`. For `Either.cond`, it reports only positional `()`: use `right = ()` or `left = ()` to show which branch returns `Unit`. It does not check comprehension bindings or other library calls.
@@ -10,4 +14,4 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
-To verify a candidate, publish it to a temporary Maven repository and run the `smoke` build with that repository in `scalafixResolvers` and the candidate in `scalafixDependencies`. Run `Test / scalafix --check` for the assertion fixtures, `Test / scalafix --config=opaque.conf --check` for opaque arguments and `Test / scalafix --config=codec.conf --check` for codec visibility. The intentionally invalid assertion, opaque-argument and codec fixtures must produce two, twelve and five errors, respectively.
+To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or add `--config=opaque.conf`, `--config=codec.conf` or `--config=either-cond.conf` before `--check`. Expect two assertion, twelve opaque-argument, five codec and seven `Either.cond` diagnostics.
