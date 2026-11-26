@@ -31,14 +31,19 @@ class MultilineComprehensionStep extends SyntacticRule("MultilineComprehensionSt
 class SingleStepMap extends SyntacticRule("SingleStepMap") {
   override def fix(implicit doc: SyntacticDocument): Patch =
     doc.tree.collect {
-      case step @ Term.ForYield.After_4_9_9(clause, _) if simpleGenerator(clause.enums) =>
-        DesignSignal.error(step, "This comprehension has one step. Check what the yield adds before choosing map or using the source directly.")
+      case step @ Term.ForYield.After_4_9_9(clause, _) =>
+        guidance(clause.enums).fold(Patch.empty)(message => DesignSignal.error(step, message))
     }.asPatch
 
-  private def simpleGenerator(steps: List[Enumerator]): Boolean =
+  private def guidance(steps: List[Enumerator]) =
     steps match {
-      case List(generator: Enumerator.Generator) => generator.pat.is[Pat.Var]
-      case _ => false
+      case List(generator: Enumerator.Generator) if generator.pat.is[Pat.Var] =>
+        Some("This comprehension has one step. Check what the yield adds before choosing map or using the source directly.")
+      case List(generator: Enumerator.Generator) if generator.pat.is[Pat.Wildcard] =>
+        Some("This comprehension discards each input. Use map with a wildcard parameter if it preserves behavior.")
+      case List(generator: Enumerator.Generator, _: Enumerator.Guard) if generator.pat.is[Pat.Var] =>
+        Some("This comprehension filters and maps one source. Use collect if the source supports it and it preserves behavior.")
+      case _ => None
     }
 }
 

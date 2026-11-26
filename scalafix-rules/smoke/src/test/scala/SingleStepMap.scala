@@ -16,6 +16,9 @@ object SingleStepMapFixture:
       if value > 0
     yield value + 1
 
+  def multipleGuards(values: List[Int]): List[Int] =
+    for value <- values if value > 0 if value < 10 yield value + 1
+
   def dependent(values: List[Int]): List[Int] =
     for
       value <- values

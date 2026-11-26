@@ -4,7 +4,7 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 ## SingleStepMap
 
-`SingleStepMap` reports `for ... yield` with one named generator and no guard or binding. Use `map` for a pure transformation. For an identity yield, check that using the source directly preserves its type and behavior; Scala can omit the `map` call.
+`SingleStepMap` reports `for ... yield` with one named generator and at most one guard, or one wildcard generator without a guard. Consider `map` for an unguarded transformation, the source itself for an identity yield, or `collect` for a guarded transformation. Check that the replacement preserves type and behavior.
 
 ## MultilineEitherCond
 
@@ -18,4 +18,4 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
-To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or select another configuration with `--config` before `--check`. Expect two diagnostics by default, twelve with `opaque.conf`, five with `codec.conf`, seven with `either-cond.conf` and three with `single-step-map.conf`.
+To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or select another configuration with `--config` before `--check`. Expect two diagnostics by default, twelve with `opaque.conf`, five with `codec.conf`, seven with `either-cond.conf` and five with `single-step-map.conf`.
