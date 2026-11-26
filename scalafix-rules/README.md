@@ -2,6 +2,10 @@
 
 Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDependencies`. Set `scalafixResolvers` to the Maven repository at `https://raw.githubusercontent.com/cosminci/agentic-workflows/<artifact-commit>/`. Pin the full artifact commit and version. Select rules in the project's Scalafix configuration.
 
+## SingleStepMap
+
+`SingleStepMap` reports `for ... yield` with one named generator and no guard or binding. Use `map` for a pure transformation. For an identity yield, check that using the source directly preserves its type and behavior; Scala can omit the `map` call.
+
 ## MultilineEitherCond
 
 `MultilineEitherCond` reports calls to `scala.util.Either.cond` that span multiple physical lines. It checks the call, not subsequent operations. Review what the condition and branches own before changing the code. Preserve lazy branch evaluation.
@@ -14,4 +18,4 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
-To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or add `--config=opaque.conf`, `--config=codec.conf` or `--config=either-cond.conf` before `--check`. Expect two assertion, twelve opaque-argument, five codec and seven `Either.cond` diagnostics.
+To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or select another configuration with `--config` before `--check`. Expect two diagnostics by default, twelve with `opaque.conf`, five with `codec.conf`, seven with `either-cond.conf` and three with `single-step-map.conf`.

@@ -32,7 +32,7 @@ class SingleStepMap extends SyntacticRule("SingleStepMap") {
   override def fix(implicit doc: SyntacticDocument): Patch =
     doc.tree.collect {
       case step @ Term.ForYield.After_4_9_9(clause, _) if simpleGenerator(clause.enums) =>
-        DesignSignal.error(step, "Single-generator comprehension hides a plain transformation.")
+        DesignSignal.error(step, "This comprehension has one step. Check what the yield adds before choosing map or using the source directly.")
     }.asPatch
 
   private def simpleGenerator(steps: List[Enumerator]): Boolean =
