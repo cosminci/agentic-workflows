@@ -70,7 +70,7 @@ class NamedSentinelArguments extends SemanticRule("NamedSentinelArguments") {
     }
 }
 
-class OutcomeNames extends SemanticRule("OutcomeNames") {
+class OptionEitherBindingNames extends SemanticRule("OptionEitherBindingNames") {
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {
       case name: Pat.Var => check(name.name)
@@ -79,15 +79,25 @@ class OutcomeNames extends SemanticRule("OutcomeNames") {
 
   private def check(name: Name)(implicit doc: SemanticDocument): Patch =
     name.symbol.info.map(_.signature) match {
-      case Some(ValueSignature(TypeRef(_, symbol, _))) =>
+      case Some(ValueSignature(TypeRef(_, symbol, arguments))) =>
         symbol.value match {
-          case "scala/Option#" if !name.value.matches("maybe[A-Z].*") =>
+          case "scala/Option#" if !name.value.matches("maybe[A-Z].*") && !genericExtensionReceiver(name, arguments) =>
             DesignSignal.error(name, "Option binding must start with maybe: its name hides possible absence.")
-          case "scala/util/Either#" if !name.value.endsWith("Result") =>
+          case "scala/util/Either#" if !name.value.endsWith("Result") && !genericExtensionReceiver(name, arguments) =>
             DesignSignal.error(name, "Either binding must end with Result: its name hides an operation outcome.")
           case _ => Patch.empty
         }
       case _ => Patch.empty
+    }
+
+  private def genericExtensionReceiver(name: Name, arguments: List[SemanticType])(implicit doc: SemanticDocument): Boolean =
+    name.parent.flatMap(_.parent).exists {
+      case clause: Term.ParamClause if clause.mod.isEmpty =>
+        clause.parent.flatMap(_.parent).exists(_.is[Defn.ExtensionGroup]) && arguments.nonEmpty && arguments.forall {
+          case TypeRef(_, symbol, Nil) => symbol.info.exists(_.isTypeParameter)
+          case _ => false
+        }
+      case _ => false
     }
 }
 
