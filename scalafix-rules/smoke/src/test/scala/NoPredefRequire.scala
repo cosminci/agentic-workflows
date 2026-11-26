@@ -20,3 +20,7 @@ object NoPredefRequireFixture:
     val local = require(" input ")
 
   val selected = Shadowed.require(" input ")
+
+  def infix(valid: Boolean): Unit = Predef `require` valid
+  def infixWithMessage(valid: Boolean): Unit = scala.Predef `require` (valid, "Invalid input")
+  val shadowedInfix = Shadowed `require` " input "

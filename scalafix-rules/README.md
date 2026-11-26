@@ -8,7 +8,7 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 ## NoPredefRequire
 
-`NoPredefRequire` reports calls to both overloads of `scala.Predef.require`, including calls through imports and aliases. Keep invariants in the types or boundaries that own them, and give callers an explicit failure path.
+`NoPredefRequire` reports calls to both overloads of `scala.Predef.require`, including infix calls and calls through imports and aliases. Keep invariants in the types or boundaries that own them, and give callers an explicit failure path.
 
 ## SimplifiedForYield
 
@@ -26,4 +26,4 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
-To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or set `Test / scalafixConfig` to select another configuration. Expect twelve diagnostics with `named-sentinel-arguments.conf`, five with `codec.conf`, seven with `either-cond.conf`, three with `simplified-for-yield.conf` and seven with `no-predef-require.conf`. Expect two diagnostics by default or with `Test / scalafix NoDefaultParameters --check`.
+To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or set `Test / scalafixConfig` to select another configuration. Expect twelve diagnostics with `named-sentinel-arguments.conf`, five with `codec.conf`, seven with `either-cond.conf`, three with `simplified-for-yield.conf` and nine with `no-predef-require.conf`. Expect two diagnostics by default or with `Test / scalafix NoDefaultParameters --check`.

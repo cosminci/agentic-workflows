@@ -9,9 +9,14 @@ final class NoPredefRequire extends SemanticRule("NoPredefRequire") {
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {
       case call: Term.Apply if requireMethod.matches(call.fun.symbol) =>
-        DesignSignal.error(call,
-          "Predef.require throws on failure. Check which boundary owns the invariant and how its caller receives a rejection.")
+        report(call)
+      case call: Term.ApplyInfix if requireMethod.matches(call.op.symbol) =>
+        report(call)
     }.asPatch
+
+  private def report(call: Term) =
+    DesignSignal.error(call,
+      "Predef.require throws on failure. Check which boundary owns the invariant and how its caller receives a rejection.")
 }
 
 final class MultilineEitherCond extends SemanticRule("MultilineEitherCond") {
