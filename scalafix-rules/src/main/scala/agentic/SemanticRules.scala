@@ -6,13 +6,20 @@ import scalafix.v1._
 class OpaqueArguments extends SemanticRule("OpaqueArguments") {
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {
-      case call: Term.Apply if call.argClause.values.size > 1 &&
-          rootPackage(call).exists(prefix => call.fun.symbol.value.startsWith(s"$prefix/")) =>
-        call.argClause.values.filter(opaque).map { argument =>
+      case call: Term.Apply if call.argClause.values.size > 1 =>
+        opaqueArguments(call).map { argument =>
           DesignSignal.error(argument,
-            "Positional empty or zero value hides its parameter role; this often signals interchangeable primitive or optional fields. Name the argument or model the role with a domain type.")
+            "Positional empty, zero or Unit value hides its parameter role; this often signals interchangeable primitive or optional fields. Name the argument or model the role with a domain type.")
         }.asPatch
     }.asPatch
+
+  private def opaqueArguments(call: Term.Apply)(implicit doc: SemanticDocument) = {
+    val symbol = call.fun.symbol.value
+    val arguments = call.argClause.values
+    if (symbol.startsWith("scala/util/Either.cond(")) arguments.filter(_.is[Lit.Unit])
+    else if (rootPackage(call).exists(prefix => symbol.startsWith(s"$prefix/"))) arguments.filter(opaque)
+    else Nil
+  }
 
   private def rootPackage(tree: Tree): Option[String] =
     tree.parent.flatMap(parent => rootPackage(parent).orElse(packageRoot(parent)))
@@ -25,7 +32,7 @@ class OpaqueArguments extends SemanticRule("OpaqueArguments") {
 
   private def opaque(argument: Term)(implicit doc: SemanticDocument): Boolean =
     argument match {
-      case Lit.Int(0) | Lit.Long(0L) | Lit.String("") => true
+      case Lit.Int(0) | Lit.Long(0L) | Lit.String("") | _: Lit.Unit => true
       case Lit.Float(value) => value.toFloat == 0.0f
       case Lit.Double(value) => value.toDouble == 0.0d
       case typed: Term.ApplyType => opaque(typed.fun)

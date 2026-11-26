@@ -3,6 +3,7 @@ package fixture:
 
   object OpaqueArgumentsFixture:
     def measure(duration: Float, distance: Double) = duration -> distance
+    def complete(result: Unit, name: String) = name
     def build(name: String, quantity: Long, tags: List[String], maybeOwner: Option[String], note: String): Item =
       Item(name, quantity)
 
@@ -12,6 +13,14 @@ package fixture:
     val domainValue = Item("journal", 12L)
     val formattedNumbers = measure(1_000.0f, 2_000.0)
     val zeroNumbers = measure(0.0f, 0.0)
+    val positionalUnit = complete((), "journal")
+    val namedUnit = complete(result = (), name = "journal")
+    val rightUnit = Either.cond(true, (), "rejected")
+    val leftUnit = Either.cond[Unit, String](true, "accepted", ())
+    val namedCondUnit = Either.cond(true, right = (), left = "rejected")
+    val nonUnitCond = Either.cond(true, 0, "")
+    val libraryUnit = Tuple2((), "journal")
+    val unitBinding = for () <- Option(()) yield "journal"
 
 package first:
   object PassingFixture:
