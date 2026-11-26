@@ -3,6 +3,17 @@ package agentic
 import scala.meta._
 import scalafix.v1._
 
+final class PredefRequire extends SemanticRule("PredefRequire") {
+  private val requireMethod = SymbolMatcher.normalized("scala/Predef.require.")
+
+  override def fix(implicit doc: SemanticDocument): Patch =
+    doc.tree.collect {
+      case call: Term.Apply if requireMethod.matches(call.fun.symbol) =>
+        DesignSignal.error(call,
+          "Predef.require throws on failure. Check which boundary owns the invariant and how its caller receives a rejection.")
+    }.asPatch
+}
+
 final class MultilineEitherCond extends SemanticRule("MultilineEitherCond") {
   private val cond = SymbolMatcher.exact("scala/util/Either.cond().")
 
