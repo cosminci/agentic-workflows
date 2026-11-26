@@ -3,7 +3,7 @@ package agentic
 import scala.meta._
 import scalafix.v1._
 
-final class PredefRequire extends SemanticRule("PredefRequire") {
+final class NoPredefRequire extends SemanticRule("NoPredefRequire") {
   private val requireMethod = SymbolMatcher.normalized("scala/Predef.require.")
 
   override def fix(implicit doc: SemanticDocument): Patch =
@@ -25,7 +25,7 @@ final class MultilineEitherCond extends SemanticRule("MultilineEitherCond") {
     }.asPatch
 }
 
-class OpaqueArguments extends SemanticRule("OpaqueArguments") {
+class NamedSentinelArguments extends SemanticRule("NamedSentinelArguments") {
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {
       case call: Term.Apply if call.argClause.values.size > 1 =>

@@ -1,10 +1,10 @@
-agentic.RuntimeDefaults
+agentic.NoDefaultParameters
 agentic.MultilineComprehensionStep
 agentic.MultilineEitherCond
-agentic.SingleStepMap
-agentic.PredefRequire
+agentic.SimplifiedForYield
+agentic.NoPredefRequire
 agentic.MultilineParentheses
 agentic.OutcomeNames
 agentic.MultilineAssertion
-agentic.OpaqueArguments
+agentic.NamedSentinelArguments
 agentic.AdapterCodecVisibility

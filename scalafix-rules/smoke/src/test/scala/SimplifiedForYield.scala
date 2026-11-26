@@ -1,6 +1,6 @@
 package fixture
 
-object SingleStepMapFixture:
+object SimplifiedForYieldFixture:
   def transform(values: List[Int]): List[Int] = for value <- values yield value + 1
 
   def identity(values: List[Int]): List[Int] =

@@ -1,6 +1,6 @@
 package fixture
 
-object PredefRequireFixture:
+object NoPredefRequireFixture:
   def direct(valid: Boolean): Unit = require(valid)
   def withMessage(valid: Boolean): Unit = require(valid, "Invalid input")
   def qualified(valid: Boolean): Unit = scala.Predef.require(requirement = valid)

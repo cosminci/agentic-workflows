@@ -1,7 +1,7 @@
 package fixture:
   final case class Item(name: String, quantity: Long)
 
-  object OpaqueArgumentsFixture:
+  object NamedSentinelArgumentsFixture:
     def measure(duration: Float, distance: Double) = duration -> distance
     def complete(result: Unit, name: String) = name
     def build(name: String, quantity: Long, tags: List[String], maybeOwner: Option[String], note: String): Item =
