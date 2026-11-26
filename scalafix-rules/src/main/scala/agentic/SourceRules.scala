@@ -28,7 +28,7 @@ class MultilineComprehensionStep extends SyntacticRule("MultilineComprehensionSt
     }.asPatch
 }
 
-class SingleStepMap extends SyntacticRule("SingleStepMap") {
+class SimplifiedForYield extends SyntacticRule("SimplifiedForYield") {
   override def fix(implicit doc: SyntacticDocument): Patch =
     doc.tree.collect {
       case step @ Term.ForYield.After_4_9_9(clause, _) =>

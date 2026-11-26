@@ -2,9 +2,15 @@
 
 Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDependencies`. Set `scalafixResolvers` to the Maven repository at `https://raw.githubusercontent.com/cosminci/agentic-workflows/<artifact-commit>/`. Pin the full artifact commit and version. Select rules in the project's Scalafix configuration.
 
-## SingleStepMap
+## PredefRequire
 
-`SingleStepMap` reports `for ... yield` with one named generator and at most one guard, or one wildcard generator without a guard. Consider `map` for an unguarded transformation, the source itself for an identity yield, or `collect` for a guarded transformation. Check that the replacement preserves type and behavior.
+`PredefRequire` reports calls to both overloads of `scala.Predef.require`, including calls through imports and aliases. Keep invariants in the types or boundaries that own them, and give callers an explicit failure path.
+
+## SimplifiedForYield
+
+`SimplifiedForYield` reports `for ... yield` with one named generator and at most one guard, or one wildcard generator without a guard. Consider `map` for an unguarded transformation, the source itself for an identity yield, or `collect` for a guarded transformation. Check that the replacement preserves type and behavior.
+
+When upgrading to `0.4.0`, replace `SingleStepMap` with `SimplifiedForYield` in your Scalafix configuration and rule-specific suppressions.
 
 ## MultilineEitherCond
 
@@ -18,4 +24,4 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
-To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or select another configuration with `--config` before `--check`. Expect two diagnostics by default, twelve with `opaque.conf`, five with `codec.conf`, seven with `either-cond.conf` and five with `single-step-map.conf`.
+To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or select another configuration with `--config` before `--check`. Expect two diagnostics by default, twelve with `opaque.conf`, five with `codec.conf`, seven with `either-cond.conf`, five with `simplified-for-yield.conf` and seven with `predef-require.conf`.
