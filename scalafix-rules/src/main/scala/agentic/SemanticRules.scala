@@ -16,7 +16,7 @@ final class NoPredefRequire extends SemanticRule("NoPredefRequire") {
 
   private def report(call: Term) =
     DesignSignal.error(call,
-      "Predef.require throws on failure. Check which boundary owns the invariant and how its caller receives a rejection.")
+      "Hidden exception: look for unowned invariants or narrowing before validation. Validate at the boundary or in the type; keep rejection explicit.")
 }
 
 final class MultilineEitherCond extends SemanticRule("MultilineEitherCond") {
@@ -26,7 +26,7 @@ final class MultilineEitherCond extends SemanticRule("MultilineEitherCond") {
     doc.tree.collect {
       case call: Term.Apply if DesignSignal.multiline(call) && cond.matches(call.fun.symbol) =>
         DesignSignal.error(call,
-          "Either.cond spans multiple lines. Check whether the call combines decisions or hides a branch's work. Preserve lazy branch evaluation.")
+          "Multiline Either.cond: check for repeated validation, combined decisions, or branch work. Preserve branch laziness.")
     }.asPatch
 }
 
@@ -71,6 +71,8 @@ class NamedSentinelArguments extends SemanticRule("NamedSentinelArguments") {
 }
 
 class OptionEitherBindingNames extends SemanticRule("OptionEitherBindingNames") {
+  private val optionGuidance = "Use maybeX for optional facts. Check that absence is not hiding a failure."
+  private val eitherGuidance = "Use a Result suffix for Either. Use named cases for distinct business outcomes."
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {
       case name: Pat.Var => check(name.name)
@@ -85,17 +87,17 @@ class OptionEitherBindingNames extends SemanticRule("OptionEitherBindingNames") 
       case Some(ValueSignature(TypeRef(_, symbol, arguments))) =>
         symbol.value match {
           case "scala/Option#" if !name.value.matches("maybe[A-Z].*") && !genericExtensionReceiver(name, arguments) =>
-            DesignSignal.error(name, "Option binding must start with maybe: its name hides possible absence.")
+            DesignSignal.error(name, optionGuidance)
           case "scala/util/Either#" if !name.value.endsWith("Result") && !genericExtensionReceiver(name, arguments) =>
-            DesignSignal.error(name, "Either binding must end with Result: its name hides an operation outcome.")
+            DesignSignal.error(name, eitherGuidance)
           case "scala/Some#" if !name.value.matches("maybe[A-Z].*") =>
-            DesignSignal.error(name, "Option binding must start with maybe: its name hides possible absence.")
+            DesignSignal.error(name, optionGuidance)
           case "scala/util/Left#" | "scala/util/Right#" if !name.value.endsWith("Result") =>
-            DesignSignal.error(name, "Either binding must end with Result: its name hides an operation outcome.")
+            DesignSignal.error(name, eitherGuidance)
           case _ => Patch.empty
         }
       case Some(ValueSignature(SingleType(_, symbol))) if symbol.value == "scala/None." && !name.value.matches("maybe[A-Z].*") =>
-        DesignSignal.error(name, "Option binding must start with maybe: its name hides possible absence.")
+        DesignSignal.error(name, optionGuidance)
       case _ => Patch.empty
     }
 

@@ -2,63 +2,38 @@
 
 Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDependencies`. Set `scalafixResolvers` to the Maven repository at `https://raw.githubusercontent.com/cosminci/agentic-workflows/<artifact-commit>/`. Pin the full artifact commit and version. Select rules in the project's Scalafix configuration.
 
-## NoDefaultParameters
+## Rule guide
 
-`NoDefaultParameters` reports default parameter values. Enable it in production, not in tests.
+Semantic rules require SemanticDB. Scalafix diagnostics explain what to investigate when a rule fires. See the [Scala 3 fixtures](smoke/src/test/scala) for exact triggers and controls.
 
-## NoPredefRequire
+| Rule | Flags |
+| --- | --- |
+| `AdapterCodecVisibility` | Circe or Tapir codecs exposed outside their owner |
+| `MultilineAssertion` | Multiline MUnit assertions |
+| `MultilineComprehensionStep` | Multiline generators, bindings, or guards |
+| `MultilineEitherCond` | Multiline `Either.cond` calls |
+| `NamedSentinelArguments` | Positional zero, `""`, `None`, `Nil`, `Option.empty`, or `()` in multi-argument project calls; positional `()` in `Either.cond` |
+| `NoDefaultParameters` | Defaults on methods and constructors |
+| `NoMixedForComprehensionBindings` | `=` in a `for` that also uses `<-` |
+| `NoMultilineExpressionsInParentheses` | Multiline expressions or steps inside `()` |
+| `NoPartialCaseClassDestructuring` | Ignored fields in project-owned Scala 3 case-class patterns |
+| `NoPositionalTupleSelectors` | Numeric tuple selectors in inline callbacks, including callbacks returned from blocks |
+| `NoPredefRequire` | Both `Predef.require` overloads, including infix and aliases |
+| `OptionEitherBindingNames` | `Option` without `maybeX`; `Either` without a `Result` suffix |
+| `PreferCatsSyntax` | Selected factories and sleep-then-effect sequences |
+| `SimplifiedForYield` | One named generator with no guards or bindings |
 
-`NoPredefRequire` reports calls to both overloads of `scala.Predef.require`, including infix calls and calls through imports and aliases. Keep invariants in the types or boundaries that own them, and give callers an explicit failure path.
+### Boundaries worth keeping
 
-## SimplifiedForYield
+- **Codecs:** Set `owners` or `adapterPackages`; use `sharedOwners` for genuine sharing. Codec subtypes and constructor fields count, not ordinary parameters.
 
-`SimplifiedForYield` reports `for ... yield` with one named generator and no guard or binding. Use `map` for a pure transformation. For an identity yield, check that using the source directly preserves its type and behavior; Scala can omit the `map` call.
+- **Defaults:** Enable `NoDefaultParameters` in production, not tests.
 
-## MultilineEitherCond
+- **Multiline parentheses:** Wrapped single-line items, nested `Json.obj`, and brace or colon `.handle` entries in `serverEndpoints` stay inline. Expressions inside those entries are still checked. String line breaks count only for `sql` and `fr` interpolations.
 
-`MultilineEitherCond` reports calls to `scala.util.Either.cond` that span multiple physical lines. It checks the call, not subsequent operations. Review what the condition and branches own before changing the code. Preserve lazy branch evaluation.
+- **Binding names and patterns:** By-name, aliased, and inferred `Option`/`Either` variants count; fully generic extension receivers do not. Case-class pattern tests and references count as uses; `val`/`var` patterns flag only explicit discards. Standard-library patterns and unrelated custom extractors are out of scope.
 
-## NamedSentinelArguments
-
-`NamedSentinelArguments` checks calls owned by the current root package when a call has multiple arguments. It reports a positional numeric zero, empty string, `None`, `Nil`, `Option.empty` or `()`. For `Either.cond`, it reports only positional `()`: use `right = ()` or `left = ()` to show which branch returns `Unit`. It does not check comprehension bindings or other library calls.
-
-`DisableSyntax` and the formatter do not enforce named sentinel arguments. Compiler named-argument support provides the repair without another build mechanism.
-
-## OptionEitherBindingNames
-
-`OptionEitherBindingNames` requires `maybe` followed by an uppercase letter for `Option` bindings and `Result` at the end of `Either` bindings. It checks by-name parameters, transparent aliases, and inferred `Some`, `None`, `Left`, and `Right` types. A fully generic extension receiver is exempt; ordinary parameters and receivers with a concrete type argument are not.
-
-Use these names for optional facts and temporary library results. Model distinct business outcomes with named cases.
-
-## NoPartialCaseClassDestructuring
-
-`NoPartialCaseClassDestructuring` reports positional patterns for project-owned Scala 3 case classes when a field is ignored. A field counts as used if the pattern tests it or a later expression in the case or comprehension references its binding. In `val` and `var` patterns, the rule reports explicit discards only. Standard-library patterns and custom extractors that do not return the matched case class are outside this check.
-
-Bind the whole value and read the fields you need by name. Preserve any tests the original pattern performed.
-
-## NoPositionalTupleSelectors
-
-`NoPositionalTupleSelectors` reports Scala tuple selectors such as `._1` in inline callbacks, including callbacks returned by an argument block. Use a pattern with meaningful names for the fields you need. Wildcards in tuple patterns are allowed. Selectors outside inline callbacks and members of non-tuple types are outside this check.
-
-## AdapterCodecVisibility
-
-`AdapterCodecVisibility` reports Circe and Tapir codec members exposed outside their configured owner or package boundary. It checks codec subtypes and constructor fields, not ordinary method parameters. Shared owners can be nested when the boundary is inferred from `adapterPackages`.
-
-## NoMultilineExpressionsInParentheses
-
-`NoMultilineExpressionsInParentheses` replaces `MultilineParentheses`. It reports an expression or comprehension step that spans multiple lines inside `()`, including arguments at any position and tuple elements. Lists of single-line arguments, parameters, tuple elements, and destructuring patterns can wrap across lines. Line breaks inside string text do not count unless the string is a `sql` or `fr` interpolation.
-
-Keep nested `Json.obj` fields in place and keep `.handle` calls written with braces or colon syntax in a `serverEndpoints` list defined by a `def` or `val`. The rule still checks expressions inside those entries. It reports other nested multiline constructors; name those values before passing them to the enclosing call.
-
-Treat a finding as a design signal. Prefer Scala 3 colon syntax or braces for a multiline block argument. Extract a private method only when naming the work at the call site makes the code clearer.
-
-## PreferCatsSyntax
-
-`PreferCatsSyntax` reports selected factory calls in favor of value-first Cats syntax such as `.some`, `.asRight`, `.asLeft`, `.pure`, `.raiseError`, and `.liftTo`. Use `Option[A]` and `.some` if absence is valid, or use `A` directly if the value is required. Use `none[A]` for a literal null wrapped in `Option`. Keep `Option(value)` when it checks a value that may be null. Type a callback before wrapping it if the constructor previously supplied its type.
-
-Use the project's `.eitherT` and `.lift` extensions on effects. Keep pure decisions outside `EitherT` and handle their results where effectful work starts.
-
-Prefer `effect.delayBy(duration)` to a sleep followed by `*>` or `>>`, including Cats Effect typeclass syntax. When `>>` must defer construction of the right-hand effect, use `IO.defer(effect).delayBy(duration)` for `IO`. Keep standalone sleeps, `IO.delay`, `Sync[F].delay`, `IO.blocking`, and pattern matches as written.
+- **Cats:** Use `Option[A]` and `.some` for optional values, `A` for required ones, and `none[A]` for known absence. Keep null checks (`Option(value)`), effect suspension (`IO.delay`, `Sync[F].delay`), standalone sleeps, and `IO.blocking`. Type inline callbacks as needed; use `.eitherT` and `.lift` on effects. Preserve right-hand construction timing for `>>` if it is observable.
 
 ## Release and verification
 
