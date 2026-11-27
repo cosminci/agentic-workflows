@@ -5,6 +5,7 @@ agentic.SimplifiedForYield
 agentic.NoPredefRequire
 agentic.MultilineParentheses
 agentic.OptionEitherBindingNames
+agentic.NoPartialCaseClassDestructuring
 agentic.MultilineAssertion
 agentic.NamedSentinelArguments
 agentic.AdapterCodecVisibility
