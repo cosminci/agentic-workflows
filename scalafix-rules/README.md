@@ -30,6 +30,14 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 Use these names for optional facts and temporary library results. Model distinct business outcomes with named cases.
 
+## NoPartialCaseClassDestructuring
+
+`NoPartialCaseClassDestructuring` reports positional patterns for project-owned Scala 3 case classes when a field is ignored. A field counts as used if the pattern tests it or the guard or body references its binding. Standard-library patterns and custom extractors that do not return the matched case class are outside this check.
+
+Bind the whole value and read the fields you need by name. Preserve any tests the original pattern performed.
+
+## Release and verification
+
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
 To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or set `Test / scalafixConfig` to select another configuration. Expect twelve diagnostics with `named-sentinel-arguments.conf`, five with `codec.conf`, seven with `either-cond.conf`, three with `simplified-for-yield.conf` and nine with `no-predef-require.conf`. With `option-either-binding-names.conf`, expect eight diagnostics in `OptionEitherBindingNames.scala`. Expect two diagnostics by default or with `Test / scalafix NoDefaultParameters --check`.
