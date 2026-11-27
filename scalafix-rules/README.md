@@ -40,6 +40,14 @@ Bind the whole value and read the fields you need by name. Preserve any tests th
 
 `NoPositionalTupleSelectors` reports Scala tuple selectors such as `._1` in inline callbacks. Use a pattern with meaningful names for the fields you need. Wildcards in tuple patterns are allowed. Selectors outside inline callbacks and members of non-tuple types are outside this check.
 
+## NoMultilineExpressionsInParentheses
+
+`NoMultilineExpressionsInParentheses` replaces `MultilineParentheses`. It reports an expression or comprehension step that spans multiple lines inside `()`, including arguments at any position and tuple elements. Lists of single-line arguments, parameters, tuple elements, and destructuring patterns can wrap across lines. Line breaks inside string text do not count unless the string is a `sql` or `fr` interpolation.
+
+Keep nested `Json.obj` fields in place and keep `.handle` calls written with braces or colon syntax in a `serverEndpoints` list. The rule still checks expressions inside those entries. It reports other nested multiline constructors; name those values before passing them to the enclosing call.
+
+Treat a finding as a design signal. Prefer Scala 3 colon syntax or braces for a multiline block argument. Extract a private method only when naming the work at the call site makes the code clearer.
+
 ## Release and verification
 
 Bump the minor version for new rules or features. Reserve patch releases for fixes.

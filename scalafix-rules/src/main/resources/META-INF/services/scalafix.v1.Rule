@@ -3,7 +3,7 @@ agentic.MultilineComprehensionStep
 agentic.MultilineEitherCond
 agentic.SimplifiedForYield
 agentic.NoPredefRequire
-agentic.MultilineParentheses
+agentic.NoMultilineExpressionsInParentheses
 agentic.OptionEitherBindingNames
 agentic.NoPartialCaseClassDestructuring
 agentic.NoPositionalTupleSelectors
