@@ -20,7 +20,7 @@ class NoMultilineExpressionsInParentheses extends SyntacticRule("NoMultilineExpr
     }
 
     outermost.reverse.map { tree =>
-      DesignSignal.error(tree, "Look for SQL, callbacks, or component wiring that hide the call's purpose. Use block syntax or name the work.")
+      DesignSignal.error(tree, "Look for SQL, callbacks, component wiring, or table rows that hide the call's purpose. Use block syntax or name the work.")
     }.asPatch
   }
 

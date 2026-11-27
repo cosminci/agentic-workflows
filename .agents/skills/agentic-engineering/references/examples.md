@@ -201,6 +201,13 @@ Use [the review procedure](../reviewer.md#reported-misses) to run these candidat
 
 | Candidate | Mandatory verdict | Rule and effect |
 | --- | --- | --- |
+| `request(Method.PUT)` constructs an HTTP request that `app.run(...)` sends | Block | [CV-01](../conventions.md#cv-01-method-and-value-names): the helper name does not distinguish construction from sending. |
+| `buildRequest(Method.PUT)` constructs the same request; `app.run(...)` sends it | Pass | [CV-01](../conventions.md#cv-01-method-and-value-names): the caller can distinguish construction from execution. |
+| `def request: Request[IO] = savedRequest` exposes a stored request | Pass | [CV-01](../conventions.md#cv-01-method-and-value-names): the property name describes the fact it exposes. |
+| `connectedRequest` constructs a request with connection headers | Block | [CV-01](../conventions.md#cv-01-method-and-value-names): `buildRequestWithConnectionHeaders` describes construction and the added headers. |
+| `selection` serializes a selection payload to JSON | Block | [CV-01](../conventions.md#cv-01-method-and-value-names): `encodeSelection` names the operation and follows `encodeGrant`. |
+| `recordCalls` appends calls to a log | Pass | [CV-01](../conventions.md#cv-01-method-and-value-names): the method records new calls. |
+| `recordCalls` reads calls from a log | Block | [CV-01](../conventions.md#cv-01-method-and-value-names): `readRecordedCalls` distinguishes a read from a write. |
 | A new endpoint rereads/normalizes data from a prepared result | Block | Continuity: two acquisition/normalization owners can disagree. |
 | Two consumers project necessary facts from one sufficient prepared snapshot | Pass | Shared knowledge keeps one authority. A new caller is not sufficient for a layer. |
 | One client contains independently variable book-search and exact-lookup rules | Block | Independent policies change together without necessity. |
@@ -225,16 +232,14 @@ Use [the review procedure](../reviewer.md#reported-misses) to run these candidat
 | A new near-duplicate API accepts a variant that the previous contract cannot express | Block | Contract evolution: overlapping paths can diverge. Examine the original API with its callers. |
 | A contract changes with its callers and keeps necessary guarantees | Pass | The building block changes without additional competing APIs. |
 | A shallow method has many parameters | Discuss | Complete responsibility and abstraction-level analysis. A cohesive operation can stay when it obeys the applicable conventions. |
-| A comprehension statement spans physical lines | Block | Sequencing: identify the statement and examine its design cause before repair. Cohesion does not satisfy the single-line rule. |
-| Each comprehension statement occupies one physical line, with cohesive dependent operations | Pass | Sequencing and design both obey their owners. |
+| A comprehension step hides parsing and validation of an external response | Discuss | Examine who owns rejection and what the caller sees. Moving the code to a helper does not settle either question. |
 | A pattern-match branch binds a case-class or enum value and accesses all its fields | Block | Destructuring: the branch conceals its consumed facts behind field access. Bind the fields in the pattern. |
 | A pattern-match branch destructures and uses all fields | Pass | The branch gives its consumed facts names in the pattern. |
-| A pattern-match branch binds a value and accesses only its necessary fields by name | Pass | Partial consumption keeps unused fields out of the pattern. |
 | A 40-line owner has a 160-line suite | Discuss | Examine scenario responsibilities, dependency isolation and fixtures. Size without other evidence does not show a defect. |
 | That suite uses the real planner and duplicates its policy cases | Block | Test isolation: the suite exercises owner and planner despite their injectable boundary. |
 | The suite substitutes the planner with cases for only the owner's decisions, failures and cancellation | Pass | Full contract proof can give a reason for the kept size without additional responsibility. |
 | A pass-through helper conceals the same wide call as a claimed design repair | Block | Parameter relocation keeps the demonstrated defect. |
-| Two substantial assertion operands stay inline in a compact multiline assertion | Pass | Two extracted values only for one fewer line add no clarity. |
+| Naming two large assertion operands makes the full outcome harder to compare | Discuss | Compare both forms. If the clearer form needs a gate exclusion, record why and get scoped approval. |
 | Mixed generators and pure bindings have a demonstrated same-level reason but no scoped approval | Block | The design reason does not approve the sequencing exception. |
 | Mixed generators and pure bindings have a demonstrated same-level reason and scoped maintainer approval | Pass | The approved exception keeps necessary data preparation without a new service or effect-lifted pure helper. |
 | Nested comprehensions mix acquisition, business selection and external encoding | Discuss | Examine ownership and conceptual depth. Less indentation does not correct a mixed-responsibility defect. |

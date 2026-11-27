@@ -3,7 +3,6 @@
 - Use Java virtual threads and direct-style operations, without a Cats Effect or ZIO runtime.
 - Inject capabilities with `using`.
 - Use the project's TestImplicits for capability substitutes.
-- End Either-valued names with `Result`.
 - Adapt operation results to Either only for dependent composition, not one wrap/unwrap.
 - Attach lazy compensation next to its owning step.
 - Keep compensation failures with the primary failure.
@@ -20,7 +19,7 @@
 - Keep historical metrics without changes on edit/delete.
 - Use one transport-owned registry for HTTP RED and process/JVM USE metrics.
 - Obey the [direct-style contract](../references/local-contracts.md#direct-style) for results, imports, generated contracts and strict gates.
-- Keep declarative codecs private to their adapter, without encode/decode helper families.
+- Use declarative codecs instead of encode/decode helper families.
 - Put mandatory coverage markers on different lines.
 - Give the exclusion/invariant immediately before COVERAGE-OFF.
 - Use [guardrails](../principles.md#guardrails) for permitted coverage exclusions.

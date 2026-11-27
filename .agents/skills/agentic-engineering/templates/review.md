@@ -17,6 +17,11 @@ Use [the review procedure](../reviewer.md) to fill this record.
 | Rule owner / rule | Examined scope / observed source condition | Verdict | Guarantee, violation or permitted exception |
 | --- | --- | --- | --- |
 
+## Scala convention evidence
+
+| Code or local rule | Scope | Check: source and verdict | Double-check: final source and verdict | Exception or open finding |
+| --- | --- | --- | --- | --- |
+
 ## Design signals
 
 | Signal / source | Suspected defect and consumer effect | Alternatives | Decision and cohesion/repair proof |

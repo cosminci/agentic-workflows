@@ -39,7 +39,7 @@ class NoMixedForComprehensionBindings extends SyntacticRule("NoMixedForComprehen
     if (steps.exists(step => step.is[Enumerator.Generator] || step.is[Enumerator.CaseGenerator]))
       steps.collect {
         case binding: Enumerator.Val =>
-          DesignSignal.error(binding, "Look for hidden writes, inline validation, eager error text, or decoding outside the failure path. Preserve effect and failure order; do not mask with .pure.")
+          DesignSignal.error(binding, "Look for hidden writes, inline validation, eager error text, or decoding outside the failure path. In tests, keep scenario setup distinct from actions. Preserve effect and failure order; do not mask with .pure.")
       }.asPatch
     else Patch.empty
 }

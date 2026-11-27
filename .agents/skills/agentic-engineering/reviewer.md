@@ -21,6 +21,16 @@ Use maintainer examples as evidence of a failure class, not the review's scope l
 
 Keep tests, formatter results and precedent separate from architecture and design evidence.
 
+## Scala convention passes
+
+1. **Check:** The implementing agent checks each applicable `CV` code against changed Scala production and test code. Include affected declarations, call sites and scenarios outside changed lines. Record the observed source with a `file:line` or `file:symbol` citation for each verdict. For an inapplicable code, record why.
+
+2. **Double-check:** After the last edit and formatting, the reviewer reads the final source and reconstructs the verdicts from the code. Start with call sites and observed outcomes, then trace to declarations and setup. Record the second verdict and its evidence separately; the first pass is not proof. For self-review, make this a separate pass; when independent review is required, the independent reviewer performs it.
+
+Use the [Scala convention evidence table](templates/review.md#scala-convention-evidence). Include profile and local convention obligations from their owners. Use the actual gate configuration and result as evidence only for forms that the gate checks; check uncovered forms in both passes.
+
+Block closure for a missing verdict, missing evidence or a violation without an approved exception. Report violations by code and source location. After a later change, repeat both passes for affected evidence.
+
 ## Examination and closure
 
 - Examine source against each applicable rule, including every convention in the applicable sections. Record the examined scope and the scope reason for any exclusion.

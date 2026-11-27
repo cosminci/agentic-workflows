@@ -12,13 +12,22 @@ Use only exceptions specified by the rule owner or approved through [execution](
 
 ## Shared
 
-- Use action or predicate names for functions and helpers.
+#### CV-01: Method and value names
+
+- For project-owned methods, including public APIs and private test helpers, name the operation or predicate that the caller gets.
+- Compare the name at the call site with the implementation or contract. Distinguish construction, encoding, reading, and effects; a word that can be a verb is not sufficient.
+- Use a fact name for a value or a property accessor that exposes an existing fact. Preserve names required by an external interface.
 - Give values names for domain facts, not their construction helpers.
-- Use the `maybe` prefix for optional values.
+
+#### CV-02: Shared call and source readability
+
 - Show argument roles through call syntax or named values.
 - Use imports, not fully qualified paths.
 - Examine readability after formatting.
 - Give business conditions and expected outcomes names, not shallow helper wrappers.
+
+#### CV-03: Scenario and outcome clarity
+
 - Assert full observable outcomes in tests.
 - Keep test setup deterministic and local to its scenario.
 - Put blank lines between Arrange, Act and Assert.
@@ -27,6 +36,9 @@ Use only exceptions specified by the rule owner or approved through [execution](
 - Give suites names for their production boundaries.
 - Start case names with `should`, after the runner prefix when necessary.
 - Use each contract's owner for its proof. For Scala fixture sharing, use [suite conventions](#suites-and-assertions).
+
+#### Delivery
+
 - Use imperative commit subjects with at most 72 characters and no issue/ticket identifiers.
 - When the diff does not give the reason, give it in the commit body. Keep issue references out.
 - Keep commit signing and repository identity.
@@ -35,41 +47,60 @@ Use only exceptions specified by the rule owner or approved through [execution](
 
 ## Scala
 
+Use the project's Scala gates for automated conventions. Check the `Compile` and `Test` configurations separately. Report missing gate coverage as a rollout gap. Examine design signals even when the gates pass.
+
+Use each `CV` code as a stable review identifier. Each code covers every obligation under its heading. Keep existing codes when rules move; use a new code for a distinct obligation.
+
 ### Syntax
 
-- In multi-argument application calls, use named arguments for literals, booleans, dates, collections and optional values.
-- Include `None` and `Nil` in this rule.
+#### CV-10: Scala argument roles
+
+- In multi-argument application calls, name literals, booleans, dates, collections and optional values that `NamedSentinelArguments` does not check.
 - Include constructors, private calls, test builders and captured calls.
 - When different domain types show their roles, keep positional arguments.
 - Keep the library's call syntax.
 - Examine call roles that are not clear as a design signal, not only missing labels.
-- Use Cats value syntax: `.some`, `.asRight`, `.asLeft` and related operations.
+
+#### CV-11: Scala expression syntax
+
 - Put construction machinery at the end of the expression.
 - When Scala 3 and the formatter let you, use significant indentation and optional braces.
-- When Scala 3 lets you, remove optional parentheses.
+- Remove optional parentheses that remain after formatting.
 - Keep necessary grouping and library syntax.
 - Use braces or colon syntax for block arguments at the call boundary.
-- Keep braced blocks out of parentheses.
 - Use braces or colon syntax for multiline lambdas and standalone definitions.
+
+#### CV-12: Scala declaration contracts
+
 - Remove explicit return types from private members.
 - Keep Unit return types.
 - Give public APIs return types.
-- Keep default arguments out of runtime code.
+
+#### CV-13: Scala expression layout
+
 - When expressions are short enough for the line limit, keep assignments and chains on one line.
 - When one large operand expands a short call, give that value a name.
 - Keep the resulting call together.
 - Examine the cause in constructors, generators and assertions before a layout change.
 - A wrapper or parameter bag does not correct decomposition.
 - Obey configured line limits.
+
+#### CV-14: Scala pattern roles
+
 - When a branch uses all fields, destructure case classes and enum cases in pattern matches and callbacks.
-- When the branch uses only some fields, bind the value and access those fields by name.
-- Use named pattern matching for tuple callbacks, not positional selectors. Use meaningful names for the fields you need and wildcards for the others.
+- Give used fields in tuple patterns meaningful names and use wildcards for the others.
 
 ### Modules and results
+
+#### CV-20: Business module boundary
 
 - Use a caller-defined trait, companion `make`, private final class `Live<CompanionObjectName>` and companion-owned results for business modules.
 - For `UserRepository`, use implementation name `LiveUserRepository`.
 - Keep module machinery out of domain types.
+- Keep public helpers as factories or utilities without business policy.
+
+#### CV-21: Result contract
+
 - Use operation-owned result enums for different business outcomes.
 - Keep a result contract that expresses the full operation.
 - Add no enum for success or absence without a business-outcome distinction.
@@ -77,14 +108,13 @@ Use only exceptions specified by the rule owner or approved through [execution](
 - Exclude generic capability and library conversion APIs from this result-enum rule.
 - Use `Failure` for companion failure enums.
 - Use top-level types for shared domain/config values, not orphan operation results.
-- Keep public helpers as factories or utilities without business policy.
 
 ### Sequencing
 
+#### CV-30: Sequencing and dependency preparation
+
 - Use comprehensions for more than one dependent step.
 - Keep comprehension generators together without gaps.
-- Put each comprehension statement on one physical line.
-- Keep pure bindings out of effect-generator sequences by default.
 - Examine multiline statements, nested blocks and mixed `<-`/`=` with [design discussion](principles.md#guardrails).
 - Keep mixed sequencing only with a recorded same-level reason and scoped maintainer approval.
 - A helper with the same nested operations is not that reason.
@@ -92,11 +122,16 @@ Use only exceptions specified by the rule owner or approved through [execution](
 
 ### Codecs and refinements
 
+#### CV-40: Representation ownership
+
 - Use declarative codecs for boundary representations.
 - Use the same codec only for two or more consumers and one shared representation invariant.
 - Keep shared codecs as pure bidirectional mappings.
 - Use a DTO only when a direct codec cannot express the format.
 - Keep that DTO in its adapter.
+
+#### CV-41: Refinement proof
+
 - Examine changed refinement declarations, construction sites and autoRefine.
 - Keep necessary refinements in production domain/usecases.
 - Keep non-core proofs only for necessary guarantees. Include mirrored-package tests in this rule.
@@ -109,14 +144,22 @@ Use only exceptions specified by the rule owner or approved through [execution](
 - Count construction/conversion sites, not aliases or runtime records, when measuring duplicate proofs.
 - Keep boundary rejection proof, constraints and full assertions when reducing duplicate construction.
 - Record changed refinement declarations and explicit/implicit proof sites with `file:symbol` reasons.
+
+#### CV-42: Scoped suppression
+
 - Give suppressions site-specific safety proof, smallest scope and the full rule identifier.
 - Put the reason in review evidence, not an explanatory comment.
 
 ### Suites and assertions
 
+#### CV-50: Suite ownership
+
 - Use [trait-owned testing](principles.md#tests) for each trait's operation scenarios.
 - Use `<Trait>ComponentTest` for usecase suites and `<Trait>SeamIntegrationTest` for port suites.
 - Put architecture rules in one ArchitectureTest with one test.
+
+#### CV-51: Builders and substitutes
+
 - Give suite-local `buildX` helpers scenario-variable responses.
 - Use fixed response values as the default, not input-dependent lambdas.
 - For a recorded scenario requirement, such as an effectful pause, use a lambda.
@@ -125,6 +168,11 @@ Use only exceptions specified by the rule owner or approved through [execution](
 - Use at most one suite-local Refs for call records, not stub responses.
 - Remove Refs when no scenario asserts observations.
 - Give responses, failures and clocks as builder inputs.
+- Create substitutes in builders. Return only the component from a builder.
+- Keep fixed response defaults in test code only.
+
+#### CV-52: Scenario setup and table data
+
 - Keep named argument roles in captured call observations.
 - Give each control flag's state in its scenario.
 - Use named local values for test setup.
@@ -136,18 +184,20 @@ Use only exceptions specified by the rule owner or approved through [execution](
 - Named-tuple annotations do not label positional call values.
 - Keep resource controls and fixture data with different responsibilities out of the row.
 - Use suite order: shared scenario data, scenarios, Refs and builders.
-- Create substitutes in builders. Return only the component from a builder.
-- Keep fixed response defaults in test code only.
-- Keep cross-suite fixture-holder objects out.
-- Use TestImplicits/Mocks only for nontrivial multi-suite construction with a shared invariant, not constructor aliases.
-- Keep assertions on one line by default.
-- If one operand is complex, give it a name before the single-line assertion.
-- If both operands have large constructions, compare a short multiline assertion with two extracted values.
-- When the multiline form makes each outcome clearer, use it.
 - Interpolate the actual domain variant in test names.
 - Use the examined setup precedent.
+
+#### CV-53: Fixture and resource ownership
+
+- Keep cross-suite fixture-holder objects out.
+- Use TestImplicits/Mocks only for nontrivial multi-suite construction with a shared invariant, not constructor aliases.
 - Keep integration resources directly in suites, not callback setup frameworks.
 - Use the selected profile for runtime composition and [guardrails](principles.md#guardrails) for coverage decisions.
+
+#### CV-54: Assertion layout and clarity
+
+- Name a complex operand when its construction makes the outcome harder to see.
+- When both operands are large, compare a short multiline assertion with two named values. For a flagged form, follow the exclusion policy.
 
 ## SolidJS / TypeScript
 

@@ -81,6 +81,7 @@
 - Start with the smallest available checks for the change. Then do the other mandatory publication checks.
 - While their code and dependencies have no changes, keep results.
 - Complete [review and closure](reviewer.md) after the last edit.
+- For Scala changes, complete both [convention passes](reviewer.md#scala-convention-passes) before closure.
 - Use independent review for new/moved responsibilities, changed guarantees, concurrency/resource safety, rule exceptions and local/maintainer requirements.
 - Use self-review for other additions in the scope of approval that keep guarantees.
 - If mandatory review is unavailable or prohibited, complete permitted work and report the review blocker.
@@ -94,6 +95,7 @@
 - For spec-backed work, keep Doc Sync accurate during implementation.
 - Put deltas with admission evidence in living docs during archive.
 - Without a spec, include directly related doc updates with implementation.
+- In the commit that implements a Scalafix rule, remove the Markdown convention it replaces. Keep guidance for cases the rule does not cover.
 - Use [strategic admission](context.md#admission-test) for Doc Sync and directly related doc edits.
 
 ## Complete
