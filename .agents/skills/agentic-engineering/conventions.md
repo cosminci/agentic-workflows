@@ -61,9 +61,9 @@ Use only exceptions specified by the rule owner or approved through [execution](
 - Examine the cause in constructors, generators and assertions before a layout change.
 - A wrapper or parameter bag does not correct decomposition.
 - Obey configured line limits.
-- When a branch uses all fields, destructure case classes, enum cases and tuples in pattern matches and callbacks.
+- When a branch uses all fields, destructure case classes and enum cases in pattern matches and callbacks.
 - When the branch uses only some fields, bind the value and access those fields by name.
-- Use named pattern matching for tuple callbacks, not positional selectors.
+- Use named pattern matching for tuple callbacks, not positional selectors. Use meaningful names for the fields you need and wildcards for the others.
 
 ### Modules and results
 

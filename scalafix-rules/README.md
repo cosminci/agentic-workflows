@@ -36,6 +36,10 @@ Use these names for optional facts and temporary library results. Model distinct
 
 Bind the whole value and read the fields you need by name. Preserve any tests the original pattern performed.
 
+## NoPositionalTupleSelectors
+
+`NoPositionalTupleSelectors` reports Scala tuple selectors such as `._1` in inline callbacks. Use a pattern with meaningful names for the fields you need. Wildcards in tuple patterns are allowed. Selectors outside inline callbacks and members of non-tuple types are outside this check.
+
 ## Release and verification
 
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
