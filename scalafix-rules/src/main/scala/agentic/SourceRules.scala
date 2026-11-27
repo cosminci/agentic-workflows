@@ -41,21 +41,3 @@ class SimplifiedForYield extends SyntacticRule("SimplifiedForYield") {
       case _ => false
     }
 }
-
-class MultilineParentheses extends SyntacticRule("MultilineParentheses") {
-  override def fix(implicit doc: SyntacticDocument): Patch = {
-    val tokens = doc.tree.tokens.iterator.filterNot(token => token.is[Token.Trivia]).toVector
-    val indexes = tokens.iterator.zipWithIndex.map { case (token, index) => token.pos.start -> index }.toMap
-    doc.tree.collect {
-      case term: Term if DesignSignal.multiline(term) && surrounded(term, tokens, indexes) =>
-        DesignSignal.error(term, "Multiline expression in parentheses may bury work at the call site.")
-    }.asPatch
-  }
-
-  private def surrounded(term: Term, tokens: Vector[Token], indexes: Map[Int, Int]): Boolean =
-    (for {
-      first <- indexes.get(term.tokens.head.pos.start)
-      last <- indexes.get(term.tokens.last.pos.start)
-    } yield tokens.lift(first - 1).exists(_.is[Token.LeftParen]) &&
-      tokens.lift(last + 1).exists(_.is[Token.RightParen])).contains(true)
-}
