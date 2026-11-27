@@ -10,3 +10,4 @@ agentic.NoPositionalTupleSelectors
 agentic.MultilineAssertion
 agentic.NamedSentinelArguments
 agentic.AdapterCodecVisibility
+agentic.PreferCatsSyntax
