@@ -24,6 +24,12 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 `DisableSyntax` and the formatter do not enforce named sentinel arguments. Compiler named-argument support provides the repair without another build mechanism.
 
+## OptionEitherBindingNames
+
+`OptionEitherBindingNames` requires `maybe` followed by an uppercase letter for `Option` bindings and `Result` at the end of `Either` bindings. It checks the semantic type, including inferred types. A fully generic extension receiver is exempt; ordinary parameters and receivers with a concrete type argument are not.
+
+Use these names for optional facts and temporary library results. Model distinct business outcomes with named cases.
+
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
-To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or set `Test / scalafixConfig` to select another configuration. Expect twelve diagnostics with `named-sentinel-arguments.conf`, five with `codec.conf`, seven with `either-cond.conf`, three with `simplified-for-yield.conf` and nine with `no-predef-require.conf`. Expect two diagnostics by default or with `Test / scalafix NoDefaultParameters --check`.
+To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or set `Test / scalafixConfig` to select another configuration. Expect twelve diagnostics with `named-sentinel-arguments.conf`, five with `codec.conf`, seven with `either-cond.conf`, three with `simplified-for-yield.conf` and nine with `no-predef-require.conf`. With `option-either-binding-names.conf`, expect eight diagnostics in `OptionEitherBindingNames.scala`. Expect two diagnostics by default or with `Test / scalafix NoDefaultParameters --check`.
