@@ -130,38 +130,3 @@ class OptionEitherBindingNames extends SemanticRule("OptionEitherBindingNames") 
       case _ => false
     }
 }
-
-class MultilineAssertion extends SemanticRule("MultilineAssertion") {
-  override def fix(implicit doc: SemanticDocument): Patch =
-    doc.tree.collect {
-      case call: Term.Apply if DesignSignal.multiline(call) && outermost(call) && assertion(call) =>
-        DesignSignal.error(call, assertionGuidance(call))
-    }.asPatch
-
-  private def outermost(call: Term.Apply): Boolean =
-    !call.parent.exists {
-      case parent: Term.Apply => parent.fun eq call
-      case _ => false
-    }
-
-  private def assertionGuidance(call: Term.Apply)(implicit doc: SemanticDocument): String =
-    if (assertionSymbol(call).contains("#intercept"))
-      "Multiline exception assertion: setup may throw first. Prepare inputs outside; intercept only the operation under test."
-    else
-      "Multiline assertion: setup or action may be hidden. Separate them from the check and name substantial actual or expected values."
-
-  private def assertion(term: Term)(implicit doc: SemanticDocument): Boolean = {
-    val symbol = assertionSymbol(term)
-    symbol.startsWith("munit/") &&
-      Set("assert", "assertEquals", "assertNotEquals", "assertNoDiff", "intercept", "interceptMessage")
-        .exists(name => symbol.contains(s"#$name("))
-  }
-
-  @annotation.tailrec
-  private def assertionSymbol(term: Term)(implicit doc: SemanticDocument): String =
-    term match {
-      case call: Term.Apply => assertionSymbol(call.fun)
-      case call: Term.ApplyType => assertionSymbol(call.fun)
-      case target => target.symbol.value
-    }
-}
