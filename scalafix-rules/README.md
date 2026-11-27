@@ -26,25 +26,29 @@ Consumers resolve `com.cosminci:scalafix-custom-rules_2.13` through `scalafixDep
 
 ## OptionEitherBindingNames
 
-`OptionEitherBindingNames` requires `maybe` followed by an uppercase letter for `Option` bindings and `Result` at the end of `Either` bindings. It checks the semantic type, including inferred types. A fully generic extension receiver is exempt; ordinary parameters and receivers with a concrete type argument are not.
+`OptionEitherBindingNames` requires `maybe` followed by an uppercase letter for `Option` bindings and `Result` at the end of `Either` bindings. It checks by-name parameters, transparent aliases, and inferred `Some`, `None`, `Left`, and `Right` types. A fully generic extension receiver is exempt; ordinary parameters and receivers with a concrete type argument are not.
 
 Use these names for optional facts and temporary library results. Model distinct business outcomes with named cases.
 
 ## NoPartialCaseClassDestructuring
 
-`NoPartialCaseClassDestructuring` reports positional patterns for project-owned Scala 3 case classes when a field is ignored. A field counts as used if the pattern tests it or the guard or body references its binding. Standard-library patterns and custom extractors that do not return the matched case class are outside this check.
+`NoPartialCaseClassDestructuring` reports positional patterns for project-owned Scala 3 case classes when a field is ignored. A field counts as used if the pattern tests it or a later expression in the case or comprehension references its binding. In `val` and `var` patterns, the rule reports explicit discards only. Standard-library patterns and custom extractors that do not return the matched case class are outside this check.
 
 Bind the whole value and read the fields you need by name. Preserve any tests the original pattern performed.
 
 ## NoPositionalTupleSelectors
 
-`NoPositionalTupleSelectors` reports Scala tuple selectors such as `._1` in inline callbacks. Use a pattern with meaningful names for the fields you need. Wildcards in tuple patterns are allowed. Selectors outside inline callbacks and members of non-tuple types are outside this check.
+`NoPositionalTupleSelectors` reports Scala tuple selectors such as `._1` in inline callbacks, including callbacks returned by an argument block. Use a pattern with meaningful names for the fields you need. Wildcards in tuple patterns are allowed. Selectors outside inline callbacks and members of non-tuple types are outside this check.
+
+## AdapterCodecVisibility
+
+`AdapterCodecVisibility` reports Circe and Tapir codec members exposed outside their configured owner or package boundary. It checks codec subtypes and constructor fields, not ordinary method parameters. Shared owners can be nested when the boundary is inferred from `adapterPackages`.
 
 ## NoMultilineExpressionsInParentheses
 
 `NoMultilineExpressionsInParentheses` replaces `MultilineParentheses`. It reports an expression or comprehension step that spans multiple lines inside `()`, including arguments at any position and tuple elements. Lists of single-line arguments, parameters, tuple elements, and destructuring patterns can wrap across lines. Line breaks inside string text do not count unless the string is a `sql` or `fr` interpolation.
 
-Keep nested `Json.obj` fields in place and keep `.handle` calls written with braces or colon syntax in a `serverEndpoints` list. The rule still checks expressions inside those entries. It reports other nested multiline constructors; name those values before passing them to the enclosing call.
+Keep nested `Json.obj` fields in place and keep `.handle` calls written with braces or colon syntax in a `serverEndpoints` list defined by a `def` or `val`. The rule still checks expressions inside those entries. It reports other nested multiline constructors; name those values before passing them to the enclosing call.
 
 Treat a finding as a design signal. Prefer Scala 3 colon syntax or braces for a multiline block argument. Extract a private method only when naming the work at the call site makes the code clearer.
 
@@ -54,4 +58,4 @@ Bump the minor version for new rules or features. Reserve patch releases for fix
 
 Publish releases with sbt `publish` to a Maven-layout directory, then commit the generated version directory and module metadata to the `scalafix-maven` branch. Do not replace published versions.
 
-To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or set `Test / scalafixConfig` to select another configuration. Expect twelve diagnostics with `named-sentinel-arguments.conf`, five with `codec.conf`, seven with `either-cond.conf`, three with `simplified-for-yield.conf` and nine with `no-predef-require.conf`. With `option-either-binding-names.conf`, expect eight diagnostics in `OptionEitherBindingNames.scala`. Expect two diagnostics by default or with `Test / scalafix NoDefaultParameters --check`.
+To verify a candidate, publish it to a temporary Maven repository and use it in the `smoke` build. Run `Test / scalafix --check` for assertions or set `Test / scalafixConfig` to select another configuration. Expect twelve diagnostics with `named-sentinel-arguments.conf`, nine with `codec.conf`, seven with `either-cond.conf`, three with `simplified-for-yield.conf` and nine with `no-predef-require.conf`. With `option-either-binding-names.conf`, expect fifteen diagnostics in `OptionEitherBindingNames.scala`. Expect two diagnostics by default or with `Test / scalafix NoDefaultParameters --check`.
