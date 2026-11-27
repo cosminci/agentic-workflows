@@ -78,16 +78,44 @@ class OptionEitherBindingNames extends SemanticRule("OptionEitherBindingNames") 
     }.asPatch
 
   private def check(name: Name)(implicit doc: SemanticDocument): Patch =
-    name.symbol.info.map(_.signature) match {
+    name.symbol.info.map(_.signature).map {
+      case ValueSignature(tpe) => ValueSignature(bindingType(tpe))
+      case other => other
+    } match {
       case Some(ValueSignature(TypeRef(_, symbol, arguments))) =>
         symbol.value match {
           case "scala/Option#" if !name.value.matches("maybe[A-Z].*") && !genericExtensionReceiver(name, arguments) =>
             DesignSignal.error(name, "Option binding must start with maybe: its name hides possible absence.")
           case "scala/util/Either#" if !name.value.endsWith("Result") && !genericExtensionReceiver(name, arguments) =>
             DesignSignal.error(name, "Either binding must end with Result: its name hides an operation outcome.")
+          case "scala/Some#" if !name.value.matches("maybe[A-Z].*") =>
+            DesignSignal.error(name, "Option binding must start with maybe: its name hides possible absence.")
+          case "scala/util/Left#" | "scala/util/Right#" if !name.value.endsWith("Result") =>
+            DesignSignal.error(name, "Either binding must end with Result: its name hides an operation outcome.")
           case _ => Patch.empty
         }
+      case Some(ValueSignature(SingleType(_, symbol))) if symbol.value == "scala/None." && !name.value.matches("maybe[A-Z].*") =>
+        DesignSignal.error(name, "Option binding must start with maybe: its name hides possible absence.")
       case _ => Patch.empty
+    }
+
+  private def bindingType(tpe: SemanticType, visited: Set[Symbol] = Set.empty,
+      arguments: Map[Symbol, SemanticType] = Map.empty)(implicit doc: SemanticDocument): SemanticType =
+    tpe match {
+      case ByNameType(result) => bindingType(result, visited, arguments)
+      case TypeRef(prefix, symbol, parameters) if !visited(symbol) =>
+        val actual = parameters.map {
+          case ref @ TypeRef(_, parameter, Nil) => arguments.getOrElse(parameter, ref)
+          case other => other
+        }
+        arguments.get(symbol).orElse {
+          symbol.info.filterNot(_.isOpaque).flatMap(_.signature match {
+            case TypeSignature(formals, lower, upper) if lower == upper && formals.size == actual.size =>
+              Some(bindingType(upper, visited + symbol, arguments ++ formals.map(_.symbol).zip(actual)))
+            case _ => None
+          })
+        }.getOrElse(TypeRef(prefix, symbol, actual))
+      case other => other
     }
 
   private def genericExtensionReceiver(name: Name, arguments: List[SemanticType])(implicit doc: SemanticDocument): Boolean =

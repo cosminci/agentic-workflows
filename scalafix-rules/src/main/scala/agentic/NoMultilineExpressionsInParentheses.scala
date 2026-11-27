@@ -58,6 +58,11 @@ class NoMultilineExpressionsInParentheses extends SyntacticRule("NoMultilineExpr
           case list: Term.Apply if list.fun.is[Term.Name] && list.fun.syntax == "List" =>
             list.parent.exists {
               case definition: Defn.Def => definition.name.value == "serverEndpoints" && (definition.body eq list)
+              case value: Defn.Val =>
+                (value.rhs eq list) && (value.pats match {
+                  case List(Pat.Var(Term.Name("serverEndpoints"))) => true
+                  case _ => false
+                })
               case _                    => false
             } && call.tokens.iterator.find(token => token.pos.start >= call.fun.pos.end && !token.is[Token.Trivia]).exists {
               case _: Token.Colon | _: Token.LeftBrace => true

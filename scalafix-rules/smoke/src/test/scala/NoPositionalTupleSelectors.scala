@@ -32,3 +32,15 @@ object NoPositionalTupleSelectorsFixture:
 
   def contextual(use: (((String, Int)) ?=> String) => String): String =
     use((row: (String, Int)) ?=> row._1)
+
+  def withSetup(rows: List[(String, Int)], prefix: String): List[String] =
+    rows.map {
+      val label = prefix.trim
+      row => label + row._1
+    }
+
+  def storedCallback(rows: List[(String, Int)]): List[String] =
+    rows.map {
+      val render: ((String, Int)) => String = row => row._1
+      render
+    }

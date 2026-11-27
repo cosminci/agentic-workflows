@@ -90,6 +90,17 @@ object NoMultilineExpressionsInParentheses {
         n + 1
     )
 
+  object StoredApi:
+    val serverEndpoints = List(
+      endpoint.handle { n =>
+        n + 1
+      },
+      endpoint.handle: n =>
+        List(n).map(value => // lint
+          value + 1
+        ).head
+    )
+
   object OtherApi {
     def serverEndpoints: List[Int] =
       List(

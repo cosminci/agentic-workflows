@@ -5,6 +5,27 @@ import fixture.other.ExternalPair
 object NoPartialCaseClassDestructuringFixture:
   final case class Pair(first: Int, second: Int)
   final case class Box(pair: Pair, label: String)
+  final case class Record(id: Int, tags: String*)
+
+  def selected(pair: Pair): Int =
+    val Pair(first, _) = pair
+    first
+
+  def selectedInfix(pair: Pair): Int = pair match
+    case first `Pair` _ => first
+
+  def selectedTags(record: Record): Int = record match
+    case Record(id, _*) => id
+
+  def summarize(pairs: List[Pair]): List[Int] =
+    for Pair(first, second) <- pairs
+    yield first
+
+  def filterThenSummarize(pairs: List[Pair]): List[Int] =
+    for
+      Pair(first, second) <- pairs
+      if second > 0
+    yield first
 
   object Extractor:
     def unapply(pair: Pair): Option[(Int, Int)] = Some((pair.first, pair.second))

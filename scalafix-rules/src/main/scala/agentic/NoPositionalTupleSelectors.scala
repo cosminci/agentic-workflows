@@ -26,6 +26,7 @@ final class NoPositionalTupleSelectors extends SemanticRule("NoPositionalTupleSe
       case _: Term.ArgClause => true
       case named: Term.Assign if named.rhs eq tree => named.parent.exists(_.is[Term.ArgClause])
       case ascribed: Term.Ascribe if ascribed.expr eq tree => isArgument(ascribed)
+      case block: Term.Block if block.stats.lastOption.exists(_ eq tree) => isArgument(block)
       case _ => false
     }
 }
