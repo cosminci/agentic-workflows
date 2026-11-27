@@ -55,7 +55,7 @@ Use each `CV` code as a stable review identifier. Each code covers every obligat
 
 #### CV-10: Scala argument roles
 
-- In multi-argument application calls, name literals, booleans, dates, collections and optional values that `NamedSentinelArguments` does not check.
+- In multi-argument application calls, name literals, dates, collections and optional values outside the named-argument gates.
 - Include constructors, private calls, test builders and captured calls.
 - When different domain types show their roles, keep positional arguments.
 - Keep the library's call syntax.

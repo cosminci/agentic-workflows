@@ -12,6 +12,7 @@ Semantic rules require SemanticDB. Scalafix diagnostics explain what to investig
 | `MultilineAssertion` | Multiline calls to selected MUnit and ScalaTest assertions |
 | `MultilineComprehensionStep` | Multiline generators, bindings, or guards |
 | `MultilineEitherCond` | Multiline `Either.cond` calls |
+| `NamedBooleanArguments` | Positional Boolean literals in argument lists with two or more arguments to project calls |
 | `NamedSentinelArguments` | Positional zero, `""`, `None`, `Nil`, `Option.empty`, or `()` in multi-argument project calls; positional `()` in `Either.cond` |
 | `NoDefaultParameters` | Defaults on methods and constructors |
 | `NoMixedForComprehensionBindings` | `=` in a `for` that also uses `<-` |
@@ -26,6 +27,8 @@ Semantic rules require SemanticDB. Scalafix diagnostics explain what to investig
 ### Boundaries worth keeping
 
 - **Codecs:** Set `owners` or `adapterPackages`; use `sharedOwners` for genuine sharing. Codec subtypes and constructor fields count, not ordinary parameters.
+
+- **Boolean arguments:** The rule checks resolved direct method and factory calls and `new` expressions. It recognizes local symbols and symbols under the file's root package. Named arguments, Boolean values, tuple literals, and clauses with only one argument are outside its scope.
 
 - **Assertions:** The rule uses resolved method symbols, including renamed imports. It handles direct calls, curried assertions and selected ScalaTest matchers, such as `should equal`, `should be`, `should not equal`, `shouldBe` and `mustEqual`. It does not follow function values or wrappers to their underlying assertion. Other frameworks and matcher forms such as `should have length` are not built in.
 

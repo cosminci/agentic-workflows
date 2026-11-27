@@ -44,18 +44,9 @@ class NamedSentinelArguments extends SemanticRule("NamedSentinelArguments") {
     val symbol = call.fun.symbol.value
     val arguments = call.argClause.values
     if (symbol.startsWith("scala/util/Either.cond(")) arguments.filter(_.is[Lit.Unit])
-    else if (rootPackage(call).exists(prefix => symbol.startsWith(s"$prefix/"))) arguments.filter(opaque)
+    else if (ProjectCall.inRootPackage(call, Symbol(symbol))) arguments.filter(opaque)
     else Nil
   }
-
-  private def rootPackage(tree: Tree): Option[String] =
-    tree.parent.flatMap(parent => rootPackage(parent).orElse(packageRoot(parent)))
-
-  private def packageRoot(tree: Tree): Option[String] =
-    tree match {
-      case pkg: Pkg => Some(pkg.ref.syntax.takeWhile(_ != '.'))
-      case _ => None
-    }
 
   private def opaque(argument: Term)(implicit doc: SemanticDocument): Boolean =
     argument match {

@@ -10,5 +10,6 @@ agentic.NoPartialCaseClassDestructuring
 agentic.NoPositionalTupleSelectors
 agentic.MultilineAssertion
 agentic.NamedSentinelArguments
+agentic.NamedBooleanArguments
 agentic.AdapterCodecVisibility
 agentic.PreferCatsSyntax
