@@ -1,5 +1,6 @@
 agentic.NoDefaultParameters
 agentic.MultilineComprehensionStep
+agentic.NoMixedForComprehensionBindings
 agentic.MultilineEitherCond
 agentic.SimplifiedForYield
 agentic.NoPredefRequire

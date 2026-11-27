@@ -42,7 +42,7 @@ final class NoPartialCaseClassDestructuring private (projectExtractors: ProjectC
       case p: Pat.ExtractInfix if projectProduct(p.op.symbol) => (p, p.lhs :: p.argClause.values)
     }.collect {
       case (p, fields) if fields.exists(field => !used(field, referenced)) =>
-        DesignSignal.error(p, "This pattern does not use every case class field. Bind the value and access the fields you need by name.")
+        DesignSignal.error(p, "Partial pattern depends on field order. Bind the value and read fields by name; preserve pattern tests.")
     }.asPatch
 
   private def used(field: Pat, referenced: Symbol => Boolean)(implicit doc: SemanticDocument): Boolean =

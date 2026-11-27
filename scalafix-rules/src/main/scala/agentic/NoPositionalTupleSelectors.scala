@@ -9,7 +9,7 @@ final class NoPositionalTupleSelectors extends SemanticRule("NoPositionalTupleSe
   override def fix(implicit doc: SemanticDocument): Patch =
     doc.tree.collect {
       case selection: Term.Select if tupleSelector.matches(selection.name.symbol.value) && insideCallback(selection) =>
-        DesignSignal.error(selection.name, "Positional tuple access hides the field's role. Destructure the tuple with meaningful names.")
+        DesignSignal.error(selection.name, "Tuple index hides the field's role. Look for interchangeable values; use a named pattern.")
     }.asPatch
 
   private def insideCallback(tree: Tree): Boolean =

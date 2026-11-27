@@ -41,7 +41,7 @@ class AdapterCodecVisibility(owners: Set[String], adapterPackages: Set[String], 
   }
 
   private val guidance =
-    "Codec visible outside its owner: keep wire translation private, or confine a genuinely shared codec to its consumers' common boundary."
+    "Look for wire formats leaking outside the adapter. Keep codecs private or share them within their consumers' common boundary."
 
   private def reportable(symbol: Symbol, visibility: Map[Symbol, List[Mod]])(implicit doc: SemanticDocument): Boolean =
     !symbol.isLocal && codec(symbol) && exposed(symbol, visibility)

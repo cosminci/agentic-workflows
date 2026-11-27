@@ -20,7 +20,7 @@ class NoMultilineExpressionsInParentheses extends SyntacticRule("NoMultilineExpr
     }
 
     outermost.reverse.map { tree =>
-      DesignSignal.error(tree, "Multiline logic inside parentheses. Use Scala 3 colon syntax or braces where they fit, or name the work if it belongs at another level.")
+      DesignSignal.error(tree, "Look for SQL, callbacks, or component wiring that hide the call's purpose. Use block syntax or name the work.")
     }.asPatch
   }
 
