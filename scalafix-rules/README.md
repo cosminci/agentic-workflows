@@ -52,6 +52,14 @@ Keep nested `Json.obj` fields in place and keep `.handle` calls written with bra
 
 Treat a finding as a design signal. Prefer Scala 3 colon syntax or braces for a multiline block argument. Extract a private method only when naming the work at the call site makes the code clearer.
 
+## PreferCatsSyntax
+
+`PreferCatsSyntax` reports selected factory calls in favor of value-first Cats syntax such as `.some`, `.asRight`, `.asLeft`, `.pure`, `.raiseError`, and `.liftTo`. Use `Option[A]` and `.some` if absence is valid, or use `A` directly if the value is required. Use `none[A]` for a literal null wrapped in `Option`. Keep `Option(value)` when it checks a value that may be null. Type a callback before wrapping it if the constructor previously supplied its type.
+
+Use the project's `.eitherT` and `.lift` extensions on effects. Keep pure decisions outside `EitherT` and handle their results where effectful work starts.
+
+Prefer `effect.delayBy(duration)` to a sleep followed by `*>` or `>>`, including Cats Effect typeclass syntax. When `>>` must defer construction of the right-hand effect, use `IO.defer(effect).delayBy(duration)` for `IO`. Keep standalone sleeps, `IO.delay`, `Sync[F].delay`, `IO.blocking`, and pattern matches as written.
+
 ## Release and verification
 
 Bump the minor version for new rules or features. Reserve patch releases for fixes.
